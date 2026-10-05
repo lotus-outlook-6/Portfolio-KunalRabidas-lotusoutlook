@@ -36,7 +36,7 @@ button.backdrop-blur-lg, form .backdrop-blur-lg {
   backdrop-filter: blur(40px) saturate(190%) !important;
   border: 1px solid rgba(229, 229, 229, .9) !important;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, .35), 0 8px 22px -14px rgba(15, 23, 42, .25), inset 0 1px 0 rgba(255, 255, 255, .8), inset 0 0 20px rgba(255, 255, 255, .14) !important;
-  transition: -webkit-backdrop-filter .45s ease, backdrop-filter .45s ease, border-color .15s, background-color .15s, transform .12s !important;
+  transition: border-color .15s, background-color .15s, transform .12s !important;
 }
 
 button.backdrop-blur-lg::before {
@@ -140,28 +140,35 @@ img, [alt="Hero avatar"] {
   pointer-events: none !important;
 }
 
-/* Entrance Animations: springy drop & rise from claude copy.html */
-@keyframes ff-drop {
-  0% { opacity: 0; transform: translateY(-60px); }
-  60% { opacity: 1; }
-  75% { transform: translateY(5px); }
-  100% { opacity: 1; transform: none; }
+/* Entrance Animations: smooth, elegant cubic slide-down & slide-up */
+@keyframes ff-slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes ff-rise {
-  0% { opacity: 0; transform: translateY(80px); }
-  60% { opacity: 1; }
-  75% { transform: translateY(-6px); }
-  100% { opacity: 1; transform: none; }
+@keyframes ff-slide-up {
+  0% {
+    top: 50px;
+  }
+  100% {
+    top: 0;
+  }
 }
 
 [style*="translateY(-60px)"] {
   will-change: transform, opacity;
-  animation: ff-drop .95s cubic-bezier(.22, .9, .3, 1) .15s both;
+  animation: ff-slide-down 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
-[style*="translateY(80px)"] {
-  animation: ff-rise 1s cubic-bezier(.22, .9, .3, 1) .45s both;
+.ff-slide-up, [style*="translateY(80px)"] {
+  position: relative !important;
+  animation: ff-slide-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 /* Welcome popup modal */
