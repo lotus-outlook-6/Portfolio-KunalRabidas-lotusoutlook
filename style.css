@@ -294,3 +294,376 @@ img, [alt="Hero avatar"] {
   from { opacity: 1; transform: none; }
   to { opacity: 0; transform: scale(.95) translateY(12px); }
 }
+
+/* ==========================================================================
+   Chat View Styles & Transitions (from fastfol.io/lotusoutlook/chat)
+   ========================================================================== */
+
+#chat-view {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  z-index: 20;
+  overflow-x: hidden;
+  padding-bottom: 140px;
+}
+
+#chat-view.active {
+  display: flex;
+}
+
+/* Chat view top-right info button */
+.chat-top-right {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 30;
+}
+
+/* Avatar squircle */
+.chat-avatar-wrapper {
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.chat-avatar-squircle {
+  width: 92px;
+  height: 92px;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+  background: #f3f4f6;
+}
+
+.chat-avatar-squircle:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+}
+
+.chat-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Query bubble container */
+.chat-query-container {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+  z-index: 10;
+}
+
+.chat-query-bubble {
+  background-color: #0070f3;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 11px 24px;
+  border-radius: 9999px;
+  max-width: min(650px, 92vw);
+  text-align: center;
+  box-shadow: 0 4px 16px -2px rgba(0, 112, 243, 0.32);
+  animation: chatBubbleSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chatBubbleSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Juggling 3 dots indicator */
+.chat-typing-container {
+  width: 100%;
+  max-width: 680px;
+  padding: 0 2rem;
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: flex-start;
+  z-index: 10;
+}
+
+.chat-typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+}
+
+.chat-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #0a0a0a;
+  border-radius: 50%;
+  display: inline-block;
+  animation: dotJuggle 1.25s infinite ease-in-out;
+}
+
+.chat-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.chat-dot:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.chat-dot:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes dotJuggle {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
+}
+
+/* Bottom bar: fixed at bottom of screen */
+.chat-bottom-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+.chat-bottom-bar > * {
+  pointer-events: auto;
+}
+
+/* Options row above the search bar */
+.chat-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  animation: chatButtonsRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+@keyframes chatButtonsRise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chat-pill-btn {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.chat-pill-btn:hover {
+  border-color: #93c5fd;
+  background: #f9fafb;
+}
+
+.chat-pill-btn.active {
+  border-color: #2563eb !important;
+  color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.04) !important;
+}
+
+.chat-pill-btn.active svg {
+  color: #2563eb !important;
+  stroke: #2563eb !important;
+}
+
+/* More options menu button & popover */
+.chat-more-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.chat-more-btn {
+  padding: 6px 10px;
+}
+
+.chat-more-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  min-width: 175px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(229, 229, 229, 0.95);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chat-more-menu.open {
+  display: flex;
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chat-more-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.chat-more-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Chat Input Form & expanding animation */
+.chat-input-form {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-input-pill {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #2563eb;
+  border-radius: 9999px;
+  padding: 5px 6px 5px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 18px -4px rgba(37, 99, 235, 0.16);
+  transform-origin: center;
+  animation: searchBarCenterExpand 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes searchBarCenterExpand {
+  0% {
+    width: 120px;
+    opacity: 0.5;
+    transform: scaleY(0.85);
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.chat-input-pill input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 15px;
+  color: #111827;
+  width: 100%;
+}
+
+.chat-input-pill input::placeholder {
+  color: #6b7280;
+}
+
+.chat-send-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.12s, background-color 0.15s;
+}
+
+.chat-send-btn:hover {
+  background: #1d4ed8;
+}
+
+.chat-send-btn:active {
+  transform: scale(0.92);
+}
+
+/* Fastfolio badge */
+.fastfolio-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  background: #1f1f1f;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s;
+}
+
+.fastfolio-badge:hover {
+  opacity: 0.9;
+}
+
