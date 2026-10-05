@@ -3,15 +3,16 @@
   --primary: 218 70% 52%;
 }
 
-/* Deep frosted buttons & search bar: very soft transparent background + high gaussian blur */
+/* Heavy frosted buttons & search bar: dense gaussian blur + milky surface so background text is NOT readable */
 button.backdrop-blur-lg, form .backdrop-blur-lg {
-  background: rgba(255, 255, 255, 0.15) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95) !important;
   outline: none !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, transform 0.15s ease !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, transform 0.12s ease !important;
+  transform: none !important;
 }
 
 /* Rounded modern pill / card corners */
@@ -19,42 +20,46 @@ button.backdrop-blur-lg {
   border-radius: 18px !important;
 }
 
-/* Search bar: thin clean blue ring on focus */
+/* Search bar: heavy frosted glass */
 form .backdrop-blur-lg {
   border-radius: 9999px !important;
-  background: rgba(255, 255, 255, 0.15) !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95) !important;
   outline: none !important;
 }
 
 form .backdrop-blur-lg:focus-within {
-  border-color: rgba(59, 130, 246, 0.75) !important;
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.75) !important;
-  background: rgba(255, 255, 255, 0.25) !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 1px #2563eb, 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
   outline: none !important;
 }
 
 /* Input element: remove any browser default focus outlines */
-input, input:focus, input:focus-visible, form input {
+input, input:focus, input:focus-visible, form input, form input:focus {
   outline: none !important;
+  outline-style: none !important;
   box-shadow: none !important;
   border: none !important;
+  -webkit-focus-ring-color: transparent !important;
   -webkit-appearance: none !important;
 }
 
-/* Hover over any button: NO resizing, thinner clean blue ring */
+/* Hover over any button: NO movement, NO squishy animation, ONLY a clean thin blue border line */
 @media (hover: hover) {
   button.backdrop-blur-lg:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    border-color: rgba(59, 130, 246, 0.75) !important;
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.75) !important;
-    transform: none !important; /* NO ENLARGING */
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 1px #2563eb, 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+    transform: none !important;
   }
 }
 
-/* Clicking / pressing down effect ONLY on click */
+/* Press animation ONLY when clicked / tapped */
 button.backdrop-blur-lg:active {
-  transform: scale(0.97) !important;
+  transform: scale(0.95) !important;
 }
 
 /* Arrow submit button:
