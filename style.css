@@ -24,11 +24,11 @@ html, body {
 
 /* True Frosted Glass: high gaussian blur + light reflection + prism dispersion */
 button.backdrop-blur-lg, form .backdrop-blur-lg {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.20) 50%, rgba(255, 255, 255, 0.32) 100%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.06) !important;
-  backdrop-filter: blur(24px) saturate(200%) brightness(1.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.75) !important;
-  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.40) 50%, rgba(255, 255, 255, 0.55) 100%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.2) !important;
   outline: none !important;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, transform 0.12s ease !important;
   transform: none !important;
@@ -42,11 +42,11 @@ button.backdrop-blur-lg {
 /* Search bar: frosted glass pill */
 form .backdrop-blur-lg {
   border-radius: 9999px !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.50) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.38) 100%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.06) !important;
-  backdrop-filter: blur(24px) saturate(200%) brightness(1.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.85) !important;
-  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.60) 100%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95) !important;
   outline: none !important;
 }
 
@@ -190,8 +190,7 @@ div:has(> .lucide-info):active {
 }
 
 [style*="translateY(80px)"], .z-10.mt-4 {
-  will-change: transform, opacity;
-  animation: ff-slide-up 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both !important;
+  animation: ff-slide-up 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both !important;
 }
 
 /* Modal Popup & Appear / Exit Animation */
