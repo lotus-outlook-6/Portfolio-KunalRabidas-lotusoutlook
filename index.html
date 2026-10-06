@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=20">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -26,11 +26,40 @@
   display: flex !important;
 }
 .chat-avatar-wrapper {
-  margin-top: 1.75rem !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
+  position: sticky !important;
+  top: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 35 !important;
+  pointer-events: auto !important;
+}
+.chat-top-right {
+  position: fixed !important;
+  top: 1.5rem !important;
+  right: 2rem !important;
+  z-index: 35 !important;
+}
+.chat-scroll-feather {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 120px !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 25 !important;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.chat-scroll-feather.active {
+  opacity: 1 !important;
 }
 .chat-avatar-squircle {
   width: 100px !important;
@@ -124,7 +153,7 @@
 }
 .chat-pill-btn {
   background: #ffffff !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1.5px solid #e5e7eb !important;
   border-radius: 12px !important;
   padding: 6px 14px !important;
   height: 36px !important;
@@ -139,6 +168,7 @@
   transform: none !important;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  flex-shrink: 0 !important;
 }
 .chat-pill-btn svg {
   width: 16px !important;
@@ -164,54 +194,348 @@
   color: #2563eb !important;
   stroke: #2563eb !important;
 }
+/* More options menu button & spring bounce arrow */
+.chat-more-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.chat-more-bounce-arrow {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #111827;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
+}
+.chat-more-wrapper:hover .chat-more-bounce-arrow {
+  opacity: 1;
+  animation: springBounceArrow 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+@keyframes springBounceArrow {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
 .chat-more-btn {
   width: 36px !important;
   height: 36px !important;
   padding: 0 !important;
   border-radius: 12px !important;
   display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
+  align-items: center !important;
+  justify-content: center !important;
   transform: none !important;
+  margin: 0 !important;
 }
 .chat-more-btn svg {
   width: 18px !important;
   height: 18px !important;
 }
-.chat-more-menu {
-  position: absolute;
-  bottom: calc(100% + 8px);
+/* Bottom sheet backdrop */
+.chat-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+.chat-sheet-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* Bottom sheet card modal - full width as shown in screenshot */
+.chat-sheet-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   right: 0;
-  min-width: 175px;
+  transform: translateY(100%);
+  width: 100%;
+  max-width: 100%;
+  height: 52vh;
+  max-height: 85vh;
   background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid rgba(229, 229, 229, 0.95);
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  padding: 6px;
-  z-index: 100;
-  display: none;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.14);
+  z-index: 70;
+  display: flex;
   flex-direction: column;
-  gap: 2px;
-  animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
-.chat-more-menu.open {
-  display: flex !important;
+.chat-sheet-modal::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: #ffffff;
+  pointer-events: none;
 }
-.chat-more-item {
+.chat-sheet-modal.open {
+  transform: translateY(0);
+}
+.chat-sheet-handle-wrapper {
+  padding: 12px 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  width: 100%;
+}
+.chat-sheet-pill-handle {
+  position: relative;
+  width: 38px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: #d1d5db;
+  cursor: grab;
+  touch-action: none;
+  transition: background-color 0.15s ease;
+}
+.chat-sheet-pill-handle::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -20px;
+  right: -20px;
+  cursor: inherit;
+}
+.chat-sheet-pill-handle:hover {
+  background-color: #9ca3af;
+}
+.chat-sheet-pill-handle:active,
+.chat-sheet-modal.is-dragging .chat-sheet-pill-handle {
+  background-color: #6b7280 !important;
+  cursor: grabbing !important;
+}
+.chat-sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  -webkit-overflow-scrolling: touch;
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.chat-sheet-section-header {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #374151;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.chat-more-item:hover {
-  background: #f3f4f6;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
   color: #111827;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 10px;
+}
+.chat-sheet-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-sheet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #1f2937;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.chat-sheet-item:hover {
+  background: #f3f4f6;
+}
+.chat-sheet-item.is-black {
+  background: #0a0a0a !important;
+  color: #ffffff !important;
+}
+.chat-sheet-item.is-black:hover {
+  background: #171717 !important;
+}
+.chat-sheet-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-sheet-sparkle-icon {
+  stroke: #ffffff;
+  color: #ffffff;
+}
+.chat-sheet-item-arrow {
+  stroke: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chat-sheet-item:hover .chat-sheet-item-arrow {
+  transform: translateX(5px);
+}
+/* AI Answer view container */
+.chat-answer-container {
+  width: 100%;
+  max-width: 680px;
+  margin: 1.5rem auto 140px;
+  padding: 0 1.25rem;
+  z-index: 10;
+  display: none;
+  animation: answerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes answerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.chat-answer-card {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+.chat-answer-top-grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+@media (max-width: 640px) {
+  .chat-answer-top-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.chat-answer-photo-wrapper {
+  position: relative;
+  width: 240px;
+  max-width: 44%;
+  aspect-ratio: 4 / 4.8;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+@media (max-width: 640px) {
+  .chat-answer-photo-wrapper {
+    width: 220px;
+    max-width: 80%;
+  }
+}
+.chat-answer-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.chat-photo-feather-overlay {
+  display: none !important;
+}
+.chat-answer-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.chat-answer-name-ghost {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827 !important;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin-bottom: 2px;
+}
+.chat-answer-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.chat-answer-mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.chat-answer-meta-text {
+  font-size: 13.5px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+.chat-answer-intro-text {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #111827;
+  font-weight: 450;
+  margin-bottom: 14px;
+  white-space: pre-line;
+}
+.chat-answer-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chat-tag {
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+.chat-answer-body-text {
+  margin-top: 24px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #1f2937;
+  white-space: pre-line;
+}
+/* Blinking AI Cursor */
+.ai-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #2563eb;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: cursorBlink 0.8s infinite;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 .chat-input-form {
   width: 100%;
@@ -276,6 +600,9 @@
 .chat-send-btn:active {
   background: #1e40af !important;
 }
+.chat-top-feather {
+  display: none !important;
+}
 </style>
 </head><body class="__className_246ccd" style="color-scheme: light; background-color: #ffffff;"><div hidden=""><!--$--><!--/$--></div><!--$--><!--/$--><main><div class="min-h-screen bg-transparent text-foreground transition-colors"><div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20" id="home-view"><div class="pointer-events-none absolute left-0 right-0 bottom-0 flex justify-center overflow-hidden select-none z-0" style="width:100vw;margin:0;padding:0;z-index:1;">
   <svg viewBox="0 0 1000 160" style="width: 100vw; height: auto; margin-bottom: -1.3vw;" class="select-none pointer-events-none">
@@ -290,6 +617,7 @@
 </div><div class="absolute z-50 top-6 right-8 flex flex-col-reverse items-center justify-center gap-1 md:flex-row"><div class="hover:bg-secondary/50 cursor-pointer rounded-2xl px-3 py-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info h-8" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div></div><div class="z-40 mt-24 mb-8 flex flex-col items-center text-center md:mt-4 md:mb-10" style="opacity:0;transform:translateY(-60px)"><h2 class="text-foreground mt-1 text-xl font-semibold md:text-2xl">Hey, I'm Kunal 👋</h2><h1 class="text-4xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">An ECE student @Assam University Silchar</h1></div><div class="relative z-10 h-44 w-44 overflow-hidden sm:h-60 sm:w-60 rounded-full"><img src="assets/images/outlook-id.png" alt="Hero avatar" width="2000" height="2000" class="object-cover"></div><div class="z-10 mt-4 flex w-full flex-col items-center justify-center md:px-0 ff-slide-up"><form id="home-search-form" class="relative w-full max-w-lg"><div class="mx-auto flex items-center rounded-full border border-neutral-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all focus-within:border-primary dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600 dark:focus-within:border-primary"><input id="home-search-input" type="text" placeholder="Ask me anything…" class="w-full border-none bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-500" value=""><button type="submit" disabled="" aria-label="Submit question" class="flex items-center justify-center rounded-full bg-primary p-2.5 text-white transition-colors hover:bg-primary/90 disabled:opacity-70"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-5 w-5" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button></div></form><div class="mt-4 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-2 md:gap-3 w-full max-w-3xl md:px-0"><button data-home-key="me" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground hover:border-primary border-border hover:bg-border/30 w-full sm:w-32 h-14 sm:h-8 cursor-pointer rounded-2xl border bg-white/30 p-4 sm:p-12 shadow-none backdrop-blur-lg active:scale-95"><div class="flex sm:flex-col items-center justify-center gap-3 sm:gap-1 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laugh text-primary" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg><span class="text-sm font-medium">Me</span></div></button><button data-home-key="projects" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground hover:border-primary border-border hover:bg-border/30 w-full sm:w-32 h-14 sm:h-8 cursor-pointer rounded-2xl border bg-white/30 p-4 sm:p-12 shadow-none backdrop-blur-lg active:scale-95"><div class="flex sm:flex-col items-center justify-center gap-3 sm:gap-1 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase-business text-primary" aria-hidden="true"><path d="M12 12h.01"></path><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path><path d="M22 13a18.15 18.15 0 0 1-20 0"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg><span class="text-sm font-medium">Projects</span></div></button><button data-home-key="skills" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground hover:border-primary border-border hover:bg-border/30 w-full sm:w-32 h-14 sm:h-8 cursor-pointer rounded-2xl border bg-white/30 p-4 sm:p-12 shadow-none backdrop-blur-lg active:scale-95"><div class="flex sm:flex-col items-center justify-center gap-3 sm:gap-1 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers text-primary" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg><span class="text-sm font-medium">Skills</span></div></button><button data-home-key="contact" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground hover:border-primary border-border hover:bg-border/30 w-full sm:w-32 h-14 sm:h-8 cursor-pointer rounded-2xl border bg-white/30 p-4 sm:p-12 shadow-none backdrop-blur-lg active:scale-95"><div class="flex sm:flex-col items-center justify-center gap-3 sm:gap-1 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-search text-primary" aria-hidden="true"><circle cx="10" cy="8" r="5"></circle><path d="M2 21a8 8 0 0 1 10.434-7.62"></path><circle cx="18" cy="18" r="3"></circle><path d="m22 22-1.9-1.9"></path></svg><span class="text-sm font-medium">Contact</span></div></button><button data-home-key="resume" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground hover:border-primary border-border hover:bg-border/30 w-full sm:w-32 h-14 sm:h-8 cursor-pointer rounded-2xl border bg-white/30 p-4 sm:p-12 shadow-none backdrop-blur-lg active:scale-95"><div class="flex sm:flex-col items-center justify-center gap-3 sm:gap-1 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text text-primary" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg><span class="text-sm font-medium">Resume</span></div></button></div></div><!--$!--><!--/$--></div>
 <!-- Chat View -->
 <div id="chat-view">
+  <div class="chat-scroll-feather" id="chat-scroll-feather"></div>
   <div class="chat-top-right">
     <div class="hover:bg-secondary/50 cursor-pointer rounded-2xl px-3 py-1.5" id="chat-info-btn" role="button" aria-label="Info">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info h-8" aria-hidden="true">
@@ -306,17 +634,44 @@
     </div>
   </div>
 
-  <div class="chat-query-container">
+  <div class="chat-query-container" id="chat-query-container">
     <div class="chat-query-bubble" id="chat-query-bubble">
       What are your projects? What are you working on right now?
     </div>
   </div>
 
-  <div class="chat-typing-container">
+  <div class="chat-typing-container" id="chat-typing-container">
     <div class="chat-typing-dots" aria-label="Loading">
       <span class="chat-dot"></span>
       <span class="chat-dot"></span>
       <span class="chat-dot"></span>
+    </div>
+  </div>
+
+  <!-- AI Answer Container -->
+  <div class="chat-answer-container" id="chat-answer-container">
+    <div class="chat-answer-card">
+      <div class="chat-answer-top-grid">
+        <div class="chat-answer-photo-wrapper">
+          <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="chat-answer-photo" id="chat-answer-photo">
+        </div>
+        <div class="chat-answer-profile-info">
+          <div class="chat-answer-name-ghost">Kunal Rabidas</div>
+          <div class="chat-answer-meta-row">
+            <img src="assets/images/outlook-id.png" alt="Avatar" class="chat-answer-mini-avatar">
+            <span class="chat-answer-meta-text" id="chat-answer-meta-text">ECE Student • Silchar, India</span>
+          </div>
+          <div class="chat-answer-intro-text" id="chat-answer-intro-text"></div>
+          <div class="chat-answer-tags-row" id="chat-answer-tags-row">
+            <span class="chat-tag">ECE</span>
+            <span class="chat-tag">Developer</span>
+            <span class="chat-tag">Assam Univ</span>
+            <span class="chat-tag">Hardware</span>
+            <span class="chat-tag">Web &amp; AI</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-answer-body-text" id="chat-answer-body-text"></div>
     </div>
   </div>
 
@@ -348,19 +703,14 @@
       </button>
 
       <div class="chat-more-wrapper">
+        <div class="chat-more-bounce-arrow" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+          </svg>
+        </div>
         <button type="button" class="chat-pill-btn chat-more-btn" id="chat-more-btn" aria-label="More options">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="2.5"></path></svg>
         </button>
-        <div class="chat-more-menu" id="chat-more-menu">
-          <div class="chat-more-item" id="menu-home-btn" role="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span>Back to Home</span>
-          </div>
-          <div class="chat-more-item" id="menu-about-btn" role="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-            <span>About AI Portfolio</span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -381,6 +731,148 @@
     Powered by Fastfolio
   </a>
 </div>
+
+<!-- Bottom Sheet Backdrop & Modal Card -->
+<div class="chat-sheet-backdrop" id="chat-sheet-backdrop"></div>
+<div class="chat-sheet-modal" id="chat-sheet-modal" role="dialog" aria-modal="true" aria-label="Options Menu">
+  <div class="chat-sheet-handle-wrapper" id="chat-sheet-handle-wrapper">
+    <div class="chat-sheet-pill-handle" id="chat-sheet-pill-handle"></div>
+  </div>
+  <div class="chat-sheet-content" id="chat-sheet-content">
+    
+    <!-- Section: Me -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg>
+        <span>Me</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item is-black" data-sheet-query="Who are you? I want to know more about you." data-sheet-key="me" role="button">
+          <div class="chat-sheet-item-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>Who are you?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What are your passions?" data-sheet-key="me" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What are your passions?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="How did you get started in tech?" data-sheet-key="me" role="button">
+          <div class="chat-sheet-item-left">
+            <span>How did you get started in tech?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="Where do you see yourself in 5 years?" data-sheet-key="me" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Where do you see yourself in 5 years?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Professional -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12h.01"></path><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path><path d="M22 13a18.15 18.15 0 0 1-20 0"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+        <span>Professional</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item" data-sheet-query="What are your projects? What are you working on right now?" data-sheet-key="projects" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What are your projects?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What are you working on right now?" data-sheet-key="projects" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What are you working on right now?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What is your tech stack?" data-sheet-key="projects" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What is your tech stack?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Skills -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg>
+        <span>Skills</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item" data-sheet-query="What are your skills? Give me a list of your soft and hard skills." data-sheet-key="skills" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What are your soft and hard skills?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What programming languages do you know?" data-sheet-key="skills" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What programming languages do you know?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Contact -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="5"></circle><path d="M2 21a8 8 0 0 1 10.434-7.62"></path><circle cx="18" cy="18" r="3"></circle><path d="m22 22-1.9-1.9"></path></svg>
+        <span>Contact</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item" data-sheet-query="How can I contact you?" data-sheet-key="contact" role="button">
+          <div class="chat-sheet-item-left">
+            <span>How can I contact or hire you?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="Where can I find you on social media?" data-sheet-key="contact" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Where can I find you on social media?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Resume -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+        <span>Resume</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item" data-sheet-query="Can you show me your resume or CV?" data-sheet-key="resume" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Can you show me your resume or CV?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!--$--><!--/$--></div></main><section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"></section><div id="ff-modal" role="dialog" aria-modal="true" aria-labelledby="ff-title"><div class="ff-card">
 <button class="ff-x" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
 <h3 id="ff-title">Welcome to AI Portfolio</h3>
@@ -419,9 +911,75 @@
     resume: 'Can you show me your resume or CV?'
   };
 
+  const answerMap = {
+    me: {
+      intro: "Hey 👋\nI'm Kunal. I'm an ECE student at Assam University Silchar. I'm passionate about Electronics, AI, Web Development, and building sleek software products.",
+      tags: ['ECE', 'Developer', 'Assam Univ', 'Hardware', 'Web & AI'],
+      body: "I'm Kunal Rabidas, an Electronics and Communication Engineering student at Assam University, Silchar. Before diving deep into tech, I loved tinkering with electronics, circuits, and modern software! Now, I build full-stack web applications, interactive AI experiences, and dive into embedded systems. I'm super passionate about tech, entrepreneurship, and crafting intuitive user interfaces. What brings you here? 😊"
+    },
+    passions: {
+      intro: "Hey 👋\nHere is what drives and inspires me every day 🚀",
+      tags: ['Tech & AI', 'Hardware', 'UI/UX', 'Building Products', 'Continuous Learning'],
+      body: "My primary passion is crafting high-impact software and innovative engineering solutions. I love bridging hardware principles from my ECE studies with modern web technologies, WebGL visual computing, and fluid interfaces. Beyond coding, I'm passionate about tech entrepreneurship, exploring autonomous AI agents, and designing experiences that make users say 'wow'!"
+    },
+    started: {
+      intro: "Hey 👋\nHere's how my engineering journey started 💡",
+      tags: ['Origin', 'ECE', 'Curiosity', 'First Code', 'Assam Univ'],
+      body: "It started with pure curiosity about how devices and computers communicate under the hood. As an Electronics & Communication Engineering student at Assam University, I began by experimenting with microcontrollers, breadboards, and circuit diagrams. Soon after, I discovered web development and software engineering — being able to translate an idea into a living, responsive interface instantly captivated me. Since then, I've been building full-stack apps and exploring interactive technologies."
+    },
+    future: {
+      intro: "Looking into the future 🎯",
+      tags: ['Leadership', 'Software Engineering', 'AI Products', 'Innovation', 'Growth'],
+      body: "In 5 years, I envision myself architecting scalable, cutting-edge products at the intersection of AI, hardware, and interactive web software. I aim to lead innovative technical teams, solve high-impact real-world problems, and contribute meaningfully to the open-source and developer ecosystems."
+    },
+    projects: {
+      intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
+      tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
+      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
+    },
+    skills: {
+      intro: "Here's an overview of my technical toolset and strengths ⚡️\nI combine hardware understanding with modern full-stack development.",
+      tags: ['JavaScript', 'Flutter', 'HTML/CSS', 'C/C++', 'ECE', 'Git'],
+      body: "Here is a breakdown of my skillset:\n\n🛠 Hard Skills & Technologies:\n• Languages: JavaScript, TypeScript, Dart, C, C++, Python, HTML5, CSS3\n• Frameworks & Tools: Flutter, WebGL, Node.js, Git, Linux, REST APIs\n• Engineering & ECE: Digital Electronics, Circuit Analysis, Signal Systems, Embedded Systems\n\n💡 Soft Skills:\n• Problem solving, fast learning, UI/UX eye for detail, project ownership, and strong teamwork."
+    },
+    contact: {
+      intro: "I'd love to connect with you! 📬\nFeel free to reach out for collaboration, projects, or just a friendly chat.",
+      tags: ['Email', 'LinkedIn', 'GitHub', 'Silchar', 'Collaboration'],
+      body: "You can reach out to me anytime:\n\n• Location: Silchar, Assam, India\n• Socials: Connect on GitHub and LinkedIn to follow my work and contributions.\n• Opportunities: Open to freelance projects, internships, and software engineering roles!\n\nI'm always open to talking about tech, engineering, and creative ideas!"
+    },
+    resume: {
+      intro: "Here is a summary of my background and education 📄",
+      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
+      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
+    }
+  };
+
+  const getAnswerData = (query, key) => {
+    const qLower = (query || '').toLowerCase();
+    if (key && answerMap[key]) return answerMap[key];
+    if (qLower.includes('passion')) return answerMap.passions;
+    if (qLower.includes('started') || qLower.includes('how did you get')) return answerMap.started;
+    if (qLower.includes('5 year') || qLower.includes('five year') || qLower.includes('future')) return answerMap.future;
+    if (qLower.includes('who are you') || qLower.includes('about you') || qLower.includes('me')) return answerMap.me;
+    if (qLower.includes('project') || qLower.includes('working on')) return answerMap.projects;
+    if (qLower.includes('skill')) return answerMap.skills;
+    if (qLower.includes('contact') || qLower.includes('hire') || qLower.includes('social')) return answerMap.contact;
+    if (qLower.includes('resume') || qLower.includes('cv') || qLower.includes('education')) return answerMap.resume;
+
+    return {
+      intro: `Thanks for asking about "${query}" 🤖\nHere is what I know:`,
+      tags: ['Kunal', 'Assam Univ', 'ECE', 'Developer'],
+      body: `I'm an AI assistant representing Kunal Rabidas. Kunal is an ECE student at Assam University Silchar, passionate about building responsive web applications, mobile apps with Flutter, and embedded hardware.\n\nFeel free to use the options below or ask more details about his projects, skills, or experience!`
+    };
+  };
+
   const homeView = document.getElementById('home-view');
   const chatView = document.getElementById('chat-view');
+  const chatQueryContainer = document.getElementById('chat-query-container');
   const chatBubble = document.getElementById('chat-query-bubble');
+  const chatTypingContainer = document.getElementById('chat-typing-container');
+  const chatAnswerContainer = document.getElementById('chat-answer-container');
+  const chatTopFeather = document.getElementById('chat-top-feather');
   const chatInput = document.getElementById('chat-input');
   const chatOptsRow = document.getElementById('chat-options-row');
   const chatInputPill = document.getElementById('chat-input-pill');
@@ -430,6 +988,11 @@
   const homeSearchForm = document.getElementById('home-search-form');
   const homeSearchInput = document.getElementById('home-search-input');
   const homeSubmitBtn = homeSearchForm && homeSearchForm.querySelector('button[type=submit]');
+
+  // Bottom Sheet elements
+  const sheetBackdrop = document.getElementById('chat-sheet-backdrop');
+  const sheetModal = document.getElementById('chat-sheet-modal');
+  const sheetHandleWrapper = document.getElementById('chat-sheet-handle-wrapper');
 
   // Home search button sync
   if (homeSearchInput && homeSubmitBtn) {
@@ -446,6 +1009,85 @@
     el.style.animation = '';
   };
 
+  let answerTimeoutId = null;
+  let currentTypingAbort = null;
+
+  // Typewriter streaming effect - removes cursor cleanly upon completion
+  const typewriteText = (targetEl, text, speed = 16, onComplete, keepCursorOnDone = false) => {
+    targetEl.innerHTML = '';
+    const cursor = document.createElement('span');
+    cursor.className = 'ai-cursor';
+    targetEl.appendChild(cursor);
+
+    let index = 0;
+    let isCancelled = false;
+
+    const intervalId = setInterval(() => {
+      if (isCancelled) {
+        clearInterval(intervalId);
+        cursor.remove();
+        return;
+      }
+      if (index < text.length) {
+        const char = text.charAt(index);
+        if (char === '\n') {
+          targetEl.insertBefore(document.createElement('br'), cursor);
+        } else {
+          targetEl.insertBefore(document.createTextNode(char), cursor);
+        }
+        index++;
+      } else {
+        clearInterval(intervalId);
+        if (!keepCursorOnDone) {
+          cursor.remove();
+        }
+        if (onComplete) onComplete();
+      }
+    }, speed);
+
+    return () => {
+      isCancelled = true;
+      clearInterval(intervalId);
+      cursor.remove();
+    };
+  };
+
+  const renderAnswer = (info) => {
+    if (!chatAnswerContainer) return;
+    chatAnswerContainer.style.display = 'block';
+    retriggerAnim(chatAnswerContainer);
+
+    const introEl = document.getElementById('chat-answer-intro-text');
+    const bodyEl = document.getElementById('chat-answer-body-text');
+    const tagsRow = document.getElementById('chat-answer-tags-row');
+
+    if (tagsRow) {
+      tagsRow.innerHTML = '';
+      (info.tags || []).forEach(tag => {
+        const sp = document.createElement('span');
+        sp.className = 'chat-tag';
+        sp.textContent = tag;
+        tagsRow.appendChild(sp);
+      });
+    }
+
+    if (introEl && bodyEl) {
+      introEl.innerHTML = '';
+      bodyEl.innerHTML = '';
+      // introEl cursor is automatically removed when it completes
+      const cancel1 = typewriteText(introEl, info.intro, 14, () => {
+        // bodyEl cursor is automatically removed when it completes
+        const cancel2 = typewriteText(bodyEl, info.body, 12);
+        currentTypingAbort = () => {
+          cancel2();
+        };
+      });
+      currentTypingAbort = () => {
+        cancel1();
+      };
+    }
+  };
+
   const showChatView = (query, activeKey) => {
     if (!query) query = queryMap.projects;
     if (!activeKey) {
@@ -458,9 +1100,32 @@
     if (homeView) homeView.style.display = 'none';
     if (chatView) chatView.classList.add('active');
 
+    // Cancel any ongoing timer or typewriter
+    if (answerTimeoutId) {
+      clearTimeout(answerTimeoutId);
+      answerTimeoutId = null;
+    }
+    if (currentTypingAbort) {
+      currentTypingAbort();
+      currentTypingAbort = null;
+    }
+
+    // Hide answer container while thinking
+    if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
+    updateScrollFeather();
+
+    // Show query bubble & typing dots
+    if (chatQueryContainer) {
+      chatQueryContainer.style.display = '';
+      chatQueryContainer.style.opacity = '1';
+    }
     if (chatBubble) {
       chatBubble.textContent = query;
       retriggerAnim(chatBubble);
+    }
+    if (chatTypingContainer) {
+      chatTypingContainer.style.display = '';
+      chatTypingContainer.style.opacity = '1';
     }
 
     // Only play search bar expand and buttons rise animation on first entrance
@@ -481,12 +1146,35 @@
 
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
+
+    // Schedule 5-second thinking animation, then reveal AI answer and hide question
+    answerTimeoutId = setTimeout(() => {
+      if (chatQueryContainer) chatQueryContainer.style.display = 'none';
+      if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+
+      const info = getAnswerData(query, activeKey);
+      renderAnswer(info);
+      updateScrollFeather();
+    }, 5000);
   };
 
   const showHomeView = () => {
+    if (answerTimeoutId) {
+      clearTimeout(answerTimeoutId);
+      answerTimeoutId = null;
+    }
+    if (currentTypingAbort) {
+      currentTypingAbort();
+      currentTypingAbort = null;
+    }
+    if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
+    updateScrollFeather();
+
     if (chatView) chatView.classList.remove('active');
     if (homeView) homeView.style.display = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
+    closeSheet();
+
     if (homeSearchInput) {
       homeSearchInput.value = '';
       if (homeSubmitBtn) homeSubmitBtn.disabled = true;
@@ -552,19 +1240,180 @@
     chatAvatar.addEventListener('click', navigateToHome);
   }
 
-  // More options menu toggle
-  if (chatMoreBtn && chatMoreMenu) {
+  // Bottom Sheet Modal Open & Close logic
+  const openSheet = () => {
+    if (!sheetModal || !sheetBackdrop) return;
+    sheetBackdrop.classList.add('open');
+    sheetModal.classList.add('open');
+    sheetModal.style.transform = 'translateY(0)';
+    sheetModal.style.transition = 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1)';
+    sheetBackdrop.style.opacity = '1';
+  };
+
+  const closeSheet = () => {
+    if (!sheetModal || !sheetBackdrop) return;
+    sheetModal.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1)';
+    sheetBackdrop.style.transition = 'opacity 0.32s ease';
+    sheetModal.classList.remove('open');
+    sheetBackdrop.classList.remove('open');
+    sheetModal.style.transform = 'translateY(100%)';
+    sheetBackdrop.style.opacity = '0';
+    setTimeout(() => {
+      if (!sheetModal.classList.contains('open')) {
+        sheetModal.style.transform = '';
+        sheetModal.style.transition = '';
+        sheetBackdrop.style.opacity = '';
+        sheetBackdrop.style.transition = '';
+      }
+    }, 350);
+  };
+
+  if (chatMoreBtn) {
     chatMoreBtn.addEventListener('click', e => {
       e.stopPropagation();
-      chatMoreMenu.classList.toggle('open');
-    });
-
-    document.addEventListener('click', e => {
-      if (!chatMoreMenu.contains(e.target) && e.target !== chatMoreBtn) {
-        chatMoreMenu.classList.remove('open');
-      }
+      openSheet();
     });
   }
+
+  if (sheetBackdrop) {
+    sheetBackdrop.addEventListener('click', closeSheet);
+  }
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && sheetModal && sheetModal.classList.contains('open')) {
+      closeSheet();
+    }
+  });
+
+  // Dragging logic - strictly requires pressing and pulling ONLY the grey pill handle (never on hover)
+  let isDragging = false;
+  let startY = 0;
+  let currentDeltaY = 0;
+  let activePointerId = null;
+
+  const pillHandle = document.getElementById('chat-sheet-pill-handle') || sheetHandleWrapper;
+
+  if (pillHandle && sheetModal) {
+    const onPointerMove = e => {
+      // Must be actively dragging AND if mouse, primary button must be pressed (never on hover)
+      if (!isDragging) return;
+      if (e.pointerType === 'mouse' && e.buttons !== 1) {
+        onPointerUp(e);
+        return;
+      }
+
+      const clientY = e.clientY != null ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      const deltaY = clientY - startY;
+      currentDeltaY = deltaY;
+
+      if (deltaY < 0) {
+        // Dragging UP -> allow card to stretch upward past 50%
+        const stretchY = Math.max(-280, deltaY * 0.75);
+        sheetModal.style.transform = `translateY(${stretchY}px)`;
+        if (sheetBackdrop) sheetBackdrop.style.opacity = '1';
+      } else {
+        // Dragging DOWN -> smoothly decreases darkness down to 1% at bottom without rasterization glitch
+        sheetModal.style.transform = `translateY(${deltaY}px)`;
+        const sheetHeight = sheetModal.offsetHeight || (window.innerHeight * 0.52);
+        const openRatio = Math.max(0, Math.min(1, 1 - (deltaY / sheetHeight)));
+        // Smooth progression: 1% opacity at bottom, 100% at resting 50% open
+        const factor = 0.01 + openRatio * 0.99;
+        if (sheetBackdrop) {
+          sheetBackdrop.style.opacity = factor.toFixed(3);
+        }
+      }
+    };
+
+    const onPointerUp = e => {
+      if (!isDragging) return;
+      isDragging = false;
+      sheetModal.classList.remove('is-dragging');
+
+      if (activePointerId !== null && pillHandle.releasePointerCapture) {
+        try {
+          pillHandle.releasePointerCapture(activePointerId);
+        } catch (_) {}
+        activePointerId = null;
+      }
+
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+
+      const sheetHeight = sheetModal.offsetHeight || (window.innerHeight * 0.52);
+      // Dismiss only if dragged down more than 60% of the modal height
+      if (currentDeltaY > sheetHeight * 0.6) {
+        closeSheet();
+      } else {
+        // Spring bounce back to resting 50% open position
+        sheetModal.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        sheetModal.style.transform = 'translateY(0)';
+        if (sheetBackdrop) {
+          sheetBackdrop.style.transition = 'opacity 0.35s ease';
+          sheetBackdrop.style.opacity = '1';
+        }
+      }
+    };
+
+    const onPointerDown = e => {
+      // Must be primary mouse click or touch on the grey pill handle; ignore hover or secondary clicks
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      e.preventDefault();
+      isDragging = true;
+      activePointerId = e.pointerId;
+      try {
+        pillHandle.setPointerCapture(e.pointerId);
+      } catch (_) {}
+
+      startY = e.clientY != null ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      currentDeltaY = 0;
+      sheetModal.classList.add('is-dragging');
+      sheetModal.style.transition = 'none';
+      if (sheetBackdrop) sheetBackdrop.style.transition = 'none';
+
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+    };
+
+    pillHandle.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('blur', () => {
+      if (isDragging) onPointerUp({ pointerId: activePointerId });
+    });
+  }
+
+  // Handle clicks on sheet items
+  document.querySelectorAll('.chat-sheet-item').forEach(item => {
+    item.addEventListener('click', () => {
+      // Highlight selected item as black card
+      document.querySelectorAll('.chat-sheet-item').forEach(el => {
+        el.classList.remove('is-black');
+        const spark = el.querySelector('.chat-sheet-sparkle-icon');
+        if (spark) spark.remove();
+      });
+      item.classList.add('is-black');
+      const leftDiv = item.querySelector('.chat-sheet-item-left');
+      if (leftDiv && !leftDiv.querySelector('.chat-sheet-sparkle-icon')) {
+        const spark = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        spark.setAttribute('width', '16');
+        spark.setAttribute('height', '16');
+        spark.setAttribute('viewBox', '0 0 24 24');
+        spark.setAttribute('fill', 'none');
+        spark.setAttribute('stroke', 'currentColor');
+        spark.setAttribute('stroke-width', '2');
+        spark.setAttribute('stroke-linecap', 'round');
+        spark.setAttribute('stroke-linejoin', 'round');
+        spark.classList.add('chat-sheet-sparkle-icon');
+        spark.innerHTML = '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>';
+        leftDiv.prepend(spark);
+      }
+
+      const q = item.dataset.sheetQuery || item.querySelector('.chat-sheet-item-left span')?.textContent || '';
+      const k = item.dataset.sheetKey || '';
+      closeSheet();
+      navigateToChat(q, k);
+    });
+  });
 
   const menuHomeBtn = document.getElementById('menu-home-btn');
   if (menuHomeBtn) {
@@ -584,8 +1433,23 @@
     }
   };
 
+  // Scroll feather effect: activates ONLY when scrolled down, sits behind sticky pfp
+  const updateScrollFeather = () => {
+    const scrollFeather = document.getElementById('chat-scroll-feather');
+    if (!scrollFeather) return;
+    const isScrolled = window.scrollY > 20;
+    const isChatActive = chatView && chatView.classList.contains('active');
+    if (isScrolled && isChatActive) {
+      scrollFeather.classList.add('active');
+    } else {
+      scrollFeather.classList.remove('active');
+    }
+  };
+  window.addEventListener('scroll', updateScrollFeather, { passive: true });
+
   window.addEventListener('popstate', resolveRoute);
   resolveRoute();
+  updateScrollFeather();
 })();
 </script>
 <script>

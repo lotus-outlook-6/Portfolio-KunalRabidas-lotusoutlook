@@ -317,21 +317,47 @@ img, [alt="Hero avatar"] {
   display: flex;
 }
 
-/* Chat view top-right info button */
+/* Chat top-right info button */
 .chat-top-right {
-  position: absolute;
+  position: fixed;
   top: 1.5rem;
   right: 2rem;
-  z-index: 30;
+  z-index: 35;
+}
+
+/* Top feather effect on scroll - behind pfp, only active when scrolled */
+.chat-scroll-feather {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.chat-scroll-feather.active {
+  opacity: 1;
 }
 
 /* Avatar squircle */
 .chat-avatar-wrapper {
-  margin-top: 1.75rem;
+  position: sticky;
+  top: 1.5rem;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 35;
+  pointer-events: auto;
 }
 
 .chat-avatar-squircle {
@@ -503,8 +529,28 @@ img, [alt="Hero avatar"] {
   transition: stroke 0.15s;
 }
 
+.chat-pill-btn {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb !important;
+  border-radius: 12px;
+  padding: 6px 14px;
+  height: 36px;
+  box-sizing: border-box;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1f2937;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transform: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
+
 .chat-pill-btn:hover {
-  border-color: #d1d5db;
+  border-color: #d1d5db !important;
   background: #f3f4f6;
   color: #111827;
   transform: none;
@@ -524,10 +570,46 @@ img, [alt="Hero avatar"] {
   stroke: #2563eb !important;
 }
 
-/* More options menu button & popover */
+/* More options menu button & spring bounce arrow */
 .chat-more-wrapper {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.chat-more-bounce-arrow {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #111827;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
+}
+
+.chat-more-wrapper:hover .chat-more-bounce-arrow {
+  opacity: 1;
+  animation: springBounceArrow 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+@keyframes springBounceArrow {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
 }
 
 .chat-more-btn {
@@ -539,6 +621,7 @@ img, [alt="Hero avatar"] {
   align-items: center;
   justify-content: center;
   transform: none;
+  margin: 0;
 }
 
 .chat-more-btn svg {
@@ -546,54 +629,336 @@ img, [alt="Hero avatar"] {
   height: 18px;
 }
 
-.chat-more-menu {
-  position: absolute;
-  bottom: calc(100% + 8px);
+/* Bottom sheet backdrop */
+.chat-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+
+.chat-sheet-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Bottom sheet card modal - full width as shown in screenshot */
+.chat-sheet-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   right: 0;
-  min-width: 175px;
+  transform: translateY(100%);
+  width: 100%;
+  max-width: 100%;
+  height: 52vh;
+  max-height: 85vh;
   background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid rgba(229, 229, 229, 0.95);
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  padding: 6px;
-  z-index: 100;
-  display: none;
-  flex-direction: column;
-  gap: 2px;
-  animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.chat-more-menu.open {
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.14);
+  z-index: 70;
   display: flex;
+  flex-direction: column;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-@keyframes popoverFadeIn {
+/* Extension skirt underneath modal to prevent any gap when stretching up */
+.chat-sheet-modal::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: #ffffff;
+  pointer-events: none;
+}
+
+.chat-sheet-modal.open {
+  transform: translateY(0);
+}
+
+.chat-sheet-handle-wrapper {
+  padding: 12px 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  width: 100%;
+}
+
+.chat-sheet-pill-handle {
+  position: relative;
+  width: 38px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: #d1d5db;
+  cursor: grab;
+  touch-action: none;
+  transition: background-color 0.15s ease;
+}
+
+.chat-sheet-pill-handle::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -20px;
+  right: -20px;
+  cursor: inherit;
+}
+
+.chat-sheet-pill-handle:hover {
+  background-color: #9ca3af;
+}
+
+.chat-sheet-pill-handle:active,
+.chat-sheet-modal.is-dragging .chat-sheet-pill-handle {
+  background-color: #6b7280 !important;
+  cursor: grabbing !important;
+}
+
+.chat-sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  -webkit-overflow-scrolling: touch;
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.chat-sheet-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 10px;
+}
+
+.chat-sheet-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-sheet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #1f2937;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.chat-sheet-item:hover {
+  background: #f3f4f6;
+}
+
+.chat-sheet-item.is-black {
+  background: #0a0a0a !important;
+  color: #ffffff !important;
+}
+
+.chat-sheet-item.is-black:hover {
+  background: #171717 !important;
+}
+
+.chat-sheet-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-sheet-sparkle-icon {
+  stroke: #ffffff;
+  color: #ffffff;
+}
+
+.chat-sheet-item-arrow {
+  stroke: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-sheet-item:hover .chat-sheet-item-arrow {
+  transform: translateX(5px);
+}
+
+/* AI Answer view container */
+.chat-answer-container {
+  width: 100%;
+  max-width: 680px;
+  margin: 1.5rem auto 140px;
+  padding: 0 1.25rem;
+  z-index: 10;
+  display: none;
+  animation: answerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes answerFadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px) scale(0.96);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-.chat-more-item {
+.chat-answer-card {
+  background: #ffffff;
   display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #374151;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  flex-direction: column;
 }
 
-.chat-more-item:hover {
-  background: #f3f4f6;
+.chat-answer-top-grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+@media (max-width: 640px) {
+  .chat-answer-top-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.chat-answer-photo-wrapper {
+  position: relative;
+  width: 240px;
+  max-width: 44%;
+  aspect-ratio: 4 / 4.8;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 640px) {
+  .chat-answer-photo-wrapper {
+    width: 220px;
+    max-width: 80%;
+  }
+}
+
+.chat-answer-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.chat-photo-feather-overlay {
+  display: none !important;
+}
+
+.chat-answer-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-answer-name-ghost {
+  font-size: 26px;
+  font-weight: 700;
   color: #111827;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.chat-answer-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.chat-answer-mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-answer-meta-text {
+  font-size: 13.5px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.chat-answer-intro-text {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #111827;
+  font-weight: 450;
+  margin-bottom: 14px;
+  white-space: pre-line;
+}
+
+.chat-answer-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chat-tag {
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.chat-answer-body-text {
+  margin-top: 24px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #1f2937;
+  white-space: pre-line;
+}
+
+/* Blinking AI Cursor */
+.ai-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #2563eb;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: cursorBlink 0.8s infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 /* Chat Input Form & expanding animation */
@@ -702,4 +1067,10 @@ img, [alt="Hero avatar"] {
 .fastfolio-badge:hover {
   opacity: 0.9;
 }
+
+/* Chat top feather overlay */
+.chat-top-feather {
+  display: none !important;
+}
+
 
