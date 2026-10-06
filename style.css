@@ -327,7 +327,7 @@ img, [alt="Hero avatar"] {
 
 /* Avatar squircle */
 .chat-avatar-wrapper {
-  margin-top: 3.5rem;
+  margin-top: 1.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -335,19 +335,24 @@ img, [alt="Hero avatar"] {
 }
 
 .chat-avatar-squircle {
-  width: 92px;
-  height: 92px;
+  width: 100px;
+  height: 100px;
   border-radius: 26px;
   overflow: hidden;
-  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
   background: #f3f4f6;
+  transform: none;
+  transition: none;
 }
 
 .chat-avatar-squircle:hover {
-  transform: scale(1.04);
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+  transform: none;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.1);
+}
+
+.chat-avatar-squircle:active {
+  transform: none;
 }
 
 .chat-avatar-img {
@@ -355,11 +360,12 @@ img, [alt="Hero avatar"] {
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 /* Query bubble container */
 .chat-query-container {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -373,18 +379,18 @@ img, [alt="Hero avatar"] {
   font-size: 15px;
   font-weight: 500;
   line-height: 1.45;
-  padding: 11px 24px;
+  padding: 10px 24px;
   border-radius: 9999px;
-  max-width: min(650px, 92vw);
+  max-width: min(620px, 92vw);
   text-align: center;
-  box-shadow: 0 4px 16px -2px rgba(0, 112, 243, 0.32);
-  animation: chatBubbleSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  box-shadow: 0 4px 14px 0 rgba(0, 112, 243, 0.32);
+  animation: chatBubbleSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes chatBubbleSlideUp {
   0% {
     opacity: 0;
-    transform: translateY(32px) scale(0.96);
+    transform: translateY(20px) scale(0.97);
   }
   100% {
     opacity: 1;
@@ -395,9 +401,9 @@ img, [alt="Hero avatar"] {
 /* Juggling 3 dots indicator */
 .chat-typing-container {
   width: 100%;
-  max-width: 680px;
-  padding: 0 2rem;
-  margin-top: 1.75rem;
+  max-width: 620px;
+  padding: 0 1rem;
+  margin-top: 1.25rem;
   display: flex;
   justify-content: flex-start;
   z-index: 10;
@@ -407,16 +413,16 @@ img, [alt="Hero avatar"] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 6px 10px;
+  padding: 4px 8px;
 }
 
 .chat-dot {
-  width: 6px;
-  height: 6px;
+  width: 5.5px;
+  height: 5.5px;
   background-color: #0a0a0a;
   border-radius: 50%;
   display: inline-block;
-  animation: dotJuggle 1.25s infinite ease-in-out;
+  animation: dotJuggle 1.2s infinite ease-in-out;
 }
 
 .chat-dot:nth-child(1) {
@@ -437,7 +443,7 @@ img, [alt="Hero avatar"] {
     opacity: 0.35;
   }
   30% {
-    transform: translateY(-7px);
+    transform: translateY(-6px);
     opacity: 1;
   }
 }
@@ -445,14 +451,14 @@ img, [alt="Hero avatar"] {
 /* Bottom bar: fixed at bottom of screen */
 .chat-bottom-bar {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: 2rem;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 40;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
   pointer-events: none;
 }
 
@@ -468,45 +474,49 @@ img, [alt="Hero avatar"] {
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  animation: chatButtonsRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
-}
-
-@keyframes chatButtonsRise {
-  0% {
-    opacity: 0;
-    transform: translateY(18px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 .chat-pill-btn {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 9999px;
+  border-radius: 12px;
   padding: 6px 14px;
+  height: 36px;
+  box-sizing: border-box;
   font-size: 13.5px;
   font-weight: 500;
-  color: #374151;
+  color: #1f2937;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  transition: all 0.16s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transform: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.chat-pill-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: stroke 0.15s;
 }
 
 .chat-pill-btn:hover {
-  border-color: #93c5fd;
-  background: #f9fafb;
+  border-color: #d1d5db;
+  background: #f3f4f6;
+  color: #111827;
+  transform: none;
 }
 
 .chat-pill-btn.active {
-  border-color: #2563eb !important;
+  border: 1.5px solid #2563eb !important;
   color: #2563eb !important;
-  background: rgba(37, 99, 235, 0.04) !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .chat-pill-btn.active svg {
@@ -521,18 +531,30 @@ img, [alt="Hero avatar"] {
 }
 
 .chat-more-btn {
-  padding: 6px 10px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: none;
+}
+
+.chat-more-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .chat-more-menu {
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 8px);
   right: 0;
   min-width: 175px;
   background: #ffffff;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid rgba(229, 229, 229, 0.95);
-  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
   padding: 6px;
   z-index: 100;
   display: none;
@@ -560,7 +582,7 @@ img, [alt="Hero avatar"] {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 8px 12px;
+  padding: 7px 12px;
   border-radius: 8px;
   font-size: 13.5px;
   font-weight: 500;
@@ -577,7 +599,7 @@ img, [alt="Hero avatar"] {
 /* Chat Input Form & expanding animation */
 .chat-input-form {
   width: 100%;
-  max-width: 580px;
+  max-width: 620px;
   display: flex;
   justify-content: center;
 }
@@ -585,22 +607,30 @@ img, [alt="Hero avatar"] {
 .chat-input-pill {
   width: 100%;
   background: #ffffff;
-  border: 1.5px solid #2563eb;
+  border: 1.5px solid #3b82f6;
   border-radius: 9999px;
   padding: 5px 6px 5px 22px;
+  min-height: 50px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 18px -4px rgba(37, 99, 235, 0.16);
+  box-shadow: 0 4px 18px -4px rgba(59, 130, 246, 0.16);
   transform-origin: center;
-  animation: searchBarCenterExpand 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  animation: searchBarCenterExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chat-input-pill:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.22);
 }
 
 @keyframes searchBarCenterExpand {
   0% {
-    width: 120px;
+    width: 200px;
     opacity: 0.5;
-    transform: scaleY(0.85);
+    transform: scaleY(0.9);
   }
   100% {
     width: 100%;
@@ -615,17 +645,18 @@ img, [alt="Hero avatar"] {
   outline: none !important;
   box-shadow: none !important;
   font-size: 15px;
-  color: #111827;
+  color: #1e293b;
   width: 100%;
 }
 
 .chat-input-pill input::placeholder {
   color: #6b7280;
+  font-weight: 400;
 }
 
 .chat-send-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: #2563eb;
   color: #ffffff;
@@ -635,7 +666,12 @@ img, [alt="Hero avatar"] {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.12s, background-color 0.15s;
+  transition: background-color 0.15s;
+}
+
+.chat-send-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .chat-send-btn:hover {
@@ -643,7 +679,7 @@ img, [alt="Hero avatar"] {
 }
 
 .chat-send-btn:active {
-  transform: scale(0.92);
+  background: #1e40af;
 }
 
 /* Fastfolio badge */

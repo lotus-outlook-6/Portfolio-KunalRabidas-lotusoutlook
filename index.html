@@ -7,7 +7,276 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=10">
+<style id="chat-custom-styles">
+#chat-view {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  z-index: 20;
+  overflow-x: hidden;
+  padding-bottom: 160px;
+}
+#chat-view.active {
+  display: flex !important;
+}
+.chat-avatar-wrapper {
+  margin-top: 1.75rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.chat-avatar-squircle {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 26px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer;
+  background: #f3f4f6;
+  transform: none !important;
+  transition: none !important;
+}
+.chat-avatar-squircle:hover,
+.chat-avatar-squircle:active {
+  transform: none !important;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.1) !important;
+}
+.chat-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.chat-query-container {
+  margin-top: 1.25rem !important;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+  z-index: 10;
+}
+.chat-query-bubble {
+  background-color: #0070f3 !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+  padding: 10px 24px !important;
+  border-radius: 9999px !important;
+  max-width: min(620px, 92vw) !important;
+  text-align: center;
+  box-shadow: 0 4px 14px 0 rgba(0, 112, 243, 0.32) !important;
+  animation: chatBubbleSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chat-typing-container {
+  width: 100%;
+  max-width: 620px !important;
+  padding: 0 1rem;
+  margin-top: 1.25rem !important;
+  display: flex;
+  justify-content: flex-start;
+  z-index: 10;
+}
+.chat-typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px !important;
+  padding: 4px 8px;
+}
+.chat-dot {
+  width: 5.5px !important;
+  height: 5.5px !important;
+  background-color: #0a0a0a !important;
+  border-radius: 50%;
+  display: inline-block;
+  animation: dotJuggle 1.2s infinite ease-in-out;
+}
+.chat-bottom-bar {
+  position: fixed;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+  padding: 0 1.25rem;
+  pointer-events: none;
+}
+.chat-bottom-bar > * {
+  pointer-events: auto;
+}
+.chat-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px !important;
+  flex-wrap: wrap;
+  margin-bottom: 10px !important;
+}
+.chat-pill-btn {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 6px 14px !important;
+  height: 36px !important;
+  box-sizing: border-box !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #1f2937 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transform: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+.chat-pill-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.chat-pill-btn:hover {
+  border-color: #d1d5db !important;
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+  transform: none !important;
+}
+.chat-pill-btn.active {
+  border: 1.5px solid #2563eb !important;
+  color: #2563eb !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.chat-pill-btn.active svg {
+  color: #2563eb !important;
+  stroke: #2563eb !important;
+}
+.chat-more-btn {
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  transform: none !important;
+}
+.chat-more-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+.chat-more-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  min-width: 175px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(229, 229, 229, 0.95);
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chat-more-menu.open {
+  display: flex !important;
+}
+.chat-more-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.chat-more-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+.chat-input-form {
+  width: 100%;
+  max-width: 620px !important;
+  display: flex;
+  justify-content: center;
+}
+.chat-input-pill {
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 1.5px solid #3b82f6 !important;
+  border-radius: 9999px !important;
+  padding: 5px 6px 5px 22px !important;
+  min-height: 50px !important;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 18px -4px rgba(59, 130, 246, 0.16) !important;
+  transform-origin: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  animation: searchBarCenterExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chat-input-pill:focus-within {
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.22) !important;
+}
+.chat-input-pill input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  color: #1e293b !important;
+  width: 100% !important;
+}
+.chat-input-pill input::placeholder {
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+}
+.chat-send-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s;
+}
+.chat-send-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+.chat-send-btn:hover {
+  background: #1d4ed8 !important;
+}
+.chat-send-btn:active {
+  background: #1e40af !important;
+}
+</style>
 </head><body class="__className_246ccd" style="color-scheme: light; background-color: #ffffff;"><div hidden=""><!--$--><!--/$--></div><!--$--><!--/$--><main><div class="min-h-screen bg-transparent text-foreground transition-colors"><div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20" id="home-view"><div class="pointer-events-none absolute left-0 right-0 bottom-0 flex justify-center overflow-hidden select-none z-0" style="width:100vw;margin:0;padding:0;z-index:1;">
   <svg viewBox="0 0 1000 160" style="width: 100vw; height: auto; margin-bottom: -1.3vw;" class="select-none pointer-events-none">
     <defs>
@@ -80,7 +349,7 @@
 
       <div class="chat-more-wrapper">
         <button type="button" class="chat-pill-btn chat-more-btn" id="chat-more-btn" aria-label="More options">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="2.5"></path></svg>
         </button>
         <div class="chat-more-menu" id="chat-more-menu">
           <div class="chat-more-item" id="menu-home-btn" role="button">
@@ -184,6 +453,8 @@
       activeKey = Object.keys(queryMap).find(k => queryMap[k].toLowerCase() === qLower) || '';
     }
 
+    const isFirstEnter = !chatView.classList.contains('active');
+
     if (homeView) homeView.style.display = 'none';
     if (chatView) chatView.classList.add('active');
 
@@ -191,8 +462,13 @@
       chatBubble.textContent = query;
       retriggerAnim(chatBubble);
     }
-    retriggerAnim(chatOptsRow);
-    retriggerAnim(chatInputPill);
+
+    // Only play search bar expand and buttons rise animation on first entrance
+    if (isFirstEnter) {
+      retriggerAnim(chatOptsRow);
+      retriggerAnim(chatInputPill);
+      window.scrollTo(0, 0);
+    }
 
     // Update active pill state
     document.querySelectorAll('[data-chat-key]').forEach(btn => {
@@ -205,7 +481,6 @@
 
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
-    window.scrollTo(0, 0);
   };
 
   const showHomeView = () => {
