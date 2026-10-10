@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=26">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -714,45 +714,28 @@ body.chat-sheet-open {
   <div class="chat-answer-container" id="chat-answer-container">
     <div class="chat-answer-card">
       <div class="chat-answer-top-grid">
-        <div class="chat-answer-photo-wrapper" id="chat-answer-photo-wrapper">
-          <div class="chat-ai-gen-overlay" id="chat-ai-gen-overlay" aria-hidden="true">
-            <div class="chat-ai-mesh-bg"></div>
-            <div class="chat-ai-radar-grid"></div>
-            <div class="chat-ai-scanline"></div>
-            <div class="chat-ai-sparkle-center">
-              <svg class="chat-ai-gen-sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-              </svg>
-              <span class="chat-ai-gen-text">Synthesizing portrait</span>
-            </div>
-          </div>
+        <div class="chat-answer-photo-wrapper">
           <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="chat-answer-photo" id="chat-answer-photo">
         </div>
         <div class="chat-answer-profile-info">
-          <div class="chat-answer-name-ghost" id="chat-answer-name">
-            <span class="anim-word" id="word-kunal">Kunal</span>&nbsp;<span class="anim-word" id="word-rabidas">Rabidas</span>
-          </div>
-          <div class="chat-answer-meta-row" id="chat-answer-meta-row">
-            <img src="assets/images/outlook-id.png" alt="Avatar" class="chat-answer-mini-avatar" id="chat-answer-mini-avatar">
-            <span class="chat-answer-meta-text" id="chat-answer-meta-text">
-              <span class="meta-part slide-right" id="meta-ece">ECE</span>
-              <span class="meta-part slide-right" id="meta-student">Student</span>
-              <span class="meta-part pop-in" id="meta-dot">•</span>
-              <span class="meta-part slide-right" id="meta-silchar">Silchar</span>
-              <span class="meta-part pop-in" id="meta-comma">,</span>
-              <span class="meta-part slide-right" id="meta-india">India</span>
-            </span>
+          <div class="chat-answer-name-ghost">Kunal Rabidas</div>
+          <div class="chat-answer-meta-row">
+            <img src="assets/images/outlook-id.png" alt="Avatar" class="chat-answer-mini-avatar">
+            <span class="chat-answer-meta-text" id="chat-answer-meta-text">ECE Student • Silchar, India</span>
           </div>
           <div class="chat-answer-intro-text" id="chat-answer-intro-text"></div>
-          <div class="chat-answer-tags-row" id="chat-answer-tags-row"></div>
+          <div class="chat-answer-tags-row" id="chat-answer-tags-row">
+            <span class="chat-tag">ECE</span>
+            <span class="chat-tag">Developer</span>
+            <span class="chat-tag">Assam Univ</span>
+            <span class="chat-tag">Hardware</span>
+            <span class="chat-tag">Web &amp; AI</span>
+          </div>
         </div>
       </div>
       <div class="chat-answer-body-text" id="chat-answer-body-text"></div>
     </div>
   </div>
-
-  <!-- Continuous Bottom Feather Overlay -->
-  <div class="chat-bottom-feather" id="chat-bottom-feather" aria-hidden="true"></div>
 
   <div class="chat-bottom-bar">
     <div class="chat-options-row" id="chat-options-row">
@@ -1017,9 +1000,9 @@ body.chat-sheet-open {
 
   const answerMap = {
     me: {
-      intro: "Hey 👋\nI'm Kunal Rabidas, an ECE student at Assam University, Silchar.",
-      tags: ['ECE', 'Developer', 'Hardware', 'Machine Learning', 'Assam Univ'],
-      body: "I am an Electronics and Communication Engineering undergraduate at Assam University, Silchar (Graduating 2027).\n\nI combine hardware principles from my ECE studies (circuit analysis, microcontrollers, embedded IoT, and drone tech) with modern software engineering — building deep learning models, cross-platform apps with Flutter, and interactive web experiences with WebGL.\n\nPassionate about building intuitive, high-impact products that bridge the physical and digital worlds. Check out my projects or resume below! 😊"
+      intro: "Hey 👋\nI'm Kunal. I'm an ECE student at Assam University Silchar. I'm passionate about Electronics, AI, Web Development, and building sleek software products.",
+      tags: ['ECE', 'Developer', 'Assam Univ', 'Hardware', 'Web & AI'],
+      body: "I'm Kunal Rabidas, an Electronics and Communication Engineering student at Assam University, Silchar. Before diving deep into tech, I loved tinkering with electronics, circuits, and modern software! Now, I build full-stack web applications, interactive AI experiences, and dive into embedded systems. I'm super passionate about tech, entrepreneurship, and crafting intuitive user interfaces. What brings you here? 😊"
     },
     passions: {
       intro: "Hey 👋\nHere is what drives and inspires me every day 🚀",
@@ -1039,81 +1022,22 @@ body.chat-sheet-open {
     projects: {
       intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
       tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
-      showGithubBadge: true,
-      body: "I have built and worked on several exciting projects:\n\n• ProteoPredict Pro: A multi-task deep learning web application (CNN + BiLSTM) for protein secondary structure prediction with in-browser neural inference via TensorFlow.js and Gemini AI-powered structural insights.\n• PulseML — ESP32 Health Monitor: An end-to-end AI health risk assessment system combining real-time IoT pulse oximetry hardware monitoring with browser-native ML classification.\n• Splitsbug App: A collaborative cross-platform expense-sharing and group budget management app built with Flutter and Dart.\n• Dehaze — Foggy Image Restoration Tool: Single-image haze removal tool utilizing the Dark Channel Prior algorithm in MATLAB, Python, and OpenCV with stage-by-stage visual pipelines.\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n\n🔗 View all source code and active builds on my GitHub: https://github.com/lotus-outlook-6"
+      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
     },
     skills: {
-      intro: "Here's an overview of my technical toolset and strengths ⚡️\nCombining hardware engineering with modern AI and software development.",
-      tags: ['Python', 'TensorFlow', 'Flutter', 'VLSI', 'C / C++', 'MATLAB'],
-      body: "Here is a breakdown of my skillset directly from my engineering coursework and practical builds:\n\n🛠 Programming & Frameworks:\n• Python, C, MATLAB, JavaScript, Dart, Flutter, HTML5, CSS3\n\n🧠 Machine Learning & AI:\n• TensorFlow, TensorFlow.js, Gemini AI, Deep Learning (ANN, CNN, RNN, BiLSTM)\n\n⚡️ Hardware & Circuit Design:\n• LTspice, Cadence Virtuoso, Silvaco TCAD, ESP32 IoT, Arduino\n\n📡 Networking & Simulation:\n• Cisco Packet Tracer, AMTRON Drone Technology\n\n🎨 Creative & Media Tools:\n• Adobe Photoshop, Premiere Pro, After Effects\n\n💡 Soft Skills:\n• Project ownership, rapid technical adaptability, visual problem solving, and effective team coordination."
+      intro: "Here's an overview of my technical toolset and strengths ⚡️\nI combine hardware understanding with modern full-stack development.",
+      tags: ['JavaScript', 'Flutter', 'HTML/CSS', 'C/C++', 'ECE', 'Git'],
+      body: "Here is a breakdown of my skillset:\n\n🛠 Hard Skills & Technologies:\n• Languages: JavaScript, TypeScript, Dart, C, C++, Python, HTML5, CSS3\n• Frameworks & Tools: Flutter, WebGL, Node.js, Git, Linux, REST APIs\n• Engineering & ECE: Digital Electronics, Circuit Analysis, Signal Systems, Embedded Systems\n\n💡 Soft Skills:\n• Problem solving, fast learning, UI/UX eye for detail, project ownership, and strong teamwork."
     },
     contact: {
-      intro: "I'd love to connect with you! 📬\nFeel free to reach out for collaborations, internships, or engineering discussions.",
-      tags: ['Email', 'LinkedIn', 'GitHub', 'Silchar', 'India'],
-      body: "You can reach out to me anytime:\n\n📧 Email: kunal.rabidas@aus.ac.in\n📱 Phone: +91 8223798282\n🌐 GitHub: https://github.com/lotus-outlook-6\n💼 LinkedIn: https://linkedin.com/in/kunalrabidas8\n📍 Location: Silchar, Assam, India (Open to remote and hybrid opportunities)\n\nLooking forward to hearing from you!"
+      intro: "I'd love to connect with you! 📬\nFeel free to reach out for collaboration, projects, or just a friendly chat.",
+      tags: ['Email', 'LinkedIn', 'GitHub', 'Silchar', 'Collaboration'],
+      body: "You can reach out to me anytime:\n\n• Location: Silchar, Assam, India\n• Socials: Connect on GitHub and LinkedIn to follow my work and contributions.\n• Opportunities: Open to freelance projects, internships, and software engineering roles!\n\nI'm always open to talking about tech, engineering, and creative ideas!"
     },
     resume: {
-      intro: "Kunal Rabidas — Curriculum Vitae 📄\nElectronics & Communication Engineering • Assam University",
-      tags: ['Resume', 'Education', 'Experience', 'Skills', 'Projects'],
-      body: `KUNAL RABIDAS
-Seconee Borhola, Jakhalabandha, Assam, 782338 | +91 8223798282 | kunal.rabidas@aus.ac.in
-github.com/lotus-outlook-6 | linkedin.com/in/kunalrabidas8
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EDUCATION
-• B.Tech in Electronics & Communication Engineering, Assam University
-  CGPA: 7.12 │ Expected 2027
-• XII (CBSE), Kendriya Vidyalaya H.P.C.L Jagiroad, Assam
-  72% │ 2022
-• X (CBSE), Kendriya Vidyalaya H.P.C.L Jagiroad, Assam
-  83% │ 2020
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EXPERIENCE
-• Internship Trainee — Networking & Drone Technologies
-  AMTRON │ Jun 2026
-  - Completed a structured internship program covering networking fundamentals and drone technology applications, gaining hands-on exposure to hardware-software integration.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-SKILLS
-• Programming Languages: Python, C, MATLAB
-• VLSI & Circuit Design: LTspice, Cadence Virtuoso, Silvaco TCAD
-• Networking & Simulation: Cisco Packet Tracer
-• Machine Learning & AI: TensorFlow, TensorFlow.js, Deep Learning (ANN, CNN, RNN, BiLSTM)
-• Creative & Tools: Photoshop, Premiere Pro, After Effects
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-CERTIFICATIONS
-• Udemy: Deep Learning A-Z 2024 — Neural Networks, AI & ChatGPT Prize (Mar 2024)
-• NIT Silchar & Jet Aero: One-Week Bootcamp on Drone Technology and Related Applications (Feb 2024)
-• Google Cloud: Introduction to Generative AI (Dec 2023)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-ACADEMIC & TECHNICAL PROJECTS
-• ProteoPredict Pro (Mini Project) | Python, TensorFlow.js, CNN, BiLSTM, Gemini AI
-  - Built and deployed a multi-task deep learning web app (CNN + BiLSTM) for protein secondary structure prediction, with in-browser inference via TensorFlow.js and Gemini AI-powered insights.
-• PulseML — ESP32 Health Monitor | JavaScript, ESP32, Machine Learning
-  - Built an AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native ML inference.
-• Dehaze — Foggy Image Restoration Tool | MATLAB, Python, OpenCV
-  - Implemented a single-image haze removal tool using the Dark Channel Prior algorithm, with visualizations of each processing step.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-POSITIONS OF RESPONSIBILITY
-• Public Relations Team Member & Event Coordinator | YANTRAKSH, Assam University │ Feb – Mar 2026
-  - Managed PR activities and outreach for the college techfest, ensuring maximum participation and engagement from the student body.
-  - Served as Event Coordinator for the 'Image Prompting' and 'Poster Presentation' technical events, facilitating smooth execution and participant guidance.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-ACHIEVEMENTS & HOBBIES
-• Achievement: Awarded Google Cloud Swags and Badges for successful completion of challenges under the Google Arcade program.
-• Hobbies: Photography, Videography, Video Editing.`
+      intro: "Here is a summary of my background and education 📄",
+      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
+      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
     },
     valuable_team: {
       intro: "What makes me a valuable team player 🤝\nClear communication, rapid execution, and high ownership.",
@@ -1131,15 +1055,14 @@ ACHIEVEMENTS & HOBBIES
       body: "I don't just write code — I build user-first products. I learn new technologies at rapid speed, pay obsessive attention to detail, and work proactively to ship high-quality solutions that create real impact for users and teams."
     },
     education: {
-      intro: "Kunal Rabidas — Educational Background 🎓",
-      tags: ['Education', 'Assam Univ', 'ECE', 'CBSE', 'Engineering'],
-      body: "🎓 Higher Education:\n• B.Tech in Electronics & Communication Engineering (ECE), Assam University (Expected 2027, CGPA: 7.12)\n\n🏫 Schooling:\n• Class XII (CBSE), Kendriya Vidyalaya H.P.C.L Jagiroad, Assam (72% │ 2022)\n• Class X (CBSE), Kendriya Vidyalaya H.P.C.L Jagiroad, Assam (83% │ 2020)\n\n🔬 Key Focus Areas: VLSI Circuit Design, Embedded ML, Signal Analysis, and Modern Software Engineering."
+      intro: "Here is a summary of my background and education 📄",
+      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
+      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
     },
     projects_proud: {
       intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
       tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
-      showGithubBadge: true,
-      body: "I have built and worked on several exciting projects:\n\n• ProteoPredict Pro: A deep learning web application (CNN + BiLSTM) for protein secondary structure prediction with in-browser neural inference via TensorFlow.js and Gemini AI insights.\n• PulseML — ESP32 Health Monitor: An AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native ML inference.\n• Splitsbug App: A collaborative cross-platform expense-sharing and group budget management app built with Flutter and Dart.\n• Dehaze — Foggy Image Restoration: Single-image haze removal tool utilizing the Dark Channel Prior algorithm in MATLAB, Python, and OpenCV.\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n\n🔗 View all source code and active builds on my GitHub: https://github.com/lotus-outlook-6"
+      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
     },
     experience_learning: {
       intro: "My experience with project-based, self-directed learning 💡",
@@ -1269,102 +1192,35 @@ ACHIEVEMENTS & HOBBIES
     chatAnswerContainer.style.display = 'block';
     retriggerAnim(chatAnswerContainer);
 
-    const photoWrapper = document.getElementById('chat-answer-photo-wrapper');
-    const wordKunal = document.getElementById('word-kunal');
-    const wordRabidas = document.getElementById('word-rabidas');
-    const miniAvatar = document.getElementById('chat-answer-mini-avatar');
-    const metaEce = document.getElementById('meta-ece');
-    const metaStudent = document.getElementById('meta-student');
-    const metaDot = document.getElementById('meta-dot');
-    const metaSilchar = document.getElementById('meta-silchar');
-    const metaComma = document.getElementById('meta-comma');
-    const metaIndia = document.getElementById('meta-india');
     const introEl = document.getElementById('chat-answer-intro-text');
-    const tagsRow = document.getElementById('chat-answer-tags-row');
     const bodyEl = document.getElementById('chat-answer-body-text');
+    const tagsRow = document.getElementById('chat-answer-tags-row');
 
-    // Reset initial visual state
-    if (photoWrapper) {
-      photoWrapper.classList.remove('is-generated');
-      photoWrapper.classList.add('is-generating');
-    }
-    [wordKunal, wordRabidas, miniAvatar, metaEce, metaStudent, metaDot, metaSilchar, metaComma, metaIndia].forEach(el => {
-      if (el) el.classList.remove('show');
-    });
-    if (introEl) introEl.innerHTML = '';
-    if (bodyEl) bodyEl.innerHTML = '';
-    if (tagsRow) tagsRow.innerHTML = '';
-
-    const timeouts = [];
-    let cancelIntro = null;
-    let cancelBody = null;
-
-    // 1. Name word-by-word slide down
-    timeouts.push(setTimeout(() => { if (wordKunal) wordKunal.classList.add('show'); }, 100));
-    timeouts.push(setTimeout(() => { if (wordRabidas) wordRabidas.classList.add('show'); }, 380));
-
-    // 2. Mini avatar circle pop
-    timeouts.push(setTimeout(() => { if (miniAvatar) miniAvatar.classList.add('show'); }, 640));
-
-    // 3. Sub-title meta slide-right & pop sequence
-    timeouts.push(setTimeout(() => { if (metaEce) metaEce.classList.add('show'); }, 850));
-    timeouts.push(setTimeout(() => { if (metaStudent) metaStudent.classList.add('show'); }, 1000));
-    timeouts.push(setTimeout(() => { if (metaDot) metaDot.classList.add('show'); }, 1150));
-    timeouts.push(setTimeout(() => { if (metaSilchar) metaSilchar.classList.add('show'); }, 1300));
-    timeouts.push(setTimeout(() => { if (metaComma) metaComma.classList.add('show'); }, 1450));
-    timeouts.push(setTimeout(() => { if (metaIndia) metaIndia.classList.add('show'); }, 1600));
-
-    // 4. Intro text typing starts at 1750ms
-    timeouts.push(setTimeout(() => {
-      cancelIntro = typewriteText(introEl, info.intro, 12, () => {
-        // 5. When intro typing reaches end: Tags pop in one-by-one
-        if (tagsRow) {
-          tagsRow.innerHTML = '';
-          const tags = info.tags || [];
-          tags.forEach((tag, idx) => {
-            const sp = document.createElement('span');
-            sp.className = 'chat-tag';
-            sp.textContent = tag;
-            tagsRow.appendChild(sp);
-
-            const tt = setTimeout(() => {
-              sp.classList.add('show');
-              // When the last tag pops in (or WebApps):
-              if (idx === tags.length - 1) {
-                // Generative AI portrait generation finishes & reveals photo!
-                if (photoWrapper) {
-                  photoWrapper.classList.remove('is-generating');
-                  photoWrapper.classList.add('is-generated');
-                }
-
-                // Add GitHub Profile badge if enabled
-                if (info.showGithubBadge && !document.getElementById('chat-gh-badge')) {
-                  const ghBadge = document.createElement('a');
-                  ghBadge.id = 'chat-gh-badge';
-                  ghBadge.href = 'https://github.com/lotus-outlook-6';
-                  ghBadge.target = '_blank';
-                  ghBadge.rel = 'noopener noreferrer';
-                  ghBadge.className = 'chat-github-badge';
-                  ghBadge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub Profile';
-                  tagsRow.appendChild(ghBadge);
-                  setTimeout(() => ghBadge.classList.add('show'), 80);
-                }
-
-                // 6. Start streaming body text
-                cancelBody = typewriteText(bodyEl, info.body, 10);
-              }
-            }, idx * 110);
-            timeouts.push(tt);
-          });
-        }
+    if (tagsRow) {
+      tagsRow.innerHTML = '';
+      (info.tags || []).forEach(tag => {
+        const sp = document.createElement('span');
+        sp.className = 'chat-tag';
+        sp.textContent = tag;
+        tagsRow.appendChild(sp);
       });
-    }, 1750));
+    }
 
-    currentTypingAbort = () => {
-      timeouts.forEach(clearTimeout);
-      if (cancelIntro) cancelIntro();
-      if (cancelBody) cancelBody();
-    };
+    if (introEl && bodyEl) {
+      introEl.innerHTML = '';
+      bodyEl.innerHTML = '';
+      // introEl cursor is automatically removed when it completes
+      const cancel1 = typewriteText(introEl, info.intro, 14, () => {
+        // bodyEl cursor is automatically removed when it completes
+        const cancel2 = typewriteText(bodyEl, info.body, 12);
+        currentTypingAbort = () => {
+          cancel2();
+        };
+      });
+      currentTypingAbort = () => {
+        cancel1();
+      };
+    }
   };
 
   const showChatView = (query, activeKey) => {
