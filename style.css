@@ -725,18 +725,67 @@ img, [alt="Hero avatar"] {
   cursor: grabbing !important;
 }
 
-.chat-sheet-content {
+/* HTML, Body, and Chat View scroll lock when sheet modal is open */
+html.chat-sheet-open,
+body.chat-sheet-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+html.chat-sheet-open #chat-view,
+body.chat-sheet-open #chat-view {
+  overflow: hidden !important;
+}
+
+/* Outer scroll container centered to cards width so scrollbar sits right where cards end */
+.chat-sheet-scroll-container {
   flex: 1;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
   overflow-y: auto;
-  padding: 10px 24px 60px;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+/* Sleek scrollbar located right at the edge of the cards */
+.chat-sheet-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 9999px;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.chat-sheet-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+}
+
+/* Options list inside centered scroll container */
+.chat-sheet-content {
+  width: 100%;
+  padding: 10px 12px 60px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  -webkit-overflow-scrolling: touch;
-  max-width: 620px;
-  width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
+}
+
+.chat-sheet-section {
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-sheet-section-header {
@@ -749,6 +798,11 @@ img, [alt="Hero avatar"] {
   padding-bottom: 8px;
   border-bottom: 1px solid #f3f4f6;
   margin-bottom: 10px;
+}
+
+.chat-sheet-section-header svg {
+  width: 16px;
+  height: 16px;
 }
 
 .chat-sheet-items-list {
@@ -794,11 +848,16 @@ img, [alt="Hero avatar"] {
 .chat-sheet-sparkle-icon {
   stroke: #ffffff;
   color: #ffffff;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .chat-sheet-item-arrow {
   stroke: currentColor;
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=20">
+<link rel="stylesheet" href="style.css?v=26">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -332,19 +332,62 @@
   background-color: #6b7280 !important;
   cursor: grabbing !important;
 }
-.chat-sheet-content {
+/* Body scroll lock when sheet modal is open */
+body.chat-sheet-open {
+  overflow: hidden !important;
+}
+
+/* Outer scroll container centered to cards width so scrollbar sits right where cards end */
+.chat-sheet-scroll-container {
   flex: 1;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
   overflow-y: auto;
-  padding: 10px 24px 60px;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+/* Sleek scrollbar located right at the edge of the cards */
+.chat-sheet-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 9999px;
+}
+
+.chat-sheet-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.chat-sheet-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+}
+
+/* Options list inside centered scroll container */
+.chat-sheet-content {
+  width: 100%;
+  padding: 10px 12px 60px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  -webkit-overflow-scrolling: touch;
-  max-width: 620px;
-  width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
 }
+
+.chat-sheet-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .chat-sheet-section-header {
   display: flex;
   align-items: center;
@@ -356,11 +399,18 @@
   border-bottom: 1px solid #f3f4f6;
   margin-bottom: 10px;
 }
+
+.chat-sheet-section-header svg {
+  width: 16px;
+  height: 16px;
+}
+
 .chat-sheet-items-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .chat-sheet-item {
   display: flex;
   align-items: center;
@@ -375,30 +425,42 @@
   border: 1px solid transparent;
   transition: background-color 0.18s ease, transform 0.18s ease;
 }
+
 .chat-sheet-item:hover {
   background: #f3f4f6;
 }
+
 .chat-sheet-item.is-black {
   background: #0a0a0a !important;
   color: #ffffff !important;
 }
+
 .chat-sheet-item.is-black:hover {
   background: #171717 !important;
 }
+
 .chat-sheet-item-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .chat-sheet-sparkle-icon {
   stroke: #ffffff;
   color: #ffffff;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
+
 .chat-sheet-item-arrow {
   stroke: currentColor;
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .chat-sheet-item:hover .chat-sheet-item-arrow {
   transform: translateX(5px);
 }
@@ -738,8 +800,8 @@
   <div class="chat-sheet-handle-wrapper" id="chat-sheet-handle-wrapper">
     <div class="chat-sheet-pill-handle" id="chat-sheet-pill-handle"></div>
   </div>
-  <div class="chat-sheet-content" id="chat-sheet-content">
-    
+  <div class="chat-sheet-scroll-container" id="chat-sheet-scroll-container" tabindex="-1">
+    <div class="chat-sheet-content" id="chat-sheet-content">
     <!-- Section: Me -->
     <div class="chat-sheet-section">
       <div class="chat-sheet-section-header">
@@ -755,21 +817,21 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="What are your passions?" data-sheet-key="me" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What are your passions?" data-sheet-key="passions" role="button">
           <div class="chat-sheet-item-left">
             <span>What are your passions?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="How did you get started in tech?" data-sheet-key="me" role="button">
+        <div class="chat-sheet-item" data-sheet-query="How did you get started in tech?" data-sheet-key="started" role="button">
           <div class="chat-sheet-item-left">
             <span>How did you get started in tech?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="Where do you see yourself in 5 years?" data-sheet-key="me" role="button">
+        <div class="chat-sheet-item" data-sheet-query="Where do you see yourself in 5 years?" data-sheet-key="future" role="button">
           <div class="chat-sheet-item-left">
             <span>Where do you see yourself in 5 years?</span>
           </div>
@@ -785,23 +847,55 @@
         <span>Professional</span>
       </div>
       <div class="chat-sheet-items-list">
-        <div class="chat-sheet-item" data-sheet-query="What are your projects? What are you working on right now?" data-sheet-key="projects" role="button">
+        <div class="chat-sheet-item is-black" data-sheet-query="Can I see your resume?" data-sheet-key="resume" role="button">
           <div class="chat-sheet-item-left">
-            <span>What are your projects?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>Can I see your resume?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="What are you working on right now?" data-sheet-key="projects" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What makes you a valuable team member?" data-sheet-key="valuable_team" role="button">
           <div class="chat-sheet-item-left">
-            <span>What are you working on right now?</span>
+            <span>What makes you a valuable team member?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="What is your tech stack?" data-sheet-key="projects" role="button">
+        <div class="chat-sheet-item" data-sheet-query="Where are you working now?" data-sheet-key="working_now" role="button">
           <div class="chat-sheet-item-left">
-            <span>What is your tech stack?</span>
+            <span>Where are you working now?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="Why should I hire you?" data-sheet-key="hire_me" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Why should I hire you?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What's your educational background?" data-sheet-key="education" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What's your educational background?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Projects -->
+    <div class="chat-sheet-section">
+      <div class="chat-sheet-section-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        <span>Projects</span>
+      </div>
+      <div class="chat-sheet-items-list">
+        <div class="chat-sheet-item is-black" data-sheet-query="What projects are you most proud of?" data-sheet-key="projects_proud" role="button">
+          <div class="chat-sheet-item-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>What projects are you most proud of?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
@@ -811,65 +905,58 @@
     <!-- Section: Skills -->
     <div class="chat-sheet-section">
       <div class="chat-sheet-section-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
         <span>Skills</span>
       </div>
       <div class="chat-sheet-items-list">
-        <div class="chat-sheet-item" data-sheet-query="What are your skills? Give me a list of your soft and hard skills." data-sheet-key="skills" role="button">
+        <div class="chat-sheet-item is-black" data-sheet-query="What are your skills?" data-sheet-key="skills" role="button">
           <div class="chat-sheet-item-left">
-            <span>What are your soft and hard skills?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>What are your skills?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="What programming languages do you know?" data-sheet-key="skills" role="button">
+        <div class="chat-sheet-item" data-sheet-query="How was your experience at École 42?" data-sheet-key="experience_learning" role="button">
           <div class="chat-sheet-item-left">
-            <span>What programming languages do you know?</span>
+            <span>How was your experience at École 42?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
       </div>
     </div>
 
-    <!-- Section: Contact -->
+    <!-- Section: Contact & Future -->
     <div class="chat-sheet-section">
       <div class="chat-sheet-section-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="5"></circle><path d="M2 21a8 8 0 0 1 10.434-7.62"></path><circle cx="18" cy="18" r="3"></circle><path d="m22 22-1.9-1.9"></path></svg>
-        <span>Contact</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        <span>Contact & Future</span>
       </div>
       <div class="chat-sheet-items-list">
-        <div class="chat-sheet-item" data-sheet-query="How can I contact you?" data-sheet-key="contact" role="button">
+        <div class="chat-sheet-item is-black" data-sheet-query="How can I reach you?" data-sheet-key="contact" role="button">
           <div class="chat-sheet-item-left">
-            <span>How can I contact or hire you?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <span>How can I reach you?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="Where can I find you on social media?" data-sheet-key="contact" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What kind of project would make you say 'yes' immediately?" data-sheet-key="project_yes" role="button">
           <div class="chat-sheet-item-left">
-            <span>Where can I find you on social media?</span>
+            <span>What kind of project would make you say 'yes' immediately?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="Where are you located?" data-sheet-key="location" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Where are you located?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
       </div>
     </div>
-
-    <!-- Section: Resume -->
-    <div class="chat-sheet-section">
-      <div class="chat-sheet-section-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
-        <span>Resume</span>
-      </div>
-      <div class="chat-sheet-items-list">
-        <div class="chat-sheet-item" data-sheet-query="Can you show me your resume or CV?" data-sheet-key="resume" role="button">
-          <div class="chat-sheet-item-left">
-            <span>Can you show me your resume or CV?</span>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
-        </div>
-      </div>
-    </div>
-
+  </div>
   </div>
 </div>
 
@@ -951,6 +1038,46 @@
       intro: "Here is a summary of my background and education 📄",
       tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
       body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
+    },
+    valuable_team: {
+      intro: "What makes me a valuable team player 🤝\nClear communication, rapid execution, and high ownership.",
+      tags: ['Ownership', 'Collaboration', 'Problem Solving', 'Adaptability'],
+      body: "I bring a balance of hardware-level rigor and modern software agility. I communicate transparently, adapt quickly to new tech stacks, and genuinely love collaborating with designers and engineers to build polished, reliable products that deliver real value."
+    },
+    working_now: {
+      intro: "What I'm currently working on ⚡️\nBuilding real-world products and exploring new engineering frontiers.",
+      tags: ['Assam Univ', 'Flutter', 'Web Tech', 'AI Interfaces', 'Projects'],
+      body: "Right now, I'm pursuing my engineering degree at Assam University while actively building software products:\n\n• Splitsbug: A cross-platform group expense and budget app built with Flutter.\n• Lotus Outlook: This dynamic AI-powered portfolio experience.\n• Exploring autonomous AI tools and interactive web engineering."
+    },
+    hire_me: {
+      intro: "Why hire me? 🚀\nFast execution, product sense, and engineering dedication.",
+      tags: ['Impact', 'High Velocity', 'Quality Code', 'Product Mindset'],
+      body: "I don't just write code — I build user-first products. I learn new technologies at rapid speed, pay obsessive attention to detail, and work proactively to ship high-quality solutions that create real impact for users and teams."
+    },
+    education: {
+      intro: "Here is a summary of my background and education 📄",
+      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
+      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
+    },
+    projects_proud: {
+      intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
+      tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
+      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
+    },
+    experience_learning: {
+      intro: "My experience with project-based, self-directed learning 💡",
+      tags: ['Hands-on Learning', 'Problem Solving', 'Peer Coding', 'Projects'],
+      body: "Project-based, peer-driven learning taught me how to solve difficult engineering problems independently. Instead of relying solely on textbooks, building real projects from scratch, reading documentation, and debugging under constraints shaped my resourcefulness and technical adaptability."
+    },
+    project_yes: {
+      intro: "The kind of project that makes me say 'YES' immediately 🤩",
+      tags: ['Ambitious', 'AI Interfaces', 'Design-Driven', 'High Performance'],
+      body: "Any project that blends ambitious technology with exceptional aesthetics: real-time AI experiences, fluid user interfaces, creative developer tools, or hardware-software integrations. If it challenges the status quo and requires building something that wows people, count me in!"
+    },
+    location: {
+      intro: "Where I'm located 📍",
+      tags: ['Silchar', 'Assam', 'India', 'Remote Ready'],
+      body: "I am based in Silchar, Assam, India. I work seamlessly in remote and hybrid setups across global time zones, and I'm open to relocation for exciting opportunities!"
     }
   };
 
@@ -961,10 +1088,17 @@
     if (qLower.includes('started') || qLower.includes('how did you get')) return answerMap.started;
     if (qLower.includes('5 year') || qLower.includes('five year') || qLower.includes('future')) return answerMap.future;
     if (qLower.includes('who are you') || qLower.includes('about you') || qLower.includes('me')) return answerMap.me;
+    if (qLower.includes('valuable team')) return answerMap.valuable_team;
+    if (qLower.includes('working now')) return answerMap.working_now;
+    if (qLower.includes('why should i hire')) return answerMap.hire_me;
+    if (qLower.includes('proud of')) return answerMap.projects_proud || answerMap.projects;
     if (qLower.includes('project') || qLower.includes('working on')) return answerMap.projects;
     if (qLower.includes('skill')) return answerMap.skills;
-    if (qLower.includes('contact') || qLower.includes('hire') || qLower.includes('social')) return answerMap.contact;
-    if (qLower.includes('resume') || qLower.includes('cv') || qLower.includes('education')) return answerMap.resume;
+    if (qLower.includes('contact') || qLower.includes('reach you') || qLower.includes('hire') || qLower.includes('social')) return answerMap.contact;
+    if (qLower.includes('resume') || qLower.includes('cv') || qLower.includes('education') || qLower.includes('educational background')) return answerMap.resume;
+    if (qLower.includes('say \'yes\'') || qLower.includes('say yes') || qLower.includes('kind of project')) return answerMap.project_yes;
+    if (qLower.includes('located') || qLower.includes('where are you')) return answerMap.location;
+    if (qLower.includes('école 42') || qLower.includes('ecole 42') || qLower.includes('experience at') || qLower.includes('learning')) return answerMap.experience_learning;
 
     return {
       intro: `Thanks for asking about "${query}" 🤖\nHere is what I know:`,
@@ -1012,13 +1146,14 @@
   let answerTimeoutId = null;
   let currentTypingAbort = null;
 
-  // Typewriter streaming effect - removes cursor cleanly upon completion
+  // Typewriter streaming effect - handles unicode emojis cleanly without surrogate splitting
   const typewriteText = (targetEl, text, speed = 16, onComplete, keepCursorOnDone = false) => {
     targetEl.innerHTML = '';
     const cursor = document.createElement('span');
     cursor.className = 'ai-cursor';
     targetEl.appendChild(cursor);
 
+    const chars = Array.from(text || '');
     let index = 0;
     let isCancelled = false;
 
@@ -1028,8 +1163,8 @@
         cursor.remove();
         return;
       }
-      if (index < text.length) {
-        const char = text.charAt(index);
+      if (index < chars.length) {
+        const char = chars[index];
         if (char === '\n') {
           targetEl.insertBefore(document.createElement('br'), cursor);
         } else {
@@ -1241,23 +1376,78 @@
   }
 
   // Bottom Sheet Modal Open & Close logic
-  const openSheet = () => {
+  const sheetScrollContainer = document.getElementById('chat-sheet-scroll-container');
+  let savedScrollY = 0;
+  let isSheetOpen = false;
+  let previousChatUrl = '/lotusoutlook/chat';
+
+  const openSheet = (pushRoute = true) => {
     if (!sheetModal || !sheetBackdrop) return;
+    if (isSheetOpen) return;
+    isSheetOpen = true;
+
+    // Save exact background scroll position
+    savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    // Freeze background body in place so it is physically impossible for the page behind to scroll
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.classList.add('chat-sheet-open');
+    document.documentElement.classList.add('chat-sheet-open');
+
     sheetBackdrop.classList.add('open');
     sheetModal.classList.add('open');
     sheetModal.style.transform = 'translateY(0)';
     sheetModal.style.transition = 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1)';
     sheetBackdrop.style.opacity = '1';
+
+    if (sheetScrollContainer) {
+      sheetScrollContainer.scrollTop = 0;
+      sheetScrollContainer.focus({ preventScroll: true });
+    }
+
+    if (pushRoute) {
+      if (!window.location.pathname.includes('/options') && !window.location.pathname.includes('/more')) {
+        previousChatUrl = window.location.pathname + window.location.search;
+      }
+      history.pushState({ view: 'options', modal: true }, '', '/lotusoutlook/options');
+    }
   };
 
-  const closeSheet = () => {
+  const closeSheet = (updateRoute = true) => {
     if (!sheetModal || !sheetBackdrop) return;
+    if (!isSheetOpen && !sheetModal.classList.contains('open')) return;
+    isSheetOpen = false;
+
+    // Unfreeze background body and restore exact scroll position
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    document.body.classList.remove('chat-sheet-open');
+    document.documentElement.classList.remove('chat-sheet-open');
+    window.scrollTo(0, savedScrollY);
+
     sheetModal.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1)';
     sheetBackdrop.style.transition = 'opacity 0.32s ease';
     sheetModal.classList.remove('open');
     sheetBackdrop.classList.remove('open');
     sheetModal.style.transform = 'translateY(100%)';
     sheetBackdrop.style.opacity = '0';
+
+    if (updateRoute && (window.location.pathname.includes('/options') || window.location.pathname.includes('/more'))) {
+      const targetUrl = previousChatUrl || '/lotusoutlook/chat';
+      history.pushState({ view: 'chat' }, '', targetUrl);
+    }
+
     setTimeout(() => {
       if (!sheetModal.classList.contains('open')) {
         sheetModal.style.transform = '';
@@ -1268,20 +1458,73 @@
     }, 350);
   };
 
+  // Scroll isolation: Only allow scrolling if cursor is physically inside the cyan card options region.
+  // When cursor is outside (over backdrop, margins, handle, or sides of the card), prevent scroll completely.
+  window.addEventListener('wheel', e => {
+    if (!sheetModal || !sheetModal.classList.contains('open')) return;
+    let isInsideCyanRegion = false;
+    if (sheetScrollContainer) {
+      const rect = sheetScrollContainer.getBoundingClientRect();
+      isInsideCyanRegion = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+    }
+    if (!isInsideCyanRegion) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Prevent background touch scrolling on mobile outside cyan card region
+  window.addEventListener('touchmove', e => {
+    if (!sheetModal || !sheetModal.classList.contains('open')) return;
+    if (!sheetScrollContainer) return;
+    const touch = e.touches && e.touches[0];
+    if (!touch) return;
+    const rect = sheetScrollContainer.getBoundingClientRect();
+    const isInsideCyanRegion = (
+      touch.clientX >= rect.left &&
+      touch.clientX <= rect.right &&
+      touch.clientY >= rect.top &&
+      touch.clientY <= rect.bottom
+    );
+    if (!isInsideCyanRegion) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   if (chatMoreBtn) {
     chatMoreBtn.addEventListener('click', e => {
       e.stopPropagation();
-      openSheet();
+      openSheet(true);
     });
   }
 
   if (sheetBackdrop) {
-    sheetBackdrop.addEventListener('click', closeSheet);
+    sheetBackdrop.addEventListener('click', () => closeSheet(true));
   }
 
   window.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && sheetModal && sheetModal.classList.contains('open')) {
-      closeSheet();
+    if (!sheetModal || !sheetModal.classList.contains('open')) return;
+    if (e.key === 'Escape') {
+      closeSheet(true);
+      return;
+    }
+    const scrollKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+    if (scrollKeys.includes(e.key)) {
+      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+        return;
+      }
+      e.preventDefault();
+      if (sheetScrollContainer) {
+        const step = (e.key === 'PageUp' || e.key === 'PageDown' || e.key === ' ') ? 320 : 48;
+        const dir = (e.key === 'ArrowUp' || e.key === 'PageUp') ? -1 : 1;
+        if (e.key === 'Home') sheetScrollContainer.scrollTop = 0;
+        else if (e.key === 'End') sheetScrollContainer.scrollTop = sheetScrollContainer.scrollHeight;
+        else sheetScrollContainer.scrollTop += dir * step;
+      }
     }
   });
 
@@ -1306,15 +1549,19 @@
       const deltaY = clientY - startY;
       currentDeltaY = deltaY;
 
+      const sheetHeight = sheetModal.offsetHeight || (window.innerHeight * 0.52);
+
       if (deltaY < 0) {
-        // Dragging UP -> allow card to stretch upward past 50%
-        const stretchY = Math.max(-280, deltaY * 0.75);
-        sheetModal.style.transform = `translateY(${stretchY}px)`;
+        // Dragging UP -> Strong elastic resistance anchored from bottom, max 3-5% stretch
+        const maxUp = sheetHeight * 0.04; // 4% maximum stretch (strictly 3-5%)
+        const pullProgress = Math.abs(deltaY);
+        // Exponential decay resistance: strongly resists as you pull further, never exceeding maxUp
+        const stretchY = -Math.min(maxUp, maxUp * (1 - Math.exp(-pullProgress / 60)));
+        sheetModal.style.transform = `translateY(${stretchY.toFixed(2)}px)`;
         if (sheetBackdrop) sheetBackdrop.style.opacity = '1';
       } else {
         // Dragging DOWN -> smoothly decreases darkness down to 1% at bottom without rasterization glitch
         sheetModal.style.transform = `translateY(${deltaY}px)`;
-        const sheetHeight = sheetModal.offsetHeight || (window.innerHeight * 0.52);
         const openRatio = Math.max(0, Math.min(1, 1 - (deltaY / sheetHeight)));
         // Smooth progression: 1% opacity at bottom, 100% at resting 50% open
         const factor = 0.01 + openRatio * 0.99;
@@ -1341,11 +1588,11 @@
       window.removeEventListener('pointercancel', onPointerUp);
 
       const sheetHeight = sheetModal.offsetHeight || (window.innerHeight * 0.52);
-      // Dismiss only if dragged down more than 60% of the modal height
-      if (currentDeltaY > sheetHeight * 0.6) {
+      // Dismiss only if dragged down more than 50% of the modal height
+      if (currentDeltaY > sheetHeight * 0.5) {
         closeSheet();
       } else {
-        // Spring bounce back to resting 50% open position
+        // Spring bounce back to resting position (from upward elastic stretch or small downward drag)
         sheetModal.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
         sheetModal.style.transform = 'translateY(0)';
         if (sheetBackdrop) {
@@ -1410,7 +1657,7 @@
 
       const q = item.dataset.sheetQuery || item.querySelector('.chat-sheet-item-left span')?.textContent || '';
       const k = item.dataset.sheetKey || '';
-      closeSheet();
+      closeSheet(false);
       navigateToChat(q, k);
     });
   });
@@ -1424,12 +1671,26 @@
   const resolveRoute = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const q = searchParams.get('query');
+    const path = window.location.pathname;
+    const isOptionsRoute = path.includes('/options') || path.includes('/more') || searchParams.has('options') || searchParams.has('more');
+
     if (q) {
       showChatView(q);
-    } else if (window.location.pathname.includes('/chat')) {
+      previousChatUrl = window.location.pathname + window.location.search;
+    } else if (path.includes('/chat') || isOptionsRoute) {
       showChatView(queryMap.projects, 'projects');
+      if (!isOptionsRoute) {
+        previousChatUrl = window.location.pathname + window.location.search;
+      }
     } else {
       showHomeView();
+      previousChatUrl = '/lotusoutlook';
+    }
+
+    if (isOptionsRoute) {
+      openSheet(false);
+    } else {
+      closeSheet(false);
     }
   };
 
