@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=31">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -20,7 +20,7 @@
   color: #0a0a0a;
   z-index: 20;
   overflow-x: hidden;
-  padding-bottom: 160px;
+  padding-bottom: 240px;
 }
 #chat-view.active {
   display: flex !important;
@@ -60,6 +60,28 @@
 }
 .chat-scroll-feather.active {
   opacity: 1 !important;
+}
+.chat-bottom-feather {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 230px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 20%,
+    rgba(255, 255, 255, 0.85) 45%,
+    rgba(255, 255, 255, 0.98) 70%,
+    rgba(255, 255, 255, 1) 88%,
+    rgba(255, 255, 255, 1) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 35 !important;
+  transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.chat-bottom-feather.collapsed {
+  height: 155px !important;
 }
 .chat-avatar-squircle {
   width: 100px !important;
@@ -467,12 +489,18 @@ body.chat-sheet-open {
 /* AI Answer view container */
 .chat-answer-container {
   width: 100%;
-  max-width: 680px;
+  max-width: 720px;
   margin: 1.5rem auto 140px;
   padding: 0 1.25rem;
+  box-sizing: border-box;
   z-index: 10;
   display: none;
   animation: answerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chat-answer-container.wide-mode,
+.chat-answer-container:has(#chat-section-projects:not([style*="display: none"])) {
+  max-width: 980px !important;
 }
 @keyframes answerFadeIn {
   from {
@@ -680,6 +708,7 @@ body.chat-sheet-open {
 <!-- Chat View -->
 <div id="chat-view">
   <div class="chat-scroll-feather" id="chat-scroll-feather"></div>
+  <div class="chat-bottom-feather" id="chat-bottom-feather"></div>
   <div class="chat-top-right">
     <div class="hover:bg-secondary/50 cursor-pointer rounded-2xl px-3 py-1.5" id="chat-info-btn" role="button" aria-label="Info">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info h-8" aria-hidden="true">
@@ -712,32 +741,574 @@ body.chat-sheet-open {
 
   <!-- AI Answer Container -->
   <div class="chat-answer-container" id="chat-answer-container">
-    <div class="chat-answer-card">
-      <div class="chat-answer-top-grid">
-        <div class="chat-answer-photo-wrapper">
-          <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="chat-answer-photo" id="chat-answer-photo">
-        </div>
-        <div class="chat-answer-profile-info">
-          <div class="chat-answer-name-ghost">Kunal Rabidas</div>
-          <div class="chat-answer-meta-row">
-            <img src="assets/images/outlook-id.png" alt="Avatar" class="chat-answer-mini-avatar">
-            <span class="chat-answer-meta-text" id="chat-answer-meta-text">ECE Student • Silchar, India</span>
+
+    <!-- Section 1: Me -->
+    <div class="chat-section-view chat-section-me" id="chat-section-me" style="display: none;">
+      <div class="me-card">
+        <div class="me-top-grid">
+          <!-- Left Photo with WebGL generation canvas -->
+          <div class="me-photo-wrapper">
+            <canvas id="me-photo-canvas" class="me-photo-canvas" width="400" height="480"></canvas>
+            <div class="me-gen-badge" id="me-gen-badge">
+              <span class="me-gen-dot"></span>
+              <span>Generating avatar...</span>
+            </div>
+            <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="me-photo" id="me-photo-img">
           </div>
-          <div class="chat-answer-intro-text" id="chat-answer-intro-text"></div>
-          <div class="chat-answer-tags-row" id="chat-answer-tags-row">
-            <span class="chat-tag">ECE</span>
-            <span class="chat-tag">Developer</span>
-            <span class="chat-tag">Assam Univ</span>
-            <span class="chat-tag">Hardware</span>
-            <span class="chat-tag">Web &amp; AI</span>
+
+          <!-- Right Info -->
+          <div class="me-info-col">
+            <!-- Name: Kunal slides down, then Rabidas slides down -->
+            <div class="me-name-row" id="me-name-row">
+              <span class="me-name-part" id="me-first-name">Kunal</span>
+              <span class="me-name-part" id="me-last-name">Rabidas</span>
+            </div>
+
+            <!-- Meta row: word by word (no mini pfp!) -->
+            <div class="me-meta-row" id="me-meta-row">
+              <span class="me-meta-unit" id="meta-ece">ECE</span>
+              <span class="me-meta-unit" id="meta-student">student</span>
+              <span class="me-meta-unit me-meta-dot" id="meta-dot">•</span>
+              <span class="me-meta-unit" id="meta-silchar">Silchar</span>
+              <span class="me-meta-unit me-meta-comma" id="meta-comma">,</span>
+              <span class="me-meta-unit" id="meta-assam">Assam</span>
+            </div>
+
+            <!-- Intro text tokens populated by JS with waving hand emoji -->
+            <div class="me-intro-text" id="me-intro-text"></div>
+
+            <!-- Chips row -->
+            <div class="me-tags-row" id="me-tags-row">
+              <span class="me-chip" data-idx="0">ECE</span>
+              <span class="me-chip" data-idx="1">Developer</span>
+              <span class="me-chip" data-idx="2">Assam Univ</span>
+              <span class="me-chip" data-idx="3">Hardware</span>
+              <span class="me-chip" data-idx="4">Deep Learning</span>
+              <span class="me-chip" data-idx="5">Web &amp; AI</span>
+              <span class="me-chip" data-idx="6">IoT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main bio: appears after ~5.2s with bold highlights -->
+        <div class="me-bio-container" id="me-bio-container">
+          <div class="me-bio-content" id="me-bio-content">
+            <p>I'm an <strong>Electronics &amp; Communication Engineering</strong> student at <strong>Assam University, Silchar</strong>, exploring the intersection of embedded hardware, deep learning, and modern full-stack web software.</p>
+            <p>From engineering real-time IoT pulse monitors with <strong>ESP32</strong> to architecting serverless protein structure neural networks (<strong>CNN + BiLSTM + TensorFlow.js</strong>) and full-stack web applications with <strong>Astro</strong>, <strong>React</strong>, and <strong>TypeScript</strong>, I love building products that merge slick aesthetics with practical utility.</p>
+            <p>Beyond coding, I've served as Event Coordinator for <strong>YANTRAKSH</strong> techfest and completed networking &amp; drone systems training at <strong>AMTRON</strong>. I'm always open to collaborating on high-impact projects, research, and innovative products.</p>
+            <p>Got an exciting project, research, or idea you'd like to collaborate on? 😊</p>
           </div>
         </div>
       </div>
-      <div class="chat-answer-body-text" id="chat-answer-body-text"></div>
     </div>
+
+    <!-- Section 2: Projects -->
+    <div class="chat-section-view chat-section-projects" id="chat-section-projects" style="display: none;">
+      <div class="projects-header-row">
+        <h2 class="projects-title">My Projects</h2>
+      </div>
+
+      <!-- Carousel wrapper -->
+      <div class="projects-carousel-container" id="projects-carousel-container">
+        <div class="projects-carousel-track" id="projects-carousel-track">
+
+          <!-- Card 1: SplitsBugs -->
+          <div class="project-card" style="background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);" onclick="window.open('https://github.com/lotus-outlook-6/SplitsBugs', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #fb923c;">Full-Stack Web App</div>
+              <h3 class="project-title">SplitsBugs</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#1e293b" fill-opacity="0.75" stroke="#ff5a03" stroke-width="1.2"/>
+                <rect x="25" y="38" width="170" height="38" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+                <text x="38" y="54" fill="#94a3b8" font-size="10" font-weight="600" font-family="sans-serif">GROUP LEDGER</text>
+                <text x="38" y="69" fill="#f8fafc" font-size="13" font-weight="700" font-family="sans-serif">$420.50 Total</text>
+                <circle cx="165" cy="57" r="10" fill="#ff5a03"/>
+                <path d="M162 57l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- Expense item -->
+                <rect x="25" y="88" width="170" height="42" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+                <circle cx="44" cy="109" r="11" fill="#3b82f6"/>
+                <text x="40" y="113" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">🍕</text>
+                <text x="62" y="104" fill="#e2e8f0" font-size="11.5" font-weight="600" font-family="sans-serif">Dinner Split</text>
+                <text x="62" y="119" fill="#10b981" font-size="10" font-weight="600" font-family="sans-serif">+$46.50 Settled</text>
+                <text x="160" y="112" fill="#f8fafc" font-size="12" font-weight="700" font-family="sans-serif">$140</text>
+                <!-- Avatar row -->
+                <circle cx="36" cy="155" r="9" fill="#ec4899"/>
+                <circle cx="50" cy="155" r="9" fill="#8b5cf6"/>
+                <circle cx="64" cy="155" r="9" fill="#06b6d4"/>
+                <rect x="80" y="146" width="115" height="18" rx="9" fill="#ff5a03" fill-opacity="0.2"/>
+                <text x="92" y="159" fill="#fdba74" font-size="9" font-weight="700" font-family="sans-serif">Astro • Tailwind v4</text>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">SplitsBugs</h4>
+                <p class="project-overlay-desc">A modern, full-stack expense splitting web app. Features real-time balances, secure authentication, and a stunning dark-mode UI.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">Astro</span>
+                  <span class="project-overlay-badge">Tailwind v4</span>
+                  <span class="project-overlay-badge">Firebase</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Dehaze -->
+          <div class="project-card" style="background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);" onclick="window.open('https://github.com/lotus-outlook-6/Dehaze-Foggy-Images', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #38bdf8;">Computer Vision Tool</div>
+              <h3 class="project-title">Dehaze</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#020617" stroke="#38bdf8" stroke-width="1.2"/>
+                <clipPath id="dehazeClip">
+                  <rect x="10" y="20" width="200" height="170" rx="16"/>
+                </clipPath>
+                <g clip-path="url(#dehazeClip)">
+                  <!-- Left side: Foggy mountain -->
+                  <path d="M-10 160L40 90L90 140L140 80L210 170Z" fill="#475569" opacity="0.6"/>
+                  <rect x="10" y="20" width="100" height="170" fill="#94a3b8" opacity="0.45"/>
+                  <text x="24" y="46" fill="#f1f5f9" font-size="10" font-weight="700" font-family="sans-serif">FOGGY INPUT</text>
+                  <!-- Right side: Crystal restored mountain -->
+                  <rect x="110" y="20" width="100" height="170" fill="#0369a1" opacity="0.3"/>
+                  <circle cx="170" cy="55" r="14" fill="#fbbf24"/>
+                  <path d="M100 160L140 85L180 130L210 95L240 170Z" fill="#0284c7"/>
+                  <text x="122" y="46" fill="#38bdf8" font-size="10" font-weight="700" font-family="sans-serif">RESTORED</text>
+                  <!-- Center divider line -->
+                  <line x1="110" y1="20" x2="110" y2="190" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3"/>
+                  <circle cx="110" cy="105" r="11" fill="#0284c7" stroke="#fff" stroke-width="1.5"/>
+                  <path d="M106 105l3-3m0 6l-3-3m8 0l-3-3m0 6l3-3" stroke="#fff" stroke-width="1.2"/>
+                  <!-- DCP algorithm tag -->
+                  <rect x="25" y="152" width="170" height="24" rx="8" fill="#0f172a" stroke="#1e293b"/>
+                  <text x="35" y="168" fill="#cbd5e1" font-size="9.5" font-weight="600" font-family="sans-serif">Dark Channel Prior (DCP)</text>
+                </g>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">Dehaze</h4>
+                <p class="project-overlay-desc">Single Image Haze Removal tool using the Dark Channel Prior algorithm (Python/OpenCV). Includes visualization of all processing steps.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">Python</span>
+                  <span class="project-overlay-badge">OpenCV</span>
+                  <span class="project-overlay-badge">DCP</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 3: PulseML -->
+          <div class="project-card" style="background: linear-gradient(145deg, #021a14 0%, #062b20 100%);" onclick="window.open('https://github.com/lotus-outlook-6/PulseML-WebApp', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #34d399;">IoT &amp; AI Healthcare</div>
+              <h3 class="project-title">PulseML</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#061f18" stroke="#10b981" stroke-width="1.2"/>
+                <!-- Telemetry box -->
+                <rect x="24" y="38" width="80" height="36" rx="8" fill="#03140f" stroke="#059669" stroke-width="0.8"/>
+                <text x="32" y="50" fill="#6ee7b7" font-size="8.5" font-weight="600" font-family="sans-serif">SpO2 PULSE</text>
+                <text x="32" y="66" fill="#34d399" font-size="14" font-weight="800" font-family="sans-serif">98%</text>
+                <rect x="116" y="38" width="80" height="36" rx="8" fill="#03140f" stroke="#059669" stroke-width="0.8"/>
+                <text x="124" y="50" fill="#6ee7b7" font-size="8.5" font-weight="600" font-family="sans-serif">HEART RATE</text>
+                <text x="124" y="66" fill="#34d399" font-size="14" font-weight="800" font-family="sans-serif">72 BPM</text>
+                <!-- Glowing ECG path -->
+                <path d="M15 115 H50 L58 95 L68 135 L78 75 L88 140 L98 105 L108 115 H140 L148 90 L158 135 L168 85 L178 130 L188 115 H205" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="178" cy="130" r="4" fill="#34d399"/>
+                <!-- ESP32 badge -->
+                <rect x="25" y="146" width="170" height="26" rx="8" fill="#042017" stroke="#059669" stroke-width="0.8"/>
+                <text x="38" y="163" fill="#a7f3d0" font-size="10" font-weight="600" font-family="sans-serif">⚡ ESP32 Real-Time ML Stream</text>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">PulseML</h4>
+                <p class="project-overlay-desc">AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native machine learning inference.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">JavaScript</span>
+                  <span class="project-overlay-badge">ESP32</span>
+                  <span class="project-overlay-badge">TensorFlow.js</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 4: ProteoPredict -->
+          <div class="project-card" style="background: linear-gradient(145deg, #1b0f2e 0%, #0d041a 100%);" onclick="window.open('https://github.com/lotus-outlook-6/ProteoPredict', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #c084fc;">Bioinformatics &amp; AI</div>
+              <h3 class="project-title">ProteoPredict</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#150a24" stroke="#8b5cf6" stroke-width="1.2"/>
+                <!-- Helix waves -->
+                <path d="M30 65 Q70 40 110 65 T190 65" stroke="#a855f7" stroke-width="2.5" fill="none"/>
+                <path d="M30 65 Q70 90 110 65 T190 65" stroke="#ec4899" stroke-width="2.5" fill="none"/>
+                <line x1="70" y1="48" x2="70" y2="82" stroke="#d8b4fe" stroke-width="1.8" stroke-dasharray="2 2"/>
+                <line x1="110" y1="65" x2="110" y2="65" stroke="#d8b4fe" stroke-width="1.8"/>
+                <line x1="150" y1="48" x2="150" y2="82" stroke="#d8b4fe" stroke-width="1.8" stroke-dasharray="2 2"/>
+                <circle cx="70" cy="48" r="4" fill="#a855f7"/>
+                <circle cx="70" cy="82" r="4" fill="#ec4899"/>
+                <circle cx="150" cy="48" r="4" fill="#a855f7"/>
+                <circle cx="150" cy="82" r="4" fill="#ec4899"/>
+                <!-- Model stats -->
+                <rect x="25" y="105" width="170" height="32" rx="8" fill="#0d041a" stroke="#4c1d95" stroke-width="1"/>
+                <text x="35" y="119" fill="#c084fc" font-size="9" font-weight="600" font-family="sans-serif">DEEP LEARNING MODEL</text>
+                <text x="35" y="131" fill="#f8fafc" font-size="11" font-weight="700" font-family="sans-serif">CNN + BiLSTM • 94.8% Acc</text>
+                <!-- Gemini pill -->
+                <rect x="25" y="146" width="170" height="26" rx="8" fill="#3b0764" stroke="#a855f7" stroke-width="0.8"/>
+                <text x="38" y="163" fill="#f3e8ff" font-size="10" font-weight="600" font-family="sans-serif">✨ Gemini AI Protein Insights</text>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">ProteoPredict</h4>
+                <p class="project-overlay-desc">Advanced Serverless Neural Network Inference for Protein Structure, Solubility, and Disorder using CNN + BiLSTM and Gemini AI.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">TensorFlow.js</span>
+                  <span class="project-overlay-badge">BiLSTM</span>
+                  <span class="project-overlay-badge">Gemini AI</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 5: GadiInfo -->
+          <div class="project-card" style="background: linear-gradient(145deg, #0a192f 0%, #081426 100%);" onclick="window.open('https://github.com/lotus-outlook-6/GadiInfo-Web', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #38bdf8;">Intelligence Scanner</div>
+              <h3 class="project-title">GadiInfo</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#07192d" stroke="#0284c7" stroke-width="1.2"/>
+                <!-- Scanner HUD -->
+                <path d="M40 70 H180 L160 120 H60 Z" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 3" fill="#0c2d48" fill-opacity="0.4"/>
+                <circle cx="75" cy="120" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+                <circle cx="145" cy="120" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+                <line x1="20" y1="95" x2="200" y2="95" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 2"/>
+                <!-- License plate -->
+                <rect x="45" y="140" width="130" height="28" rx="6" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="1"/>
+                <text x="56" y="158" fill="#f0f9ff" font-size="11" font-weight="800" font-family="sans-serif">AS 11 AB 2026</text>
+                <text x="145" y="157" fill="#38bdf8" font-size="9" font-weight="700" font-family="sans-serif">RC ✓</text>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">GadiInfo</h4>
+                <p class="project-overlay-desc">A modern, high-performance vehicle scanning tool featuring real-time intelligence gathering, vehicle verification, and secure authentication.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">TypeScript</span>
+                  <span class="project-overlay-badge">REST API</span>
+                  <span class="project-overlay-badge">Auth</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+          <!-- Card 6: Techfest 2025 -->
+          <div class="project-card" style="background: linear-gradient(145deg, #2b0b4a 0%, #150226 100%);" onclick="window.open('https://github.com/lotus-outlook-6/Techfest-2025-FBVA', '_blank')" role="button" tabindex="0">
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #f472b6;">Techfest Platform</div>
+              <h3 class="project-title">Techfest '25</h3>
+            </div>
+            <div class="project-visual-body">
+              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="20" width="200" height="170" rx="16" fill="#1b0730" stroke="#d946ef" stroke-width="1.2"/>
+                <circle cx="110" cy="85" r="38" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <circle cx="110" cy="85" r="26" stroke="#c084fc" stroke-width="1"/>
+                <polygon points="110,65 125,95 95,95" fill="#d946ef" opacity="0.6"/>
+                <text x="50" y="145" fill="#f5d0fe" font-size="11" font-weight="800" font-family="sans-serif">YANTRAKSH 2025</text>
+                <rect x="25" y="156" width="170" height="20" rx="6" fill="#4a044e"/>
+                <text x="35" y="170" fill="#fdf4ff" font-size="9" font-weight="600" font-family="sans-serif">React • Vite • TypeScript • Firebase</text>
+              </svg>
+            </div>
+            <div class="project-card-overlay">
+              <div>
+                <span class="project-overlay-header">GitHub Repository</span>
+                <h4 class="project-overlay-title">Techfest 2025</h4>
+                <p class="project-overlay-desc">Futuristic event management platform for the technical festival of Assam University. Built with React, Vite, TypeScript, and Firebase.</p>
+                <div class="project-overlay-tags">
+                  <span class="project-overlay-badge">React</span>
+                  <span class="project-overlay-badge">Vite</span>
+                  <span class="project-overlay-badge">Firebase</span>
+                </div>
+              </div>
+              <span class="project-overlay-btn">View on GitHub ↗</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Left / Right nav buttons below cards -->
+      <div class="projects-nav-row">
+        <button type="button" class="projects-nav-btn" id="projects-nav-prev" aria-label="Previous project">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </button>
+        <button type="button" class="projects-nav-btn" id="projects-nav-next" aria-label="Next project">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Highlights list below cards -->
+      <div class="projects-highlights-card">
+        <p class="projects-intro-text">I've got some exciting projects under my belt! Here are a few highlights:</p>
+        <ol class="projects-numbered-list">
+          <li>
+            <a href="https://github.com/lotus-outlook-6/SplitsBugs" target="_blank" rel="noopener noreferrer" class="proj-link">SplitsBugs</a>
+            <span class="proj-desc">– A modern, full-stack expense splitting web app. Built with Astro, Tailwind CSS v4, and Firebase. Features real-time balances, secure authentication, and a stunning dark-mode UI.</span>
+          </li>
+          <li>
+            <a href="https://github.com/lotus-outlook-6/PulseML-WebApp" target="_blank" rel="noopener noreferrer" class="proj-link">PulseML (ESP32 Health Monitor)</a>
+            <span class="proj-desc">– An AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native machine learning inference.</span>
+          </li>
+          <li>
+            <a href="https://github.com/lotus-outlook-6/ProteoPredict" target="_blank" rel="noopener noreferrer" class="proj-link">ProteoPredict Pro</a>
+            <span class="proj-desc">– Advanced serverless deep learning web app (CNN + BiLSTM + Gemini AI) for protein structure, solubility, and disorder prediction with in-browser TensorFlow.js inference.</span>
+          </li>
+          <li>
+            <a href="https://github.com/lotus-outlook-6/Dehaze-Foggy-Images" target="_blank" rel="noopener noreferrer" class="proj-link">Dehaze</a>
+            <span class="proj-desc">– Single-image haze removal tool using the Dark Channel Prior algorithm in Python and OpenCV, with visualizations of each processing step.</span>
+          </li>
+          <li>
+            <a href="https://github.com/lotus-outlook-6/GadiInfo-Web" target="_blank" rel="noopener noreferrer" class="proj-link">GadiInfo</a>
+            <span class="proj-desc">– Modern, high-performance vehicle scanning tool featuring real-time intelligence gathering and secure authentication.</span>
+          </li>
+          <li>
+            <a href="https://github.com/lotus-outlook-6/Techfest-2025-FBVA" target="_blank" rel="noopener noreferrer" class="proj-link">Techfest 2025 (FBVA)</a>
+            <span class="proj-desc">– The futuristic event management portal for the technical festival of Assam University, built with React, Vite, TypeScript, and Firebase.</span>
+          </li>
+        </ol>
+        <p class="projects-outro-text">
+          Right now, I'm focusing on building more innovative products that blend embedded electronics with intelligent web apps. Got any specific project you want to know more about? 😄
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 3: Skills -->
+    <div class="chat-section-view chat-section-skills" id="chat-section-skills" style="display: none;">
+      <h2 class="skills-main-title">Skills &amp; Expertise</h2>
+
+      <!-- Frontend -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">&lt;&gt;</span>
+          <span class="skills-group-name">Frontend Development</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">HTML5</span>
+          <span class="skill-badge">CSS3</span>
+          <span class="skill-badge">JavaScript</span>
+          <span class="skill-badge">TypeScript</span>
+          <span class="skill-badge">Tailwind CSS</span>
+          <span class="skill-badge">React</span>
+          <span class="skill-badge">Next.js</span>
+          <span class="skill-badge">Astro</span>
+          <span class="skill-badge">Vite</span>
+        </div>
+      </div>
+
+      <!-- Backend & Systems -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">⚙️</span>
+          <span class="skills-group-name">Backend &amp; Systems</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">Python</span>
+          <span class="skill-badge">C</span>
+          <span class="skill-badge">C++</span>
+          <span class="skill-badge">Linux/Unix</span>
+          <span class="skill-badge">Git</span>
+          <span class="skill-badge">GitHub</span>
+          <span class="skill-badge">Firebase</span>
+          <span class="skill-badge">REST APIs</span>
+          <span class="skill-badge">MATLAB</span>
+        </div>
+      </div>
+
+      <!-- Hardware, VLSI & IoT -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">⚡️</span>
+          <span class="skills-group-name">Hardware, VLSI &amp; IoT</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">ESP32</span>
+          <span class="skill-badge">LTspice</span>
+          <span class="skill-badge">Cadence Virtuoso</span>
+          <span class="skill-badge">Silvaco TCAD</span>
+          <span class="skill-badge">Cisco Packet Tracer</span>
+          <span class="skill-badge">Digital Electronics</span>
+          <span class="skill-badge">IoT Sensors</span>
+          <span class="skill-badge">Drone Tech</span>
+        </div>
+      </div>
+
+      <!-- Design & Creative Tools -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">🎨</span>
+          <span class="skills-group-name">Design &amp; Creative Tools</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">Figma</span>
+          <span class="skill-badge">Photoshop</span>
+          <span class="skill-badge">Premiere Pro</span>
+          <span class="skill-badge">After Effects</span>
+          <span class="skill-badge">Canva</span>
+          <span class="skill-badge">Photography</span>
+        </div>
+      </div>
+
+      <!-- Soft Skills -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">👥</span>
+          <span class="skills-group-name">Soft Skills</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">Communication</span>
+          <span class="skill-badge">Problem-Solving</span>
+          <span class="skill-badge">Adaptability</span>
+          <span class="skill-badge">Learning Agility</span>
+          <span class="skill-badge">Team Leadership</span>
+          <span class="skill-badge">PR Coordination</span>
+          <span class="skill-badge">Creativity</span>
+          <span class="skill-badge">Focus</span>
+        </div>
+      </div>
+
+      <!-- AI & Machine Learning -->
+      <div class="skills-group">
+        <div class="skills-group-header">
+          <span class="skills-group-icon">🧠</span>
+          <span class="skills-group-name">AI &amp; Machine Learning</span>
+        </div>
+        <div class="skills-pills-row">
+          <span class="skill-badge">TensorFlow</span>
+          <span class="skill-badge">TensorFlow.js</span>
+          <span class="skill-badge">Deep Learning (CNN, RNN, BiLSTM)</span>
+          <span class="skill-badge">Gemini AI</span>
+          <span class="skill-badge">Computer Vision (OpenCV)</span>
+          <span class="skill-badge">IoT Health ML</span>
+        </div>
+      </div>
+
+      <!-- Breakdown box -->
+      <div class="skills-summary-box">
+        <p class="skills-intro">I've got a mix of hard and soft skills that help me tackle projects like a pro! Here's a quick rundown:</p>
+        <div class="skills-breakdown-section">
+          <h4 class="skills-breakdown-heading">Hard Skills:</h4>
+          <ul class="skills-bullets-list">
+            <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript, TypeScript, Tailwind CSS, React, Astro</li>
+            <li><strong>Backend &amp; Languages:</strong> Python, C, C++, Linux, Git, Firebase, MATLAB</li>
+            <li><strong>Hardware &amp; VLSI:</strong> ESP32, LTspice, Cadence Virtuoso, Cisco Packet Tracer, Circuit Design</li>
+            <li><strong>AI &amp; Machine Learning:</strong> TensorFlow, TensorFlow.js, Deep Learning, OpenCV, Gemini AI</li>
+            <li><strong>Design:</strong> Photoshop, Premiere Pro, After Effects, Figma, Canva</li>
+          </ul>
+        </div>
+        <div class="skills-breakdown-section">
+          <h4 class="skills-breakdown-heading">Soft Skills:</h4>
+          <ul class="skills-bullets-list">
+            <li>Communication</li>
+            <li>Problem-Solving</li>
+            <li>Adaptability</li>
+            <li>Learning Agility</li>
+            <li>Team Leadership &amp; PR Coordination</li>
+            <li>Creativity</li>
+            <li>Focus</li>
+          </ul>
+        </div>
+        <p class="skills-closing-text">I'm always eager to learn more and improve! What skills are you looking to develop? 😄</p>
+      </div>
+    </div>
+
+    <!-- Section 4: Contact -->
+    <div class="chat-section-view chat-section-contact" id="chat-section-contact" style="display: none;">
+      <div class="contact-card">
+        <div class="contact-card-top">
+          <h2 class="contact-card-title">Contacts</h2>
+          <span class="contact-card-handle">@lotusoutlook</span>
+        </div>
+        <div class="contact-card-email-row">
+          <a href="mailto:kunalrabidas2004@gmail.com" class="contact-email-link">
+            <span>kunalrabidas2004@gmail.com</span>
+            <svg class="contact-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </a>
+        </div>
+        <div class="contact-socials-row">
+          <a href="https://linkedin.com/in/kunalrabidas6" target="_blank" rel="noopener noreferrer" class="contact-social-item">LinkedIn</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="contact-social-item">YouTube</a>
+          <a href="https://instagram.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">Instagram</a>
+          <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="contact-social-item">Discord</a>
+          <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer" class="contact-social-item">Github</a>
+          <a href="https://x.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">X</a>
+        </div>
+      </div>
+      <p class="contact-outro-message">
+        You can reach me through the contact info above! Feel free to hit me up anytime, I'd be happy to chat! 😉 What's on your mind?
+      </p>
+    </div>
+
+    <!-- Section 5: Resume (Loading spinner only) -->
+    <div class="chat-section-view chat-section-resume" id="chat-section-resume" style="display: none;">
+      <div class="resume-loading-card">
+        <div class="resume-spinner-circle"></div>
+        <span class="resume-loading-label">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Section 6: Custom Question (Fallback AI answer card) -->
+    <div class="chat-section-view chat-section-custom" id="chat-section-custom" style="display: none;">
+      <div class="chat-answer-card">
+        <div class="chat-answer-top-grid">
+          <div class="chat-answer-photo-wrapper">
+            <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="chat-answer-photo">
+          </div>
+          <div class="chat-answer-profile-info">
+            <div class="chat-answer-name-ghost">Kunal Rabidas</div>
+            <div class="chat-answer-meta-row">
+              <span class="chat-answer-meta-text">ECE Student • Silchar, India</span>
+            </div>
+            <div class="chat-answer-intro-text" id="chat-custom-intro-text"></div>
+            <div class="chat-answer-tags-row" id="chat-custom-tags-row"></div>
+          </div>
+        </div>
+        <div class="chat-answer-body-text" id="chat-custom-body-text"></div>
+      </div>
+    </div>
+
   </div>
 
   <div class="chat-bottom-bar">
+    <button type="button" class="chat-toggle-questions-btn" id="chat-toggle-questions-btn">
+      <svg class="chat-toggle-chevron" id="chat-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+      <span id="chat-toggle-text">Hide quick questions</span>
+    </button>
     <div class="chat-options-row" id="chat-options-row">
       <button type="button" class="chat-pill-btn" data-chat-key="me">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laugh"><circle cx="12" cy="12" r="10"></circle><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"></path><line x1="9" x2="9.01" y1="9" y2="9"></line><line x1="15" x2="15.01" y1="9" y2="9"></line></svg>
@@ -1187,55 +1758,341 @@ body.chat-sheet-open {
     };
   };
 
-  const renderAnswer = (info) => {
-    if (!chatAnswerContainer) return;
-    chatAnswerContainer.style.display = 'block';
-    retriggerAnim(chatAnswerContainer);
+  let currentActiveTab = null;
+  const isTabRendered = {
+    me: false,
+    projects: false,
+    skills: false,
+    contact: false,
+    resume: false
+  };
 
-    const introEl = document.getElementById('chat-answer-intro-text');
-    const bodyEl = document.getElementById('chat-answer-body-text');
-    const tagsRow = document.getElementById('chat-answer-tags-row');
+  // WebGL Photo Generation Simulation for Me
+  let mePhotoGlLoopId = null;
 
-    if (tagsRow) {
-      tagsRow.innerHTML = '';
-      (info.tags || []).forEach(tag => {
-        const sp = document.createElement('span');
-        sp.className = 'chat-tag';
-        sp.textContent = tag;
-        tagsRow.appendChild(sp);
-      });
+  const startMePhotoCanvas = () => {
+    const canvas = document.getElementById('me-photo-canvas');
+    if (!canvas) return;
+    const badge = document.getElementById('me-gen-badge');
+    const img = document.getElementById('me-photo-img');
+    if (badge) badge.style.opacity = '1';
+    if (img) img.classList.remove('loaded');
+    canvas.style.opacity = '1';
+
+    const gl = canvas.getContext('webgl');
+    if (!gl) return;
+
+    const vsSource = `
+      attribute vec2 position;
+      void main() {
+        gl_Position = vec4(position, 0.0, 1.0);
+      }
+    `;
+    const fsSource = `
+      precision highp float;
+      uniform vec2 u_resolution;
+      uniform float u_time;
+
+      // Swirling fluid distortion to mimic silk liquid marble
+      vec2 swirl(vec2 p, float t) {
+        for (int i = 1; i <= 3; i++) {
+          float fi = float(i);
+          p.x += 0.35 / fi * sin(fi * 2.2 * p.y + t * 0.45 + 0.3 * fi);
+          p.y += 0.35 / fi * cos(fi * 2.2 * p.x - t * 0.45 + 0.5 * fi);
+        }
+        return p;
+      }
+
+      void main() {
+        vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+        float t = u_time * 0.65;
+
+        // Fluid domain warping
+        vec2 q = swirl(p * 1.15, t);
+        vec2 r = swirl(q + vec2(1.6, 8.8), t * 0.75);
+
+        // Wave blend weights
+        float f = 0.5 + 0.5 * sin(r.x * 2.4 + r.y * 1.8 + t);
+        float g = 0.5 + 0.5 * cos(length(q) * 2.6 - t * 0.6);
+        float h = 0.5 + 0.5 * sin(q.x * 2.8 - q.y * 1.9 + t * 0.5);
+
+        // Curated soft pastel palette matching user images:
+        // Soft pastel pink, delicate lilac, mint green, peach, powder sky, pearl white
+        vec3 colPink   = vec3(1.0, 0.74, 0.86);  // #ffbce0 (Images 2 & 4)
+        vec3 colLilac  = vec3(0.89, 0.82, 0.98); // #e3d1fa (Image 2)
+        vec3 colMint   = vec3(0.78, 0.96, 0.88); // #c7f5e0 (Images 3 & 4)
+        vec3 colPeach  = vec3(1.0, 0.92, 0.82);  // #ffebd1 (Images 2 & 3)
+        vec3 colSky    = vec3(0.82, 0.91, 0.99); // #d1e8fc (Image 4)
+        vec3 colWhite  = vec3(0.99, 0.99, 1.0);  // light silk highlight
+
+        // Multi-layer smooth liquid blending
+        vec3 color = mix(colWhite, colPink, f * 0.55);
+        color = mix(color, colLilac, g * 0.48);
+        color = mix(color, colMint, h * 0.44);
+        color = mix(color, colSky, (1.0 - f) * 0.35);
+        color = mix(color, colPeach, (f * g) * 0.38);
+
+        // Luminous highlight waves (soft white silk shimmer)
+        float highlight = smoothstep(0.72, 0.98, sin(r.x * 3.2 + r.y * 3.2 + t));
+        color += colWhite * (highlight * 0.2);
+
+        // Keep strictly light and airy (no dark/muddy edges or dark vignetting)
+        color = clamp(color, 0.0, 1.0);
+        color = mix(vec3(0.965), color, 0.82);
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    const createShader = (type, source) => {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, source);
+      gl.compileShader(s);
+      return s;
+    };
+    const prog = gl.createProgram();
+    gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vsSource));
+    gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fsSource));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const posBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1, -1,
+       1, -1,
+      -1,  1,
+      -1,  1,
+       1, -1,
+       1,  1
+    ]), gl.STATIC_DRAW);
+
+    const posLoc = gl.getAttribLocation(prog, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const uResLoc = gl.getUniformLocation(prog, 'u_resolution');
+    const uTimeLoc = gl.getUniformLocation(prog, 'u_time');
+
+    const startTime = performance.now();
+    if (mePhotoGlLoopId) cancelAnimationFrame(mePhotoGlLoopId);
+
+    const render = () => {
+      const now = performance.now();
+      const elapsed = (now - startTime) / 1000.0;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(uResLoc, canvas.width, canvas.height);
+      gl.uniform1f(uTimeLoc, elapsed);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      mePhotoGlLoopId = requestAnimationFrame(render);
+    };
+    mePhotoGlLoopId = requestAnimationFrame(render);
+  };
+
+  const stopMePhotoCanvas = () => {
+    if (mePhotoGlLoopId) {
+      cancelAnimationFrame(mePhotoGlLoopId);
+      mePhotoGlLoopId = null;
+    }
+    const canvas = document.getElementById('me-photo-canvas');
+    const badge = document.getElementById('me-gen-badge');
+    const img = document.getElementById('me-photo-img');
+    if (canvas) canvas.style.opacity = '0';
+    if (badge) badge.style.opacity = '0';
+    if (img) img.classList.add('loaded');
+  };
+
+  // Projects auto-scrolling controller
+  let projectsAutoScrollId = null;
+  let isProjectsHovered = false;
+
+  const initProjectsCarousel = () => {
+    const track = document.getElementById('projects-carousel-track');
+    const prevBtn = document.getElementById('projects-nav-prev');
+    const nextBtn = document.getElementById('projects-nav-next');
+    if (!track) return;
+
+    if (prevBtn) {
+      prevBtn.onclick = () => track.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+    if (nextBtn) {
+      nextBtn.onclick = () => track.scrollBy({ left: 300, behavior: 'smooth' });
     }
 
-    if (introEl && bodyEl) {
-      introEl.innerHTML = '';
-      bodyEl.innerHTML = '';
-      // introEl cursor is automatically removed when it completes
-      const cancel1 = typewriteText(introEl, info.intro, 14, () => {
-        // bodyEl cursor is automatically removed when it completes
-        const cancel2 = typewriteText(bodyEl, info.body, 12);
-        currentTypingAbort = () => {
-          cancel2();
-        };
-      });
-      currentTypingAbort = () => {
-        cancel1();
+    track.onmouseenter = () => { isProjectsHovered = true; };
+    track.onmouseleave = () => { isProjectsHovered = false; };
+
+    if (!projectsAutoScrollId) {
+      const stepScroll = () => {
+        if (!isProjectsHovered && currentActiveTab === 'projects' && track) {
+          track.scrollLeft += 0.7;
+          if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) {
+            track.scrollLeft = 0;
+          }
+        }
+        projectsAutoScrollId = requestAnimationFrame(stepScroll);
       };
+      projectsAutoScrollId = requestAnimationFrame(stepScroll);
     }
+  };
+
+  // Me section sequential animation timers
+  let meTimers = [];
+  const clearMeTimers = () => {
+    meTimers.forEach(id => clearTimeout(id));
+    meTimers = [];
+  };
+
+  const renderMeSection = () => {
+    clearMeTimers();
+
+    const firstName = document.getElementById('me-first-name');
+    const lastName = document.getElementById('me-last-name');
+    const metaUnits = [
+      document.getElementById('meta-ece'),
+      document.getElementById('meta-student'),
+      document.getElementById('meta-dot'),
+      document.getElementById('meta-silchar'),
+      document.getElementById('meta-comma'),
+      document.getElementById('meta-assam')
+    ];
+    const introEl = document.getElementById('me-intro-text');
+    const chips = Array.from(document.querySelectorAll('.me-tags-row .me-chip'));
+    const bioContainer = document.getElementById('me-bio-container');
+
+    // Reset initial states
+    if (firstName) firstName.classList.remove('slide-in');
+    if (lastName) lastName.classList.remove('slide-in');
+    metaUnits.forEach(u => {
+      if (u) {
+        u.classList.remove('slide-in');
+        u.classList.remove('pop-in');
+      }
+    });
+    if (introEl) introEl.innerHTML = '';
+    chips.forEach(c => c.classList.remove('pop-in'));
+    if (bioContainer) bioContainer.classList.remove('visible');
+
+    // 0s: Start WebGL avatar swirling generation canvas
+    startMePhotoCanvas();
+
+    // 0.1s: "Kunal" slides down
+    meTimers.push(setTimeout(() => {
+      if (firstName) firstName.classList.add('slide-in');
+    }, 100));
+
+    // 0.5s: "Rabidas" slides down
+    meTimers.push(setTimeout(() => {
+      if (lastName) lastName.classList.add('slide-in');
+    }, 500));
+
+    // Meta elements word-by-word (ECE student • Silchar, Assam)
+    const metaSchedule = [
+      { el: metaUnits[0], type: 'slide-in', delay: 950 },  // ECE
+      { el: metaUnits[1], type: 'slide-in', delay: 1250 }, // student
+      { el: metaUnits[2], type: 'pop-in',   delay: 1550 }, // •
+      { el: metaUnits[3], type: 'slide-in', delay: 1850 }, // Silchar
+      { el: metaUnits[4], type: 'pop-in',   delay: 2150 }, // ,
+      { el: metaUnits[5], type: 'slide-in', delay: 2450 }  // Assam
+    ];
+    metaSchedule.forEach(item => {
+      meTimers.push(setTimeout(() => {
+        if (item.el) item.el.classList.add(item.type);
+      }, item.delay));
+    });
+
+    // 2.8s: Intro text tokens with waving hand emoji
+    const tokens = [
+      { t: 'word', v: 'Hey' },
+      { t: 'hand', v: '👋' },
+      { t: 'word', v: 'I' },
+      { t: 'word', v: 'am' },
+      { t: 'word', v: 'Kunal' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'an' },
+      { t: 'word', v: 'ECE' },
+      { t: 'word', v: 'student' },
+      { t: 'word', v: 'passionate' },
+      { t: 'word', v: 'about' },
+      { t: 'word', v: 'electronics' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'AI' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'and' },
+      { t: 'word', v: 'software' },
+      { t: 'word', v: 'engineering' },
+      { t: 'punct', v: '.' }
+    ];
+
+    tokens.forEach((tok, i) => {
+      meTimers.push(setTimeout(() => {
+        if (!introEl) return;
+        if (tok.t === 'hand') {
+          const sp = document.createElement('span');
+          sp.className = 'wave-hand';
+          sp.textContent = tok.v;
+          sp.title = 'Say hi!';
+          introEl.appendChild(sp);
+        } else if (tok.t === 'punct') {
+          const sp = document.createElement('span');
+          sp.className = 'me-token-punct pop-in';
+          sp.textContent = tok.v;
+          introEl.appendChild(sp);
+        } else {
+          const sp = document.createElement('span');
+          sp.className = 'me-token-word slide-in';
+          sp.textContent = tok.v;
+          introEl.appendChild(sp);
+        }
+      }, 2800 + i * 65));
+    });
+
+    // 4.1s: Chips staggered pop in
+    chips.forEach((c, idx) => {
+      meTimers.push(setTimeout(() => {
+        c.classList.add('pop-in');
+      }, 4100 + idx * 110));
+    });
+
+    // 5.2s: Generation completes, reveal photo & formatted bio
+    meTimers.push(setTimeout(() => {
+      stopMePhotoCanvas();
+      if (bioContainer) bioContainer.classList.add('visible');
+      isTabRendered.me = true;
+    }, 5200));
   };
 
   const showChatView = (query, activeKey) => {
     if (!query) query = queryMap.projects;
     if (!activeKey) {
       const qLower = query.trim().toLowerCase();
-      activeKey = Object.keys(queryMap).find(k => queryMap[k].toLowerCase() === qLower) || '';
+      if (qLower.includes('project')) activeKey = 'projects';
+      else if (qLower.includes('skill')) activeKey = 'skills';
+      else if (qLower.includes('contact') || qLower.includes('reach') || qLower.includes('hire')) activeKey = 'contact';
+      else if (qLower.includes('resume') || qLower.includes('cv')) activeKey = 'resume';
+      else if (qLower.includes('who are you') || qLower.includes('about you') || qLower.includes('me')) activeKey = 'me';
+      else activeKey = 'custom';
     }
 
-    const isFirstEnter = !chatView.classList.contains('active');
+    // Audio requirement: If already active and rendered, DO NOT regenerate!
+    if (activeKey === currentActiveTab && isTabRendered[activeKey]) {
+      return;
+    }
 
+    // If leaving 'me' to another tab, reset isTabRendered.me so returning will replay
+    if (currentActiveTab === 'me' && activeKey !== 'me') {
+      isTabRendered.me = false;
+      clearMeTimers();
+      stopMePhotoCanvas();
+    }
+
+    currentActiveTab = activeKey;
+
+    const isFirstEnter = !chatView.classList.contains('active');
     if (homeView) homeView.style.display = 'none';
     if (chatView) chatView.classList.add('active');
 
-    // Cancel any ongoing timer or typewriter
+    // Cancel typing or timeout
     if (answerTimeoutId) {
       clearTimeout(answerTimeoutId);
       answerTimeoutId = null;
@@ -1245,23 +2102,12 @@ body.chat-sheet-open {
       currentTypingAbort = null;
     }
 
-    // Hide answer container while thinking
-    if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
-    updateScrollFeather();
+    // Hide question bubble & dots
+    if (chatQueryContainer) chatQueryContainer.style.display = 'none';
+    if (chatTypingContainer) chatTypingContainer.style.display = 'none';
 
-    // Show query bubble & typing dots
-    if (chatQueryContainer) {
-      chatQueryContainer.style.display = '';
-      chatQueryContainer.style.opacity = '1';
-    }
-    if (chatBubble) {
-      chatBubble.textContent = query;
-      retriggerAnim(chatBubble);
-    }
-    if (chatTypingContainer) {
-      chatTypingContainer.style.display = '';
-      chatTypingContainer.style.opacity = '1';
-    }
+    // Show answer container
+    if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
 
     // Only play search bar expand and buttons rise animation on first entrance
     if (isFirstEnter) {
@@ -1282,16 +2128,115 @@ body.chat-sheet-open {
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
 
-    // Schedule 5-second thinking animation, then reveal AI answer and hide question
-    answerTimeoutId = setTimeout(() => {
-      if (chatQueryContainer) chatQueryContainer.style.display = 'none';
-      if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+    // Hide all view sections
+    const sections = {
+      me: document.getElementById('chat-section-me'),
+      projects: document.getElementById('chat-section-projects'),
+      skills: document.getElementById('chat-section-skills'),
+      contact: document.getElementById('chat-section-contact'),
+      resume: document.getElementById('chat-section-resume'),
+      custom: document.getElementById('chat-section-custom')
+    };
+    Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
 
+    // Manage wide-mode for container
+    if (chatAnswerContainer) {
+      if (activeKey === 'projects') {
+        chatAnswerContainer.classList.add('wide-mode');
+      } else {
+        chatAnswerContainer.classList.remove('wide-mode');
+      }
+    }
+
+    // Show selected section
+    if (activeKey === 'me') {
+      if (sections.me) sections.me.style.display = 'block';
+      renderMeSection();
+    } else if (activeKey === 'projects') {
+      if (sections.projects) sections.projects.style.display = 'block';
+      initProjectsCarousel();
+      isTabRendered.projects = true;
+    } else if (activeKey === 'skills') {
+      if (sections.skills) sections.skills.style.display = 'block';
+      isTabRendered.skills = true;
+    } else if (activeKey === 'contact') {
+      if (sections.contact) sections.contact.style.display = 'block';
+      isTabRendered.contact = true;
+    } else if (activeKey === 'resume') {
+      if (sections.resume) sections.resume.style.display = 'flex';
+      isTabRendered.resume = true;
+    } else {
+      if (sections.custom) sections.custom.style.display = 'block';
       const info = getAnswerData(query, activeKey);
-      renderAnswer(info);
-      updateScrollFeather();
-    }, 5000);
+      const introEl = document.getElementById('chat-custom-intro-text');
+      const bodyEl = document.getElementById('chat-custom-body-text');
+      const tagsRow = document.getElementById('chat-custom-tags-row');
+      if (tagsRow) {
+        tagsRow.innerHTML = '';
+        (info.tags || []).forEach(tag => {
+          const sp = document.createElement('span');
+          sp.className = 'chat-tag';
+          sp.textContent = tag;
+          tagsRow.appendChild(sp);
+        });
+      }
+      if (introEl && bodyEl) {
+        introEl.innerHTML = '';
+        bodyEl.innerHTML = '';
+        const cancel1 = typewriteText(introEl, info.intro, 14, () => {
+          const cancel2 = typewriteText(bodyEl, info.body, 12);
+          currentTypingAbort = () => cancel2();
+        });
+        currentTypingAbort = () => cancel1();
+      }
+    }
+
+    updateScrollFeather();
+    updateBottomFeather();
   };
+
+  // Bottom feather controller: dynamically keeps the feather ~55px above the top control element
+  const chatBottomFeather = document.getElementById('chat-bottom-feather');
+  const updateBottomFeather = () => {
+    if (!chatBottomFeather) return;
+    const bottomBar = document.querySelector('.chat-bottom-bar');
+    if (!bottomBar) return;
+    const barRect = bottomBar.getBoundingClientRect();
+    const barDistFromBottom = Math.max(0, window.innerHeight - barRect.top);
+    const targetHeight = Math.round(barDistFromBottom + 55);
+    chatBottomFeather.style.height = `${targetHeight}px`;
+    if (isQuestionsHidden) {
+      chatBottomFeather.classList.add('collapsed');
+    } else {
+      chatBottomFeather.classList.remove('collapsed');
+    }
+  };
+
+  // Quick questions toggle button logic
+  const toggleQuestionsBtn = document.getElementById('chat-toggle-questions-btn');
+  const toggleQuestionsText = document.getElementById('chat-toggle-text');
+  const toggleQuestionsChevron = document.getElementById('chat-toggle-chevron');
+  let isQuestionsHidden = false;
+
+  if (toggleQuestionsBtn) {
+    toggleQuestionsBtn.addEventListener('click', () => {
+      isQuestionsHidden = !isQuestionsHidden;
+      if (chatOptsRow) {
+        if (isQuestionsHidden) {
+          chatOptsRow.classList.add('collapsed');
+          if (toggleQuestionsText) toggleQuestionsText.textContent = 'Show quick questions';
+          if (toggleQuestionsChevron) toggleQuestionsChevron.style.transform = 'rotate(180deg)';
+        } else {
+          chatOptsRow.classList.remove('collapsed');
+          if (toggleQuestionsText) toggleQuestionsText.textContent = 'Hide quick questions';
+          if (toggleQuestionsChevron) toggleQuestionsChevron.style.transform = 'rotate(0deg)';
+        }
+      }
+      updateBottomFeather();
+    });
+  }
+
+  window.addEventListener('resize', updateBottomFeather);
 
   const showHomeView = () => {
     if (answerTimeoutId) {
