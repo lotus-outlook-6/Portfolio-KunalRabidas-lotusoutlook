@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=33">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -66,22 +66,21 @@
   bottom: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 230px;
+  height: 200px;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.45) 20%,
-    rgba(255, 255, 255, 0.85) 45%,
-    rgba(255, 255, 255, 0.98) 70%,
-    rgba(255, 255, 255, 1) 88%,
-    rgba(255, 255, 255, 1) 100%
+    rgba(255, 255, 255, 0.65) 18%,
+    rgba(255, 255, 255, 0.98) 32%,
+    #ffffff 44%,
+    #ffffff 100%
   ) !important;
   pointer-events: none !important;
   z-index: 35 !important;
   transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .chat-bottom-feather.collapsed {
-  height: 155px !important;
+  height: 140px !important;
 }
 .chat-avatar-squircle {
   width: 100px !important;
@@ -498,10 +497,6 @@ body.chat-sheet-open {
   animation: answerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   transition: max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.chat-answer-container.wide-mode,
-.chat-answer-container:has(#chat-section-projects:not([style*="display: none"])) {
-  max-width: 980px !important;
-}
 @keyframes answerFadeIn {
   from {
     opacity: 0;
@@ -787,6 +782,35 @@ body.chat-sheet-open {
               <span class="me-chip" data-idx="5">Web &amp; AI</span>
               <span class="me-chip" data-idx="6">IoT</span>
             </div>
+
+            <!-- Credentials / Education Card in utilized space next to avatar -->
+            <div class="me-credentials-card" id="me-credentials-card">
+              <div class="me-cred-item">
+                <span class="me-cred-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                  </svg>
+                </span>
+                <div class="me-cred-details">
+                  <span class="me-cred-title">B.Tech in Electronics &amp; Comm. Eng.</span>
+                  <span class="me-cred-sub">Assam University, Silchar • CGPA: 7.12</span>
+                </div>
+              </div>
+              <div class="me-cred-item">
+                <span class="me-cred-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="6"/>
+                    <circle cx="12" cy="12" r="2"/>
+                  </svg>
+                </span>
+                <div class="me-cred-details">
+                  <span class="me-cred-title">Focus &amp; Systems</span>
+                  <span class="me-cred-sub">Embedded AI, IoT Telemetry &amp; Full-Stack Web</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -813,260 +837,186 @@ body.chat-sheet-open {
         <div class="projects-carousel-track" id="projects-carousel-track">
 
           <!-- Card 1: SplitsBugs -->
-          <div class="project-card" style="background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);" onclick="window.open('https://github.com/lotus-outlook-6/SplitsBugs', '_blank')" role="button" tabindex="0">
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/SplitsBugs" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open SplitsBugs on GitHub" title="Open SplitsBugs on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+              </svg>
+            </a>
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #fb923c;">Full-Stack Web App</div>
               <h3 class="project-title">SplitsBugs</h3>
+              <p class="project-desc">A modern, full-stack expense splitting web app. Features real-time group balances, secure user authentication, and responsive dark-mode styling.</p>
             </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#1e293b" fill-opacity="0.75" stroke="#ff5a03" stroke-width="1.2"/>
-                <rect x="25" y="38" width="170" height="38" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-                <text x="38" y="54" fill="#94a3b8" font-size="10" font-weight="600" font-family="sans-serif">GROUP LEDGER</text>
-                <text x="38" y="69" fill="#f8fafc" font-size="13" font-weight="700" font-family="sans-serif">$420.50 Total</text>
-                <circle cx="165" cy="57" r="10" fill="#ff5a03"/>
-                <path d="M162 57l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-                <!-- Expense item -->
-                <rect x="25" y="88" width="170" height="42" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-                <circle cx="44" cy="109" r="11" fill="#3b82f6"/>
-                <text x="40" y="113" fill="#fff" font-size="10" font-weight="700" font-family="sans-serif">🍕</text>
-                <text x="62" y="104" fill="#e2e8f0" font-size="11.5" font-weight="600" font-family="sans-serif">Dinner Split</text>
-                <text x="62" y="119" fill="#10b981" font-size="10" font-weight="600" font-family="sans-serif">+$46.50 Settled</text>
-                <text x="160" y="112" fill="#f8fafc" font-size="12" font-weight="700" font-family="sans-serif">$140</text>
-                <!-- Avatar row -->
-                <circle cx="36" cy="155" r="9" fill="#ec4899"/>
-                <circle cx="50" cy="155" r="9" fill="#8b5cf6"/>
-                <circle cx="64" cy="155" r="9" fill="#06b6d4"/>
-                <rect x="80" y="146" width="115" height="18" rx="9" fill="#ff5a03" fill-opacity="0.2"/>
-                <text x="92" y="159" fill="#fdba74" font-size="9" font-weight="700" font-family="sans-serif">Astro • Tailwind v4</text>
-              </svg>
-            </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">SplitsBugs</h4>
-                <p class="project-overlay-desc">A modern, full-stack expense splitting web app. Features real-time balances, secure authentication, and a stunning dark-mode UI.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">Astro</span>
-                  <span class="project-overlay-badge">Tailwind v4</span>
-                  <span class="project-overlay-badge">Firebase</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">Astro</span>
+                <span class="project-tag-pill">Tailwind v4</span>
+                <span class="project-tag-pill">Firebase</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row">
+                <a href="https://splits-bugs.vercel.app" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Visit</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
           <!-- Card 2: Dehaze -->
-          <div class="project-card" style="background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);" onclick="window.open('https://github.com/lotus-outlook-6/Dehaze-Foggy-Images', '_blank')" role="button" tabindex="0">
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/Dehaze-Foggy-Images" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open Dehaze on GitHub" title="Open Dehaze on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+              </svg>
+            </a>
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #38bdf8;">Computer Vision Tool</div>
               <h3 class="project-title">Dehaze</h3>
+              <p class="project-desc">Single image haze removal engine implementing the Dark Channel Prior (DCP) algorithm in Python and OpenCV with step-by-step atmospheric transmission visualization.</p>
             </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#020617" stroke="#38bdf8" stroke-width="1.2"/>
-                <clipPath id="dehazeClip">
-                  <rect x="10" y="20" width="200" height="170" rx="16"/>
-                </clipPath>
-                <g clip-path="url(#dehazeClip)">
-                  <!-- Left side: Foggy mountain -->
-                  <path d="M-10 160L40 90L90 140L140 80L210 170Z" fill="#475569" opacity="0.6"/>
-                  <rect x="10" y="20" width="100" height="170" fill="#94a3b8" opacity="0.45"/>
-                  <text x="24" y="46" fill="#f1f5f9" font-size="10" font-weight="700" font-family="sans-serif">FOGGY INPUT</text>
-                  <!-- Right side: Crystal restored mountain -->
-                  <rect x="110" y="20" width="100" height="170" fill="#0369a1" opacity="0.3"/>
-                  <circle cx="170" cy="55" r="14" fill="#fbbf24"/>
-                  <path d="M100 160L140 85L180 130L210 95L240 170Z" fill="#0284c7"/>
-                  <text x="122" y="46" fill="#38bdf8" font-size="10" font-weight="700" font-family="sans-serif">RESTORED</text>
-                  <!-- Center divider line -->
-                  <line x1="110" y1="20" x2="110" y2="190" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3"/>
-                  <circle cx="110" cy="105" r="11" fill="#0284c7" stroke="#fff" stroke-width="1.5"/>
-                  <path d="M106 105l3-3m0 6l-3-3m8 0l-3-3m0 6l3-3" stroke="#fff" stroke-width="1.2"/>
-                  <!-- DCP algorithm tag -->
-                  <rect x="25" y="152" width="170" height="24" rx="8" fill="#0f172a" stroke="#1e293b"/>
-                  <text x="35" y="168" fill="#cbd5e1" font-size="9.5" font-weight="600" font-family="sans-serif">Dark Channel Prior (DCP)</text>
-                </g>
-              </svg>
-            </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">Dehaze</h4>
-                <p class="project-overlay-desc">Single Image Haze Removal tool using the Dark Channel Prior algorithm (Python/OpenCV). Includes visualization of all processing steps.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">Python</span>
-                  <span class="project-overlay-badge">OpenCV</span>
-                  <span class="project-overlay-badge">DCP</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">Python</span>
+                <span class="project-tag-pill">OpenCV</span>
+                <span class="project-tag-pill">DCP Algorithm</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row">
+                <a href="https://docs.google.com/document/d/15qjgXZTGUXbLslvYST6hWZIAoHfUMM5HzY9ak0J2A_Y/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Visit</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
           <!-- Card 3: PulseML -->
-          <div class="project-card" style="background: linear-gradient(145deg, #021a14 0%, #062b20 100%);" onclick="window.open('https://github.com/lotus-outlook-6/PulseML-WebApp', '_blank')" role="button" tabindex="0">
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/PulseML-WebApp" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open PulseML on GitHub" title="Open PulseML on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+              </svg>
+            </a>
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #34d399;">IoT &amp; AI Healthcare</div>
               <h3 class="project-title">PulseML</h3>
+              <p class="project-desc">AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring with ESP32 streaming and in-browser machine learning inference.</p>
             </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#061f18" stroke="#10b981" stroke-width="1.2"/>
-                <!-- Telemetry box -->
-                <rect x="24" y="38" width="80" height="36" rx="8" fill="#03140f" stroke="#059669" stroke-width="0.8"/>
-                <text x="32" y="50" fill="#6ee7b7" font-size="8.5" font-weight="600" font-family="sans-serif">SpO2 PULSE</text>
-                <text x="32" y="66" fill="#34d399" font-size="14" font-weight="800" font-family="sans-serif">98%</text>
-                <rect x="116" y="38" width="80" height="36" rx="8" fill="#03140f" stroke="#059669" stroke-width="0.8"/>
-                <text x="124" y="50" fill="#6ee7b7" font-size="8.5" font-weight="600" font-family="sans-serif">HEART RATE</text>
-                <text x="124" y="66" fill="#34d399" font-size="14" font-weight="800" font-family="sans-serif">72 BPM</text>
-                <!-- Glowing ECG path -->
-                <path d="M15 115 H50 L58 95 L68 135 L78 75 L88 140 L98 105 L108 115 H140 L148 90 L158 135 L168 85 L178 130 L188 115 H205" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="178" cy="130" r="4" fill="#34d399"/>
-                <!-- ESP32 badge -->
-                <rect x="25" y="146" width="170" height="26" rx="8" fill="#042017" stroke="#059669" stroke-width="0.8"/>
-                <text x="38" y="163" fill="#a7f3d0" font-size="10" font-weight="600" font-family="sans-serif">⚡ ESP32 Real-Time ML Stream</text>
-              </svg>
-            </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">PulseML</h4>
-                <p class="project-overlay-desc">AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native machine learning inference.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">JavaScript</span>
-                  <span class="project-overlay-badge">ESP32</span>
-                  <span class="project-overlay-badge">TensorFlow.js</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">ESP32</span>
+                <span class="project-tag-pill">TensorFlow.js</span>
+                <span class="project-tag-pill">IoT Stream</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row"></div>
             </div>
           </div>
 
           <!-- Card 4: ProteoPredict -->
-          <div class="project-card" style="background: linear-gradient(145deg, #1b0f2e 0%, #0d041a 100%);" onclick="window.open('https://github.com/lotus-outlook-6/ProteoPredict', '_blank')" role="button" tabindex="0">
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/ProteoPredict" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open ProteoPredict on GitHub" title="Open ProteoPredict on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
+              </svg>
+            </a>
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #c084fc;">Bioinformatics &amp; AI</div>
               <h3 class="project-title">ProteoPredict</h3>
+              <p class="project-desc">Advanced serverless deep learning engine for protein structure, solubility, and disorder prediction using hybrid CNN + BiLSTM architecture with Gemini AI.</p>
             </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#150a24" stroke="#8b5cf6" stroke-width="1.2"/>
-                <!-- Helix waves -->
-                <path d="M30 65 Q70 40 110 65 T190 65" stroke="#a855f7" stroke-width="2.5" fill="none"/>
-                <path d="M30 65 Q70 90 110 65 T190 65" stroke="#ec4899" stroke-width="2.5" fill="none"/>
-                <line x1="70" y1="48" x2="70" y2="82" stroke="#d8b4fe" stroke-width="1.8" stroke-dasharray="2 2"/>
-                <line x1="110" y1="65" x2="110" y2="65" stroke="#d8b4fe" stroke-width="1.8"/>
-                <line x1="150" y1="48" x2="150" y2="82" stroke="#d8b4fe" stroke-width="1.8" stroke-dasharray="2 2"/>
-                <circle cx="70" cy="48" r="4" fill="#a855f7"/>
-                <circle cx="70" cy="82" r="4" fill="#ec4899"/>
-                <circle cx="150" cy="48" r="4" fill="#a855f7"/>
-                <circle cx="150" cy="82" r="4" fill="#ec4899"/>
-                <!-- Model stats -->
-                <rect x="25" y="105" width="170" height="32" rx="8" fill="#0d041a" stroke="#4c1d95" stroke-width="1"/>
-                <text x="35" y="119" fill="#c084fc" font-size="9" font-weight="600" font-family="sans-serif">DEEP LEARNING MODEL</text>
-                <text x="35" y="131" fill="#f8fafc" font-size="11" font-weight="700" font-family="sans-serif">CNN + BiLSTM • 94.8% Acc</text>
-                <!-- Gemini pill -->
-                <rect x="25" y="146" width="170" height="26" rx="8" fill="#3b0764" stroke="#a855f7" stroke-width="0.8"/>
-                <text x="38" y="163" fill="#f3e8ff" font-size="10" font-weight="600" font-family="sans-serif">✨ Gemini AI Protein Insights</text>
-              </svg>
-            </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">ProteoPredict</h4>
-                <p class="project-overlay-desc">Advanced Serverless Neural Network Inference for Protein Structure, Solubility, and Disorder using CNN + BiLSTM and Gemini AI.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">TensorFlow.js</span>
-                  <span class="project-overlay-badge">BiLSTM</span>
-                  <span class="project-overlay-badge">Gemini AI</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">CNN + BiLSTM</span>
+                <span class="project-tag-pill">TensorFlow.js</span>
+                <span class="project-tag-pill">Gemini AI</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row">
+                <a href="https://proteopredict-pro.web.app" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Visit</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
           <!-- Card 5: GadiInfo -->
-          <div class="project-card" style="background: linear-gradient(145deg, #0a192f 0%, #081426 100%);" onclick="window.open('https://github.com/lotus-outlook-6/GadiInfo-Web', '_blank')" role="button" tabindex="0">
-            <div class="project-card-top">
-              <div class="project-category-tag" style="color: #38bdf8;">Intelligence Scanner</div>
-              <h3 class="project-title">GadiInfo</h3>
-            </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#07192d" stroke="#0284c7" stroke-width="1.2"/>
-                <!-- Scanner HUD -->
-                <path d="M40 70 H180 L160 120 H60 Z" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 3" fill="#0c2d48" fill-opacity="0.4"/>
-                <circle cx="75" cy="120" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-                <circle cx="145" cy="120" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-                <line x1="20" y1="95" x2="200" y2="95" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 2"/>
-                <!-- License plate -->
-                <rect x="45" y="140" width="130" height="28" rx="6" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="1"/>
-                <text x="56" y="158" fill="#f0f9ff" font-size="11" font-weight="800" font-family="sans-serif">AS 11 AB 2026</text>
-                <text x="145" y="157" fill="#38bdf8" font-size="9" font-weight="700" font-family="sans-serif">RC ✓</text>
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/GadiInfo-Web" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open GadiInfo on GitHub" title="Open GadiInfo on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
               </svg>
+            </a>
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #60a5fa;">Intelligence Scanner</div>
+              <h3 class="project-title">GadiInfo</h3>
+              <p class="project-desc">High-performance vehicle scanning tool and intelligence gathering portal featuring automated verification, RC lookups, and secure authentication.</p>
             </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">GadiInfo</h4>
-                <p class="project-overlay-desc">A modern, high-performance vehicle scanning tool featuring real-time intelligence gathering, vehicle verification, and secure authentication.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">TypeScript</span>
-                  <span class="project-overlay-badge">REST API</span>
-                  <span class="project-overlay-badge">Auth</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">TypeScript</span>
+                <span class="project-tag-pill">REST APIs</span>
+                <span class="project-tag-pill">Auth</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row"></div>
             </div>
           </div>
 
-          <!-- Card 6: Techfest 2025 -->
-          <div class="project-card" style="background: linear-gradient(145deg, #2b0b4a 0%, #150226 100%);" onclick="window.open('https://github.com/lotus-outlook-6/Techfest-2025-FBVA', '_blank')" role="button" tabindex="0">
-            <div class="project-card-top">
-              <div class="project-category-tag" style="color: #f472b6;">Techfest Platform</div>
-              <h3 class="project-title">Techfest '25</h3>
-            </div>
-            <div class="project-visual-body">
-              <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="20" width="200" height="170" rx="16" fill="#1b0730" stroke="#d946ef" stroke-width="1.2"/>
-                <circle cx="110" cy="85" r="38" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="4 3"/>
-                <circle cx="110" cy="85" r="26" stroke="#c084fc" stroke-width="1"/>
-                <polygon points="110,65 125,95 95,95" fill="#d946ef" opacity="0.6"/>
-                <text x="50" y="145" fill="#f5d0fe" font-size="11" font-weight="800" font-family="sans-serif">YANTRAKSH 2025</text>
-                <rect x="25" y="156" width="170" height="20" rx="6" fill="#4a044e"/>
-                <text x="35" y="170" fill="#fdf4ff" font-size="9" font-weight="600" font-family="sans-serif">React • Vite • TypeScript • Firebase</text>
+          <!-- Card 6: Techfest '25 -->
+          <div class="project-card" role="article">
+            <a href="https://github.com/lotus-outlook-6/Techfest-2025-FBVA" target="_blank" rel="noopener noreferrer" class="project-github-corner" aria-label="Open Techfest '25 on GitHub" title="Open Techfest '25 on GitHub">
+              <svg width="56" height="56" viewBox="0 0 250 250" class="github-cat-svg" fill="#1e293b" style="color: #ffffff;">
+                <path d="M0,0 L250,250 L250,0 Z" fill="rgba(255, 255, 255, 0.12)"></path>
+                <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;"></path>
+                <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor"></path>
               </svg>
+            </a>
+            <div class="project-card-top">
+              <div class="project-category-tag" style="color: #f472b6;">Event Platform</div>
+              <h3 class="project-title">Techfest '25</h3>
+              <p class="project-desc">Official digital event management platform for YANTRAKSH technical festival of Assam University. Built with React, Vite, TypeScript, and Firebase.</p>
             </div>
-            <div class="project-card-overlay">
-              <div>
-                <span class="project-overlay-header">GitHub Repository</span>
-                <h4 class="project-overlay-title">Techfest 2025</h4>
-                <p class="project-overlay-desc">Futuristic event management platform for the technical festival of Assam University. Built with React, Vite, TypeScript, and Firebase.</p>
-                <div class="project-overlay-tags">
-                  <span class="project-overlay-badge">React</span>
-                  <span class="project-overlay-badge">Vite</span>
-                  <span class="project-overlay-badge">Firebase</span>
-                </div>
+            <div class="project-card-bottom">
+              <div class="project-tags-row">
+                <span class="project-tag-pill">React</span>
+                <span class="project-tag-pill">Vite</span>
+                <span class="project-tag-pill">Firebase</span>
               </div>
-              <span class="project-overlay-btn">View on GitHub ↗</span>
+              <div class="project-actions-row">
+                <a href="https://techfest-2025-fbva-gem.web.app/" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Visit</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
         </div>
-      </div>
-
-      <!-- Left / Right nav buttons below cards -->
-      <div class="projects-nav-row">
-        <button type="button" class="projects-nav-btn" id="projects-nav-prev" aria-label="Previous project">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
-        <button type="button" class="projects-nav-btn" id="projects-nav-next" aria-label="Next project">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6"/>
-          </svg>
-        </button>
       </div>
 
       <!-- Highlights list below cards -->
@@ -1111,7 +1061,12 @@ body.chat-sheet-open {
       <!-- Frontend -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">&lt;&gt;</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </span>
           <span class="skills-group-name">Frontend Development</span>
         </div>
         <div class="skills-pills-row">
@@ -1130,7 +1085,14 @@ body.chat-sheet-open {
       <!-- Backend & Systems -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">⚙️</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </span>
           <span class="skills-group-name">Backend &amp; Systems</span>
         </div>
         <div class="skills-pills-row">
@@ -1149,7 +1111,11 @@ body.chat-sheet-open {
       <!-- Hardware, VLSI & IoT -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">⚡️</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </span>
           <span class="skills-group-name">Hardware, VLSI &amp; IoT</span>
         </div>
         <div class="skills-pills-row">
@@ -1167,7 +1133,15 @@ body.chat-sheet-open {
       <!-- Design & Creative Tools -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">🎨</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+              <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+              <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+              <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
+            </svg>
+          </span>
           <span class="skills-group-name">Design &amp; Creative Tools</span>
         </div>
         <div class="skills-pills-row">
@@ -1183,25 +1157,32 @@ body.chat-sheet-open {
       <!-- Soft Skills -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">👥</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
           <span class="skills-group-name">Soft Skills</span>
         </div>
         <div class="skills-pills-row">
-          <span class="skill-badge">Communication</span>
-          <span class="skill-badge">Problem-Solving</span>
-          <span class="skill-badge">Adaptability</span>
-          <span class="skill-badge">Learning Agility</span>
           <span class="skill-badge">Team Leadership</span>
-          <span class="skill-badge">PR Coordination</span>
-          <span class="skill-badge">Creativity</span>
-          <span class="skill-badge">Focus</span>
+          <span class="skill-badge">Problem Solving</span>
+          <span class="skill-badge">Event Coordination</span>
+          <span class="skill-badge">Collaboration</span>
         </div>
       </div>
 
       <!-- AI & Machine Learning -->
       <div class="skills-group">
         <div class="skills-group-header">
-          <span class="skills-group-icon">🧠</span>
+          <span class="skills-group-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+            </svg>
+          </span>
           <span class="skills-group-name">AI &amp; Machine Learning</span>
         </div>
         <div class="skills-pills-row">
@@ -1230,13 +1211,9 @@ body.chat-sheet-open {
         <div class="skills-breakdown-section">
           <h4 class="skills-breakdown-heading">Soft Skills:</h4>
           <ul class="skills-bullets-list">
-            <li>Communication</li>
-            <li>Problem-Solving</li>
-            <li>Adaptability</li>
-            <li>Learning Agility</li>
-            <li>Team Leadership &amp; PR Coordination</li>
-            <li>Creativity</li>
-            <li>Focus</li>
+            <li><strong>Leadership &amp; Coordination:</strong> Event Coordinator for YANTRAKSH Techfest, managing technical events and cross-functional teams.</li>
+            <li><strong>Analytical Problem-Solving:</strong> First-principles thinking, methodical hardware/software debugging, and root-cause analysis.</li>
+            <li><strong>Technical Communication:</strong> Clear documentation, collaborative pair-programming, and rapid tech stack adoption.</li>
           </ul>
         </div>
         <p class="skills-closing-text">I'm always eager to learn more and improve! What skills are you looking to develop? 😄</p>
@@ -1251,8 +1228,8 @@ body.chat-sheet-open {
           <span class="contact-card-handle">@lotusoutlook</span>
         </div>
         <div class="contact-card-email-row">
-          <a href="mailto:kunalrabidas2004@gmail.com" class="contact-email-link">
-            <span>kunalrabidas2004@gmail.com</span>
+          <a href="mailto:kunal.rabidas@aus.ac.in" class="contact-email-link">
+            <span>kunal.rabidas@aus.ac.in</span>
             <svg class="contact-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="m9 18 6-6-6-6"/>
             </svg>
@@ -1260,23 +1237,169 @@ body.chat-sheet-open {
         </div>
         <div class="contact-socials-row">
           <a href="https://linkedin.com/in/kunalrabidas6" target="_blank" rel="noopener noreferrer" class="contact-social-item">LinkedIn</a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="contact-social-item">YouTube</a>
           <a href="https://instagram.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">Instagram</a>
-          <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="contact-social-item">Discord</a>
-          <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer" class="contact-social-item">Github</a>
           <a href="https://x.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">X</a>
+          <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer" class="contact-social-item">GitHub</a>
         </div>
       </div>
-      <p class="contact-outro-message">
+      <p class="contact-outro-message" id="contact-outro-message">
         You can reach me through the contact info above! Feel free to hit me up anytime, I'd be happy to chat! 😉 What's on your mind?
       </p>
     </div>
 
-    <!-- Section 5: Resume (Loading spinner only) -->
+    <!-- Section 5: Resume (Loading spinner morphs into interactive CV Paper Card) -->
     <div class="chat-section-view chat-section-resume" id="chat-section-resume" style="display: none;">
-      <div class="resume-loading-card">
+      <div class="resume-loading-card" id="resume-loading-card">
         <div class="resume-spinner-circle"></div>
-        <span class="resume-loading-label">Loading...</span>
+        <span class="resume-loading-label">Loading resume...</span>
+      </div>
+
+      <div class="resume-doc-card" id="resume-doc-card">
+        <!-- Resume Header -->
+        <header class="resume-doc-header">
+          <div class="resume-header-top-row">
+            <h1 class="resume-name">Kunal Rabidas</h1>
+            <a href="Kunal_Rabidas_CV.pdf" download="Kunal_Rabidas_CV.pdf" class="resume-download-btn" title="Download PDF Version">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>Download PDF</span>
+            </a>
+          </div>
+          <div class="resume-contact-bar">
+            <span>Seconee Borhola, Jakhalabandha, Assam, 782136</span>
+            <span class="resume-divider">|</span>
+            <a href="tel:+916003598282">+91 6003598282</a>
+            <span class="resume-divider">|</span>
+            <a href="mailto:kunal.rabidas@aus.ac.in">kunal.rabidas@aus.ac.in</a>
+            <span class="resume-divider">|</span>
+            <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer">github.com/lotus-outlook-6</a>
+            <span class="resume-divider">|</span>
+            <a href="https://linkedin.com/in/kunalrabidas6" target="_blank" rel="noopener noreferrer">linkedin.com/in/kunalrabidas6</a>
+          </div>
+        </header>
+
+        <!-- Education -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Education</h2>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">B.Tech in Electronics &amp; Communication Engineering</span>
+              <span class="resume-item-date">Expected 2027</span>
+            </div>
+            <div class="resume-item-sub">Assam University, Silchar • CGPA: 7.12</div>
+          </div>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">XII (CBSE)</span>
+              <span class="resume-item-date">2022</span>
+            </div>
+            <div class="resume-item-sub">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam • 72%</div>
+          </div>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">X (CBSE)</span>
+              <span class="resume-item-date">2020</span>
+            </div>
+            <div class="resume-item-sub">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam • 83%</div>
+          </div>
+        </section>
+
+        <!-- Experience -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Experience</h2>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">Internship Trainee — Networking &amp; Drone Technologies</span>
+              <span class="resume-item-date">Jun 2026</span>
+            </div>
+            <div class="resume-item-sub">AMTRON</div>
+            <ul class="resume-bullets">
+              <li>Completed a structured internship program covering networking fundamentals and drone technology applications, gaining hands-on exposure to hardware-software integration.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Skills</h2>
+          <div class="resume-skills-grid">
+            <div><strong>Programming Languages:</strong> Python, C, MATLAB</div>
+            <div><strong>VLSI &amp; Circuit Design:</strong> LTspice, Cadence Virtuoso, Silvaco TCAD</div>
+            <div><strong>Networking &amp; Simulation:</strong> Cisco Packet Tracer</div>
+            <div><strong>Machine Learning &amp; AI:</strong> TensorFlow, TensorFlow.js, Deep Learning (ANN, CNN, RNN, BiLSTM)</div>
+            <div><strong>Creative &amp; Tools:</strong> Photoshop, Premiere Pro, After Effects</div>
+          </div>
+        </section>
+
+        <!-- Certifications -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Certifications</h2>
+          <ul class="resume-bullets">
+            <li><strong>Udemy:</strong> Deep Learning A-Z 2026 — Neural Networks, AI &amp; ChatGPT Prize (Mar 2026)</li>
+            <li><strong>NIT Silchar &amp; Jet Aero:</strong> One-Week Bootcamp on Drone Technology and Related Applications (Feb 2026)</li>
+            <li><strong>Google Cloud:</strong> Introduction to Generative AI (Dec 2023)</li>
+          </ul>
+        </section>
+
+        <!-- Academic & Technical Projects -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Academic &amp; Technical Projects</h2>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">ProteoPredict Pro (Mini Project)</span>
+              <span class="resume-item-sub">Python, TensorFlow.js, CNN, BiLSTM, Gemini AI</span>
+            </div>
+            <ul class="resume-bullets">
+              <li>Built and deployed a multi-task deep learning web app (CNN + BiLSTM) for protein secondary structure prediction, with in-browser inference via TensorFlow.js and Gemini AI-powered insights.</li>
+            </ul>
+          </div>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">PulseML — ESP32 Health Monitor</span>
+              <span class="resume-item-sub">JavaScript, ESP32, Machine Learning</span>
+            </div>
+            <ul class="resume-bullets">
+              <li>Built an AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring and browser-native ML inference.</li>
+            </ul>
+          </div>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">Dehaze — Foggy Image Restoration Tool</span>
+              <span class="resume-item-sub">MATLAB, Python, OpenCV</span>
+            </div>
+            <ul class="resume-bullets">
+              <li>Implemented a single-image haze removal tool using the Dark Channel Prior algorithm, with visualizations of each processing step.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Positions of Responsibility -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Positions of Responsibility</h2>
+          <div class="resume-item">
+            <div class="resume-item-header">
+              <span class="resume-item-title">Public Relations Team Member &amp; Event Coordinator</span>
+              <span class="resume-item-date">Feb – Mar 2026</span>
+            </div>
+            <div class="resume-item-sub">YANTRAKSH, Assam University</div>
+            <ul class="resume-bullets">
+              <li>Managed PR activities and outreach for the college techfest, ensuring maximum participation and engagement from the student body.</li>
+              <li>Served as Event Coordinator for the 'Image Prompting' and 'Poster Presentation' technical events, facilitating smooth execution and providing participant guidance.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Achievements & Hobbies -->
+        <section class="resume-section">
+          <h2 class="resume-section-title">Achievements &amp; Hobbies</h2>
+          <ul class="resume-bullets">
+            <li><strong>Achievement:</strong> Awarded Google Cloud Swags and Badges for successful completion of challenges under the Google Arcade program.</li>
+            <li><strong>Hobbies:</strong> Photography, Videography, Video Editing.</li>
+          </ul>
+        </section>
       </div>
     </div>
 
@@ -1908,16 +2031,7 @@ body.chat-sheet-open {
 
   const initProjectsCarousel = () => {
     const track = document.getElementById('projects-carousel-track');
-    const prevBtn = document.getElementById('projects-nav-prev');
-    const nextBtn = document.getElementById('projects-nav-next');
     if (!track) return;
-
-    if (prevBtn) {
-      prevBtn.onclick = () => track.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-    if (nextBtn) {
-      nextBtn.onclick = () => track.scrollBy({ left: 300, behavior: 'smooth' });
-    }
 
     track.onmouseenter = () => { isProjectsHovered = true; };
     track.onmouseleave = () => { isProjectsHovered = false; };
@@ -1925,7 +2039,7 @@ body.chat-sheet-open {
     if (!projectsAutoScrollId) {
       const stepScroll = () => {
         if (!isProjectsHovered && currentActiveTab === 'projects' && track) {
-          track.scrollLeft += 0.7;
+          track.scrollLeft += 1.8;
           if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) {
             track.scrollLeft = 0;
           }
@@ -1934,6 +2048,96 @@ body.chat-sheet-open {
       };
       projectsAutoScrollId = requestAnimationFrame(stepScroll);
     }
+  };
+
+  // Projects staggered reveal & auto-scroll down
+  let projectsTimers = [];
+  const clearProjectsTimers = () => {
+    projectsTimers.forEach(id => clearTimeout(id));
+    projectsTimers = [];
+  };
+
+  const renderProjectsSection = () => {
+    initProjectsCarousel();
+    clearProjectsTimers();
+
+    const introText = document.querySelector('.projects-intro-text');
+    const listItems = Array.from(document.querySelectorAll('.projects-numbered-list li'));
+    const outroText = document.querySelector('.projects-outro-text');
+
+    if (introText) introText.classList.remove('revealed');
+    listItems.forEach(li => li.classList.remove('revealed'));
+    if (outroText) outroText.classList.remove('revealed');
+
+    projectsTimers.push(setTimeout(() => {
+      if (introText) introText.classList.add('revealed');
+    }, 120));
+
+    listItems.forEach((li, idx) => {
+      projectsTimers.push(setTimeout(() => {
+        li.classList.add('revealed');
+        const liRect = li.getBoundingClientRect();
+        if (liRect.bottom > window.innerHeight - 100) {
+          window.scrollBy({ top: 48, behavior: 'smooth' });
+        }
+      }, 320 + idx * 150));
+    });
+
+    projectsTimers.push(setTimeout(() => {
+      if (outroText) {
+        outroText.classList.add('revealed');
+        const outroRect = outroText.getBoundingClientRect();
+        if (outroRect.bottom > window.innerHeight - 100) {
+          window.scrollBy({ top: 60, behavior: 'smooth' });
+        }
+      }
+      isTabRendered.projects = true;
+    }, 320 + listItems.length * 150 + 100));
+  };
+
+  // Contact typing message
+  let contactTypingAbort = null;
+  const renderContactSection = () => {
+    if (contactTypingAbort) {
+      contactTypingAbort();
+      contactTypingAbort = null;
+    }
+    const outroEl = document.getElementById('contact-outro-message');
+    if (outroEl) {
+      const fullText = "You can reach me through the contact info above! Feel free to hit me up anytime, I'd be happy to chat! 😉 What's on your mind?";
+      outroEl.innerHTML = '';
+      contactTypingAbort = typewriteText(outroEl, fullText, 14, () => {
+        isTabRendered.contact = true;
+        contactTypingAbort = null;
+      });
+    } else {
+      isTabRendered.contact = true;
+    }
+  };
+
+  // Resume spinner morph into document card
+  let resumeTimer = null;
+  const renderResumeSection = () => {
+    if (resumeTimer) {
+      clearTimeout(resumeTimer);
+      resumeTimer = null;
+    }
+    const loadingCard = document.getElementById('resume-loading-card');
+    const docCard = document.getElementById('resume-doc-card');
+    if (loadingCard) {
+      loadingCard.classList.remove('morphed-out');
+      loadingCard.style.display = 'flex';
+    }
+    if (docCard) {
+      docCard.classList.remove('morphed-in');
+    }
+
+    resumeTimer = setTimeout(() => {
+      if (loadingCard) loadingCard.classList.add('morphed-out');
+      if (docCard) docCard.classList.add('morphed-in');
+      isTabRendered.resume = true;
+      resumeTimer = null;
+    }, 750);
   };
 
   // Me section sequential animation timers
@@ -1958,6 +2162,7 @@ body.chat-sheet-open {
     ];
     const introEl = document.getElementById('me-intro-text');
     const chips = Array.from(document.querySelectorAll('.me-tags-row .me-chip'));
+    const credentialsCard = document.getElementById('me-credentials-card');
     const bioContainer = document.getElementById('me-bio-container');
 
     // Reset initial states
@@ -1971,6 +2176,7 @@ body.chat-sheet-open {
     });
     if (introEl) introEl.innerHTML = '';
     chips.forEach(c => c.classList.remove('pop-in'));
+    if (credentialsCard) credentialsCard.classList.remove('visible');
     if (bioContainer) bioContainer.classList.remove('visible');
 
     // 0s: Start WebGL avatar swirling generation canvas
@@ -2054,9 +2260,10 @@ body.chat-sheet-open {
       }, 4100 + idx * 110));
     });
 
-    // 5.2s: Generation completes, reveal photo & formatted bio
+    // 5.2s: Generation completes, reveal photo, credentials card & formatted bio
     meTimers.push(setTimeout(() => {
       stopMePhotoCanvas();
+      if (credentialsCard) credentialsCard.classList.add('visible');
       if (bioContainer) bioContainer.classList.add('visible');
       isTabRendered.me = true;
     }, 5200));
@@ -2079,11 +2286,19 @@ body.chat-sheet-open {
       return;
     }
 
-    // If leaving 'me' to another tab, reset isTabRendered.me so returning will replay
-    if (currentActiveTab === 'me' && activeKey !== 'me') {
-      isTabRendered.me = false;
-      clearMeTimers();
-      stopMePhotoCanvas();
+    // If leaving any active tab to another, reset its state so returning replays nicely
+    if (currentActiveTab && currentActiveTab !== activeKey) {
+      isTabRendered[currentActiveTab] = false;
+      if (currentActiveTab === 'me') {
+        clearMeTimers();
+        stopMePhotoCanvas();
+      } else if (currentActiveTab === 'projects') {
+        clearProjectsTimers();
+      } else if (currentActiveTab === 'contact') {
+        if (contactTypingAbort) { contactTypingAbort(); contactTypingAbort = null; }
+      } else if (currentActiveTab === 'resume') {
+        if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+      }
     }
 
     currentActiveTab = activeKey;
@@ -2139,32 +2354,22 @@ body.chat-sheet-open {
     };
     Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
 
-    // Manage wide-mode for container
-    if (chatAnswerContainer) {
-      if (activeKey === 'projects') {
-        chatAnswerContainer.classList.add('wide-mode');
-      } else {
-        chatAnswerContainer.classList.remove('wide-mode');
-      }
-    }
-
     // Show selected section
     if (activeKey === 'me') {
       if (sections.me) sections.me.style.display = 'block';
       renderMeSection();
     } else if (activeKey === 'projects') {
       if (sections.projects) sections.projects.style.display = 'block';
-      initProjectsCarousel();
-      isTabRendered.projects = true;
+      renderProjectsSection();
     } else if (activeKey === 'skills') {
       if (sections.skills) sections.skills.style.display = 'block';
       isTabRendered.skills = true;
     } else if (activeKey === 'contact') {
       if (sections.contact) sections.contact.style.display = 'block';
-      isTabRendered.contact = true;
+      renderContactSection();
     } else if (activeKey === 'resume') {
       if (sections.resume) sections.resume.style.display = 'flex';
-      isTabRendered.resume = true;
+      renderResumeSection();
     } else {
       if (sections.custom) sections.custom.style.display = 'block';
       const info = getAnswerData(query, activeKey);
@@ -2195,7 +2400,7 @@ body.chat-sheet-open {
     updateBottomFeather();
   };
 
-  // Bottom feather controller: dynamically keeps the feather ~55px above the top control element
+  // Bottom feather controller: dynamically keeps the feather ~45px above the top control element
   const chatBottomFeather = document.getElementById('chat-bottom-feather');
   const updateBottomFeather = () => {
     if (!chatBottomFeather) return;
@@ -2203,7 +2408,7 @@ body.chat-sheet-open {
     if (!bottomBar) return;
     const barRect = bottomBar.getBoundingClientRect();
     const barDistFromBottom = Math.max(0, window.innerHeight - barRect.top);
-    const targetHeight = Math.round(barDistFromBottom + 55);
+    const targetHeight = Math.round(barDistFromBottom + 45);
     chatBottomFeather.style.height = `${targetHeight}px`;
     if (isQuestionsHidden) {
       chatBottomFeather.classList.add('collapsed');
