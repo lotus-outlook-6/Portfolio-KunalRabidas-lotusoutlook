@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=33">
+<link rel="stylesheet" href="style.css?v=35">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -781,35 +781,6 @@ body.chat-sheet-open {
               <span class="me-chip" data-idx="4">Deep Learning</span>
               <span class="me-chip" data-idx="5">Web &amp; AI</span>
               <span class="me-chip" data-idx="6">IoT</span>
-            </div>
-
-            <!-- Credentials / Education Card in utilized space next to avatar -->
-            <div class="me-credentials-card" id="me-credentials-card">
-              <div class="me-cred-item">
-                <span class="me-cred-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                  </svg>
-                </span>
-                <div class="me-cred-details">
-                  <span class="me-cred-title">B.Tech in Electronics &amp; Comm. Eng.</span>
-                  <span class="me-cred-sub">Assam University, Silchar • CGPA: 7.12</span>
-                </div>
-              </div>
-              <div class="me-cred-item">
-                <span class="me-cred-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="12" r="6"/>
-                    <circle cx="12" cy="12" r="2"/>
-                  </svg>
-                </span>
-                <div class="me-cred-details">
-                  <span class="me-cred-title">Focus &amp; Systems</span>
-                  <span class="me-cred-sub">Embedded AI, IoT Telemetry &amp; Full-Stack Web</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -2162,7 +2133,6 @@ body.chat-sheet-open {
     ];
     const introEl = document.getElementById('me-intro-text');
     const chips = Array.from(document.querySelectorAll('.me-tags-row .me-chip'));
-    const credentialsCard = document.getElementById('me-credentials-card');
     const bioContainer = document.getElementById('me-bio-container');
 
     // Reset initial states
@@ -2176,7 +2146,6 @@ body.chat-sheet-open {
     });
     if (introEl) introEl.innerHTML = '';
     chips.forEach(c => c.classList.remove('pop-in'));
-    if (credentialsCard) credentialsCard.classList.remove('visible');
     if (bioContainer) bioContainer.classList.remove('visible');
 
     // 0s: Start WebGL avatar swirling generation canvas
@@ -2207,7 +2176,7 @@ body.chat-sheet-open {
       }, item.delay));
     });
 
-    // 2.8s: Intro text tokens with waving hand emoji
+    // 2.7s: Intro text tokens with waving hand emoji
     const tokens = [
       { t: 'word', v: 'Hey' },
       { t: 'hand', v: '👋' },
@@ -2227,6 +2196,30 @@ body.chat-sheet-open {
       { t: 'word', v: 'and' },
       { t: 'word', v: 'software' },
       { t: 'word', v: 'engineering' },
+      { t: 'punct', v: '.' },
+      { t: 'word', v: 'Currently' },
+      { t: 'word', v: 'pursuing' },
+      { t: 'word', v: 'my' },
+      { t: 'word', v: 'B.Tech' },
+      { t: 'word', v: 'at' },
+      { t: 'word', v: 'Assam' },
+      { t: 'word', v: 'University' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'I' },
+      { t: 'word', v: 'engineer' },
+      { t: 'word', v: 'smart' },
+      { t: 'word', v: 'IoT' },
+      { t: 'word', v: 'devices' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'deep' },
+      { t: 'word', v: 'learning' },
+      { t: 'word', v: 'pipelines' },
+      { t: 'punct', v: ',' },
+      { t: 'word', v: 'and' },
+      { t: 'word', v: 'modern' },
+      { t: 'word', v: 'high-performance' },
+      { t: 'word', v: 'web' },
+      { t: 'word', v: 'applications' },
       { t: 'punct', v: '.' }
     ];
 
@@ -2250,20 +2243,19 @@ body.chat-sheet-open {
           sp.textContent = tok.v;
           introEl.appendChild(sp);
         }
-      }, 2800 + i * 65));
+      }, 2650 + i * 36));
     });
 
-    // 4.1s: Chips staggered pop in
+    // 4.35s: Chips staggered pop in
     chips.forEach((c, idx) => {
       meTimers.push(setTimeout(() => {
         c.classList.add('pop-in');
-      }, 4100 + idx * 110));
+      }, 4300 + idx * 75));
     });
 
-    // 5.2s: Generation completes, reveal photo, credentials card & formatted bio
+    // 5.2s: Generation completes, reveal photo & formatted bio
     meTimers.push(setTimeout(() => {
       stopMePhotoCanvas();
-      if (credentialsCard) credentialsCard.classList.add('visible');
       if (bioContainer) bioContainer.classList.add('visible');
       isTabRendered.me = true;
     }, 5200));
