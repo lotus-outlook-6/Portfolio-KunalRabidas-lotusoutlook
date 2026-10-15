@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=37">
+<link rel="stylesheet" href="style.css?v=38">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -23,7 +23,7 @@
   color: #0a0a0a;
   z-index: 20;
   overflow-x: hidden;
-  padding-bottom: 240px;
+  padding-bottom: 110px;
 }
 #chat-view.active {
   display: flex !important;
@@ -804,6 +804,18 @@ body.chat-sheet-open {
     <div class="chat-section-view chat-section-projects" id="chat-section-projects" style="display: none;">
       <div class="projects-header-row">
         <h2 class="projects-title">My Projects</h2>
+        <div class="projects-nav-arrows">
+          <button type="button" class="projects-arrow-btn prev" id="projects-prev-btn" aria-label="Previous projects" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="projects-arrow-btn next" id="projects-next-btn" aria-label="Next projects">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- Carousel wrapper -->
@@ -896,7 +908,16 @@ body.chat-sheet-open {
                 <span class="project-tag-pill">TensorFlow.js</span>
                 <span class="project-tag-pill">IoT Stream</span>
               </div>
-              <div class="project-actions-row"></div>
+              <div class="project-actions-row">
+                <a href="https://github.com/lotus-outlook-6/PulseML-WebApp" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Explore</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -953,7 +974,16 @@ body.chat-sheet-open {
                 <span class="project-tag-pill">REST APIs</span>
                 <span class="project-tag-pill">Auth</span>
               </div>
-              <div class="project-actions-row"></div>
+              <div class="project-actions-row">
+                <a href="https://github.com/lotus-outlook-6/GadiInfo-Web" target="_blank" rel="noopener noreferrer" class="project-visit-btn">
+                  <span>Explore</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -1999,14 +2029,50 @@ body.chat-sheet-open {
     if (img) img.classList.add('loaded');
   };
 
-  // Projects carousel initialization
-  const initProjectsCarousel = () => {
+  // Projects carousel arrow states and smooth scroll
+  const updateProjectArrows = () => {
     const track = document.getElementById('projects-carousel-track');
-    if (!track) return;
-    track.scrollLeft = 0;
+    const prevBtn = document.getElementById('projects-prev-btn');
+    const nextBtn = document.getElementById('projects-next-btn');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    prevBtn.disabled = track.scrollLeft <= 6;
+    nextBtn.disabled = track.scrollLeft >= maxScroll - 6;
   };
 
-  // Projects staggered reveal
+  const initProjectsCarousel = () => {
+    const track = document.getElementById('projects-carousel-track');
+    const prevBtn = document.getElementById('projects-prev-btn');
+    const nextBtn = document.getElementById('projects-next-btn');
+    if (!track) return;
+
+    track.scrollLeft = 0;
+    updateProjectArrows();
+
+    if (prevBtn && !prevBtn._hasBound) {
+      prevBtn._hasBound = true;
+      prevBtn.addEventListener('click', () => {
+        const step = track.clientWidth;
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn && !nextBtn._hasBound) {
+      nextBtn._hasBound = true;
+      nextBtn.addEventListener('click', () => {
+        const step = track.clientWidth;
+        track.scrollBy({ left: step, behavior: 'smooth' });
+      });
+    }
+
+    if (!track._hasScrollBound) {
+      track._hasScrollBound = true;
+      track.addEventListener('scroll', updateProjectArrows, { passive: true });
+    }
+  };
+
+  // Projects staggered in-animations
   let projectsTimers = [];
   const clearProjectsTimers = () => {
     projectsTimers.forEach(id => clearTimeout(id));
@@ -2017,30 +2083,47 @@ body.chat-sheet-open {
     initProjectsCarousel();
     clearProjectsTimers();
 
+    const headerRow = document.querySelector('.projects-header-row');
+    const cards = Array.from(document.querySelectorAll('.projects-carousel-track .project-card'));
     const introText = document.querySelector('.projects-intro-text');
     const listItems = Array.from(document.querySelectorAll('.projects-numbered-list li'));
     const outroText = document.querySelector('.projects-outro-text');
 
+    if (headerRow) headerRow.classList.remove('revealed');
+    cards.forEach(c => c.classList.remove('revealed'));
     if (introText) introText.classList.remove('revealed');
     listItems.forEach(li => li.classList.remove('revealed'));
     if (outroText) outroText.classList.remove('revealed');
 
+    // 1. Header with title and nav arrows reveals
+    projectsTimers.push(setTimeout(() => {
+      if (headerRow) headerRow.classList.add('revealed');
+    }, 60));
+
+    // 2. Project cards animate in with smooth staggered spring
+    cards.forEach((card, idx) => {
+      projectsTimers.push(setTimeout(() => {
+        card.classList.add('revealed');
+      }, 100 + idx * 70));
+    });
+
+    // 3. Highlights intro text
     projectsTimers.push(setTimeout(() => {
       if (introText) introText.classList.add('revealed');
-    }, 120));
+    }, 100 + cards.length * 70 + 80));
 
+    // 4. Staggered numbered list highlights
     listItems.forEach((li, idx) => {
       projectsTimers.push(setTimeout(() => {
         li.classList.add('revealed');
-      }, 320 + idx * 150));
+      }, 100 + cards.length * 70 + 160 + idx * 110));
     });
 
+    // 5. Outro note
     projectsTimers.push(setTimeout(() => {
-      if (outroText) {
-        outroText.classList.add('revealed');
-      }
+      if (outroText) outroText.classList.add('revealed');
       isTabRendered.projects = true;
-    }, 320 + listItems.length * 150 + 100));
+    }, 100 + cards.length * 70 + 160 + listItems.length * 110 + 80));
   };
 
   // Contact typing message

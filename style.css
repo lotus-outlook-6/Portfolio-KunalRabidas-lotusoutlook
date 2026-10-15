@@ -10,6 +10,7 @@ html, body {
   color-scheme: light !important;
   background-color: #ffffff !important;
   color: #0a0a0a !important;
+  overscroll-behavior: none;
 }
 
 main,
@@ -310,7 +311,7 @@ img, [alt="Hero avatar"] {
   color: #0a0a0a;
   z-index: 20;
   overflow-x: hidden;
-  padding-bottom: 240px;
+  padding-bottom: 110px;
 }
 
 #chat-view.active {
@@ -892,9 +893,9 @@ body.chat-sheet-open #chat-view {
 /* AI Answer view container */
 .chat-answer-container {
   width: 100%;
-  max-width: 720px;
-  margin: 1.5rem auto 140px;
-  padding: 0 1.25rem;
+  max-width: 780px;
+  margin: 1.5rem auto 16px;
+  padding: 0 1rem;
   box-sizing: border-box;
   z-index: 10;
   display: none;
@@ -1218,7 +1219,7 @@ body.chat-sheet-open #chat-view {
 .me-top-grid {
   display: flex;
   gap: 28px;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 @media (max-width: 640px) {
@@ -1230,10 +1231,11 @@ body.chat-sheet-open #chat-view {
 
 .me-photo-wrapper {
   position: relative;
-  width: 240px;
-  max-width: 44%;
-  aspect-ratio: 4 / 4.8;
-  border-radius: 24px;
+  width: 270px;
+  max-width: 42%;
+  min-height: 330px;
+  align-self: stretch;
+  border-radius: 26px;
   overflow: hidden;
   flex-shrink: 0;
   background: #f8fafc;
@@ -1242,8 +1244,10 @@ body.chat-sheet-open #chat-view {
 
 @media (max-width: 640px) {
   .me-photo-wrapper {
-    width: 230px;
-    max-width: 80%;
+    width: 240px;
+    max-width: 85%;
+    min-height: 288px;
+    aspect-ratio: 4 / 4.8;
   }
 }
 
@@ -1589,12 +1593,23 @@ body.chat-sheet-open #chat-view {
    ========================================================================== */
 .chat-section-projects {
   width: 100%;
-  max-width: 680px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .projects-header-row {
-  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.projects-header-row.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .projects-title {
@@ -1605,32 +1620,56 @@ body.chat-sheet-open #chat-view {
   margin: 0;
 }
 
+.projects-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.projects-arrow-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+
+.projects-arrow-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.projects-arrow-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.projects-arrow-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.projects-arrow-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
 .projects-carousel-container {
   position: relative;
   width: 100%;
-  padding: 8px 0 14px;
-}
-
-.projects-carousel-container::before,
-.projects-carousel-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 56px;
-  pointer-events: none;
-  z-index: 15;
-  transition: opacity 0.3s ease;
-}
-
-.projects-carousel-container::before {
-  left: 0;
-  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.92) 30%, rgba(255, 255, 255, 0) 100%);
-}
-
-.projects-carousel-container::after {
-  right: 0;
-  background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0.92) 30%, rgba(255, 255, 255, 0) 100%);
+  padding: 4px 0 16px;
+  overflow: hidden;
 }
 
 .projects-carousel-track {
@@ -1640,9 +1679,7 @@ body.chat-sheet-open #chat-view {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 4px 16px 14px;
-  mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+  padding: 6px 2px 14px;
 }
 
 .projects-carousel-track::-webkit-scrollbar {
@@ -1651,9 +1688,10 @@ body.chat-sheet-open #chat-view {
 
 .project-card {
   position: relative;
-  width: 250px;
-  min-width: 250px;
-  height: 330px;
+  width: calc((100% - 32px) / 3);
+  min-width: calc((100% - 32px) / 3);
+  max-width: calc((100% - 32px) / 3);
+  height: 335px;
   border-radius: 22px;
   overflow: hidden;
   cursor: default;
@@ -1666,9 +1704,35 @@ body.chat-sheet-open #chat-view {
   background: #0f172a;
   box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.22);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transform: none !important;
-  transition: background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
   user-select: none;
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.22s ease,
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+}
+
+.project-card.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 720px) and (min-width: 480px) {
+  .project-card {
+    width: calc((100% - 16px) / 2);
+    min-width: calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
+  }
+}
+
+@media (max-width: 479px) {
+  .project-card {
+    width: 85%;
+    min-width: 85%;
+    max-width: 85%;
+  }
 }
 
 .project-card:hover {
@@ -1769,47 +1833,53 @@ body.chat-sheet-open #chat-view {
   letter-spacing: -0.1px;
 }
 
-/* Bottom Action Row with Visit Button */
+/* Bottom Action Row with Redesigned Visit Button */
 .project-actions-row {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: 38px;
+  min-height: 42px;
   box-sizing: border-box;
 }
 
 .project-visit-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-  padding: 5px 14px;
+  gap: 7px;
+  background: #ffffff;
+  color: #0b1120;
+  padding: 6px 15px;
   border-radius: 9999px;
-  font-size: 11.5px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 650;
   text-decoration: none;
-  letter-spacing: -0.1px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.15px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 
 .project-visit-btn:hover {
-  background: #ffffff;
-  color: #0f172a;
-  border-color: #ffffff;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.28);
-  transform: translateY(-1px);
+  background: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
 }
 
 .project-visit-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 12.5px;
+  height: 12.5px;
   stroke: currentColor;
   stroke-width: 2.4;
+  transition: transform 0.22s ease;
+}
+
+.project-visit-btn:hover svg {
+  transform: translate(2px, -2px);
 }
 
 .projects-highlights-card {
