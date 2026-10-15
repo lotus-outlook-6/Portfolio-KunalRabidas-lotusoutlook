@@ -1608,8 +1608,29 @@ body.chat-sheet-open #chat-view {
 .projects-carousel-container {
   position: relative;
   width: 100%;
-  overflow: hidden;
   padding: 8px 0 14px;
+}
+
+.projects-carousel-container::before,
+.projects-carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 56px;
+  pointer-events: none;
+  z-index: 15;
+  transition: opacity 0.3s ease;
+}
+
+.projects-carousel-container::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.92) 30%, rgba(255, 255, 255, 0) 100%);
+}
+
+.projects-carousel-container::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0.92) 30%, rgba(255, 255, 255, 0) 100%);
 }
 
 .projects-carousel-track {
@@ -1619,7 +1640,9 @@ body.chat-sheet-open #chat-view {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 4px 2px 14px;
+  padding: 4px 16px 14px;
+  mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
 }
 
 .projects-carousel-track::-webkit-scrollbar {
