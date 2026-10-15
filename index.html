@@ -1996,32 +1996,14 @@ body.chat-sheet-open {
     if (img) img.classList.add('loaded');
   };
 
-  // Projects auto-scrolling controller
-  let projectsAutoScrollId = null;
-  let isProjectsHovered = false;
-
+  // Projects carousel initialization
   const initProjectsCarousel = () => {
     const track = document.getElementById('projects-carousel-track');
     if (!track) return;
-
-    track.onmouseenter = () => { isProjectsHovered = true; };
-    track.onmouseleave = () => { isProjectsHovered = false; };
-
-    if (!projectsAutoScrollId) {
-      const stepScroll = () => {
-        if (!isProjectsHovered && currentActiveTab === 'projects' && track) {
-          track.scrollLeft += 1.8;
-          if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) {
-            track.scrollLeft = 0;
-          }
-        }
-        projectsAutoScrollId = requestAnimationFrame(stepScroll);
-      };
-      projectsAutoScrollId = requestAnimationFrame(stepScroll);
-    }
+    track.scrollLeft = 0;
   };
 
-  // Projects staggered reveal & auto-scroll down
+  // Projects staggered reveal
   let projectsTimers = [];
   const clearProjectsTimers = () => {
     projectsTimers.forEach(id => clearTimeout(id));
@@ -2047,20 +2029,12 @@ body.chat-sheet-open {
     listItems.forEach((li, idx) => {
       projectsTimers.push(setTimeout(() => {
         li.classList.add('revealed');
-        const liRect = li.getBoundingClientRect();
-        if (liRect.bottom > window.innerHeight - 100) {
-          window.scrollBy({ top: 48, behavior: 'smooth' });
-        }
       }, 320 + idx * 150));
     });
 
     projectsTimers.push(setTimeout(() => {
       if (outroText) {
         outroText.classList.add('revealed');
-        const outroRect = outroText.getBoundingClientRect();
-        if (outroRect.bottom > window.innerHeight - 100) {
-          window.scrollBy({ top: 60, behavior: 'smooth' });
-        }
       }
       isTabRendered.projects = true;
     }, 320 + listItems.length * 150 + 100));
@@ -2336,6 +2310,7 @@ body.chat-sheet-open {
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
 
     // Hide all view sections
+    window.scrollTo(0, 0);
     const sections = {
       me: document.getElementById('chat-section-me'),
       projects: document.getElementById('chat-section-projects'),
