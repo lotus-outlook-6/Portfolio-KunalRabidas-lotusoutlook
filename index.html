@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=43">
+<link rel="stylesheet" href="style.css?v=45">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -1251,23 +1251,63 @@ body.chat-sheet-open {
     <!-- Section 4: Contact -->
     <div class="chat-section-view chat-section-contact" id="chat-section-contact" style="display: none;">
       <div class="contact-card" id="contact-card">
-        <div class="contact-card-top">
-          <h2 class="contact-card-title">Contacts</h2>
-          <span class="contact-card-handle">@lotusoutlook</span>
-        </div>
-        <div class="contact-card-email-row">
-          <a href="mailto:kunal.rabidas@aus.ac.in" class="contact-email-link">
-            <span>kunal.rabidas@aus.ac.in</span>
-            <svg class="contact-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
-          </a>
-        </div>
-        <div class="contact-socials-row">
-          <a href="https://linkedin.com/in/kunalrabidas6" target="_blank" rel="noopener noreferrer" class="contact-social-item">LinkedIn</a>
-          <a href="https://instagram.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">Instagram</a>
-          <a href="https://x.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-item">X</a>
-          <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer" class="contact-social-item">GitHub</a>
+        <div class="contact-card-inner">
+          <!-- Left Column: Avatar & Socials -->
+          <div class="contact-card-left">
+            <div class="contact-avatar-wrap">
+              <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="contact-avatar-img">
+            </div>
+            <div class="contact-social-icons">
+              <!-- LinkedIn -->
+              <a href="https://linkedin.com/in/kunalrabidas6" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="LinkedIn" title="LinkedIn">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <rect width="24" height="24" rx="4" fill="#0A66C2"/>
+                  <path fill="#ffffff" d="M6.94 8.56a1.68 1.68 0 1 1 0-3.36 1.68 1.68 0 0 1 0 3.36zm1.39 9.94H5.55v-8.37h2.78v8.37zM18.5 18.5h-2.78v-4.93c0-.77-.62-1.4-1.39-1.4a1.4 1.4 0 0 0-1.4 1.4v4.93h-2.78v-8.37h2.78v1.11c.44-.78 1.43-1.3 2.28-1.3a3.26 3.26 0 0 1 3.29 3.26v5.3z"/>
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a href="https://instagram.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="Instagram" title="Instagram">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <defs>
+                    <radialGradient id="instaGrad" r="150%" cx="30%" cy="107%">
+                      <stop stop-color="#fdf497" offset="0%" />
+                      <stop stop-color="#fdf497" offset="5%" />
+                      <stop stop-color="#fd5949" offset="45%" />
+                      <stop stop-color="#d6249f" offset="60%" />
+                      <stop stop-color="#285AEB" offset="90%" />
+                    </radialGradient>
+                  </defs>
+                  <rect width="24" height="24" rx="6" fill="url(#instaGrad)"/>
+                  <path fill="#ffffff" d="M12 7.027c2.755 0 3.081.01 4.17.06 1.008.046 1.556.214 1.92.356.484.188.83.412 1.193.775.363.363.587.709.775 1.193.142.364.31.912.356 1.92.05 1.089.06 1.415.06 4.17s-.01 3.081-.06 4.17c-.046 1.008-.214 1.556-.356 1.92-.188.484-.412.83-.775 1.193-.363.363-.709.587-1.193.775-.364.142-.912.31-1.92.356-1.089.05-1.415.06-4.17.06s-3.081-.01-4.17-.06c-1.008-.046-1.556-.214-1.92-.356a3.218 3.218 0 0 1-1.193-.775 3.218 3.218 0 0 1-.775-1.193c-.142-.364-.31-.912-.356-1.92-.05-1.089-.06-1.415-.06-4.17s.01-3.081.06-4.17c.046-1.008.214-1.556.356-1.92.188-.484.412-.83.775-1.193.363-.363.709-.587 1.193-.775.364-.142.912-.31 1.92-.356 1.089-.05 1.415-.06 4.17-.06zm0-1.8c-2.799 0-3.15.012-4.25.062-1.1.05-1.85.225-2.507.48a4.982 4.982 0 0 0-1.802 1.173A4.982 4.982 0 0 0 2.268 8.74c-.255.657-.43 1.407-.48 2.507-.05 1.1-.062 1.451-.062 4.25s.012 3.15.062 4.25c.05 1.1.225 1.85.48 2.507.26.669.608 1.236 1.173 1.802.566.565 1.133.913 1.802 1.173.657.255 1.407.43 2.507.48 1.1.05 1.451.062 4.25.062s3.15-.012 4.25-.062c1.1-.05 1.85-.225 2.507-.48a5.008 5.008 0 0 0 2.975-2.975c.255-.657.43-1.407.48-2.507.05-1.1.062-1.451.062-4.25s-.012-3.15-.062-4.25c-.05-1.1-.225-1.85-.48-2.507a4.982 4.982 0 0 0-1.173-1.802 4.982 4.982 0 0 0-1.802-1.173c-.657-.255-1.407-.43-2.507-.48-1.1-.05-1.451-.062-4.25-.062zm0 5.2a4.4 4.4 0 1 0 0 8.8 4.4 4.4 0 0 0 0-8.8zm0 7.2a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zm5.6-7.38a1.03 1.03 0 1 1-2.06 0 1.03 1.03 0 0 1 2.06 0z"/>
+                </svg>
+              </a>
+              <!-- X / Twitter -->
+              <a href="https://x.com/lotusoutlook" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="X" title="X">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <circle cx="12" cy="12" r="12" fill="#1DA1F2"/>
+                  <path fill="#ffffff" d="M19.1 7.24a5.8 5.8 0 0 1-1.66.46 2.9 2.9 0 0 0 1.27-1.6 5.8 5.8 0 0 1-1.84.7A2.9 2.9 0 0 0 11.9 9.4a8.23 8.23 0 0 1-5.98-3.03 2.9 2.9 0 0 0 .9 3.87 2.88 2.88 0 0 1-1.31-.36v.04a2.9 2.9 0 0 0 2.33 2.84 2.9 2.9 0 0 1-1.31.05 2.9 2.9 0 0 0 2.71 2.01 5.82 5.82 0 0 1-3.6 1.24c-.23 0-.46-.01-.69-.04a8.22 8.22 0 0 0 4.45 1.3c5.34 0 8.26-4.42 8.26-8.26 0-.13 0-.25-.01-.38A5.9 5.9 0 0 0 19.1 7.24z"/>
+                </svg>
+              </a>
+              <!-- GitHub -->
+              <a href="https://github.com/lotus-outlook-6" target="_blank" rel="noopener noreferrer" class="contact-social-btn" aria-label="GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <circle cx="12" cy="12" r="12" fill="#24292f"/>
+                  <path fill="#ffffff" d="M12 5.5c-3.59 0-6.5 2.91-6.5 6.5 0 2.87 1.86 5.31 4.44 6.17.33.06.44-.14.44-.31 0-.16-.01-.68-.01-1.25-1.81.39-2.19-.77-2.19-.77-.3-.75-.72-.95-.72-.95-.59-.4.04-.39.04-.39.65.05 1 .67 1 .67.58 1 1.52.71 1.89.55.06-.42.23-.71.41-.88-1.44-.16-2.96-.72-2.96-3.21 0-.71.25-1.29.67-1.74-.07-.16-.29-.82.06-1.72 0 0 .55-.17 1.79.67a6.2 6.2 0 0 1 3.26 0c1.24-.85 1.79-.67 1.79-.67.35.9.13 1.56.06 1.72.42.45.67 1.03.67 1.74 0 2.5-1.52 3.04-2.97 3.2.23.2.44.6.44 1.21 0 .87-.01 1.58-.01 1.79 0 .17.11.38.45.31A6.5 6.5 0 0 0 18.5 12c0-3.59-2.91-6.5-6.5-6.5z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Details -->
+          <div class="contact-card-right">
+            <h2 class="contact-person-name">Kunal Rabidas</h2>
+            <p class="contact-person-role">ECE Student &amp; Software Developer</p>
+            <p class="contact-person-location">Silchar, Assam, India</p>
+            <p class="contact-person-email">
+              <span class="email-label">Email :</span>
+              <a href="mailto:kunal.rabidas@aus.ac.in" class="email-address-link">kunal.rabidas@aus.ac.in</a>
+            </p>
+          </div>
         </div>
       </div>
       <p class="contact-outro-message" id="contact-outro-message">
