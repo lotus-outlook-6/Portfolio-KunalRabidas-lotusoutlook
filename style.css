@@ -1638,7 +1638,7 @@ body.chat-sheet-open #chat-view {
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: none;
   outline: none;
 }
 
@@ -1646,8 +1646,8 @@ body.chat-sheet-open #chat-view {
   background: #f8fafc;
   border-color: #cbd5e1;
   color: #0f172a;
-  transform: translateY(-1px) scale(1.05);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: none;
 }
 
 .projects-arrow-btn:active:not(:disabled) {
@@ -1691,18 +1691,18 @@ body.chat-sheet-open #chat-view {
   width: calc((100% - 32px) / 3);
   min-width: calc((100% - 32px) / 3);
   max-width: calc((100% - 32px) / 3);
-  height: 335px;
+  height: 370px;
   border-radius: 22px;
   overflow: hidden;
   cursor: default;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 22px 20px;
+  padding: 22px 20px 20px;
   box-sizing: border-box;
   color: #ffffff;
   background: #0f172a;
-  box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.22);
+  box-shadow: none !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   user-select: none;
   opacity: 0;
@@ -1710,8 +1710,7 @@ body.chat-sheet-open #chat-view {
   transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.22s ease,
-              border-color 0.22s ease,
-              box-shadow 0.22s ease;
+              border-color 0.22s ease;
 }
 
 .project-card.revealed {
@@ -1737,8 +1736,8 @@ body.chat-sheet-open #chat-view {
 
 .project-card:hover {
   background: #090d16;
-  border-color: rgba(255, 255, 255, 0.24);
-  box-shadow: 0 14px 36px -4px rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: none !important;
   transform: none !important;
 }
 
@@ -1833,53 +1832,58 @@ body.chat-sheet-open #chat-view {
   letter-spacing: -0.1px;
 }
 
-/* Bottom Action Row with Redesigned Visit Button */
+/* Bottom Action Row with Refined Visit Button */
 .project-actions-row {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: 42px;
+  min-height: 38px;
   box-sizing: border-box;
 }
 
 .project-visit-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: #ffffff;
-  color: #0b1120;
-  padding: 6px 15px;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f1f5f9;
+  padding: 5px 13px;
   border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 650;
+  font-size: 11.5px;
+  font-weight: 550;
   text-decoration: none;
-  letter-spacing: -0.15px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.1px;
+  box-shadow: none !important;
+  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 
 .project-visit-btn:hover {
-  background: #3b82f6;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
   color: #ffffff;
-  border-color: #3b82f6;
-  box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  box-shadow: none !important;
 }
 
 .project-visit-btn svg {
-  width: 12.5px;
-  height: 12.5px;
+  width: 11.5px;
+  height: 11.5px;
   stroke: currentColor;
-  stroke-width: 2.4;
-  transition: transform 0.22s ease;
+  stroke-width: 2.2;
+  opacity: 0.82;
+  transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
 .project-visit-btn:hover svg {
-  transform: translate(2px, -2px);
+  opacity: 1;
+  transform: translate(1.5px, -1.5px);
 }
 
 .projects-highlights-card {
