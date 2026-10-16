@@ -1832,7 +1832,7 @@ body.chat-sheet-open #chat-view {
   letter-spacing: -0.1px;
 }
 
-/* Bottom Action Row with Refined Visit Button */
+/* Bottom Action Row with Clean Button */
 .project-actions-row {
   display: flex;
   align-items: center;
@@ -1857,18 +1857,15 @@ body.chat-sheet-open #chat-view {
   text-decoration: none;
   letter-spacing: -0.1px;
   box-shadow: none !important;
-  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  transition: none !important;
 }
 
 .project-visit-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.35);
-  color: #ffffff;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #f1f5f9 !important;
+  transform: none !important;
   box-shadow: none !important;
 }
 
@@ -1877,13 +1874,13 @@ body.chat-sheet-open #chat-view {
   height: 11.5px;
   stroke: currentColor;
   stroke-width: 2.2;
-  opacity: 0.82;
-  transition: transform 0.18s ease, opacity 0.18s ease;
+  opacity: 0.85;
+  transition: none !important;
 }
 
 .project-visit-btn:hover svg {
-  opacity: 1;
-  transform: translate(1.5px, -1.5px);
+  transform: none !important;
+  opacity: 0.85 !important;
 }
 
 .projects-highlights-card {
