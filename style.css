@@ -1693,14 +1693,14 @@ body.chat-sheet-open #chat-view {
   width: calc((100% - 32px) / 3);
   min-width: calc((100% - 32px) / 3);
   max-width: calc((100% - 32px) / 3);
-  height: 370px;
+  height: 380px;
   border-radius: 22px;
   overflow: hidden;
   cursor: default;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 22px 20px 20px;
+  padding: 22px 20px 18px;
   box-sizing: border-box;
   color: #ffffff;
   background: #0f172a;
@@ -1794,6 +1794,9 @@ body.chat-sheet-open #chat-view {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-title {
@@ -1810,19 +1813,25 @@ body.chat-sheet-open #chat-view {
   line-height: 1.55;
   color: #94a3b8;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .project-card-bottom {
   z-index: 2;
   position: relative;
-  margin-top: 14px;
+  margin-top: auto;
+  padding-top: 10px;
+  flex-shrink: 0;
 }
 
 .project-tags-row {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .project-tag-pill {
@@ -1845,6 +1854,7 @@ body.chat-sheet-open #chat-view {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   min-height: 38px;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .project-visit-btn {
@@ -1863,6 +1873,8 @@ body.chat-sheet-open #chat-view {
   box-shadow: none !important;
   cursor: pointer;
   transition: none !important;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .project-visit-btn:hover {
