@@ -1676,7 +1676,6 @@ body.chat-sheet-open #chat-view {
   display: flex;
   gap: 16px;
   overflow-x: auto;
-  scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 6px 2px 14px;
@@ -1693,14 +1692,14 @@ body.chat-sheet-open #chat-view {
   width: calc((100% - 32px) / 3);
   min-width: calc((100% - 32px) / 3);
   max-width: calc((100% - 32px) / 3);
-  height: 380px;
+  height: 485px;
   border-radius: 22px;
   overflow: hidden;
   cursor: default;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 22px 20px 18px;
+  padding: 16px 18px 16px;
   box-sizing: border-box;
   color: #ffffff;
   background: #0f172a;
@@ -1708,11 +1707,11 @@ body.chat-sheet-open #chat-view {
   border: 1px solid rgba(255, 255, 255, 0.1);
   user-select: none;
   opacity: 0;
-  transform: translateY(24px) scale(0.97);
+  transform: translateY(28px) scale(0.96);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.22s ease,
               border-color 0.22s ease;
 }
@@ -1743,6 +1742,52 @@ body.chat-sheet-open #chat-view {
   border-color: rgba(255, 255, 255, 0.22);
   box-shadow: none !important;
   transform: none !important;
+}
+
+/* Project Visual Artwork Banner - Monochrome in default, Colorful on Hover */
+.project-banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 135px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: #020617;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.project-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: grayscale(100%) brightness(0.85) contrast(1.05);
+  opacity: 0.85;
+  transform: scale(1.001);
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02) 0%, rgba(15, 23, 42, 0.5) 100%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* On hover: bursting into rich, vibrant colors */
+.project-card:hover .project-banner-img {
+  filter: grayscale(0%) brightness(1.02) contrast(1.02);
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.project-card:hover .project-banner-overlay {
+  opacity: 0.2;
 }
 
 /* Waving Corner GitHub Octocat - Clickable Link */
@@ -1785,7 +1830,7 @@ body.chat-sheet-open #chat-view {
 .project-card-top {
   z-index: 2;
   position: relative;
-  padding-right: 28px; /* space for corner cat */
+  flex: 1 1 auto;
 }
 
 .project-category-tag {
@@ -1793,18 +1838,18 @@ body.chat-sheet-open #chat-view {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .project-title {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
   letter-spacing: -0.4px;
   line-height: 1.2;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: #f8fafc;
 }
 
@@ -1813,10 +1858,6 @@ body.chat-sheet-open #chat-view {
   line-height: 1.55;
   color: #94a3b8;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .project-card-bottom {
@@ -2107,18 +2148,78 @@ body.chat-sheet-open #chat-view {
    Contact Section: Contact Card, Email chevron, Social links
    ========================================================================== */
 .chat-section-contact {
+  perspective: 1200px;
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
 }
 
 .contact-card {
+  position: relative;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 28px;
   padding: 34px 38px;
   margin-bottom: 24px;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(38px) rotateX(14deg) scale(0.93);
+  transform-origin: center bottom;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+}
+
+.contact-card.revealed {
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg) scale(1);
+  box-shadow: 0 20px 48px -12px rgba(15, 23, 42, 0.09),
+              0 0 0 1px rgba(226, 232, 240, 0.9);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: 0 28px 56px -12px rgba(15, 23, 42, 0.13),
+              0 0 0 1px rgba(203, 213, 225, 0.9);
+}
+
+/* Light Sheen Reflection Sweep when card appears */
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.75) 50%,
+    transparent 80%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.contact-card.revealed::before {
+  animation: contactCardSheen 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+}
+
+@keyframes contactCardSheen {
+  0% {
+    left: -75%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    left: 140%;
+    opacity: 0;
+  }
 }
 
 .contact-card-top {
@@ -2190,6 +2291,15 @@ body.chat-sheet-open #chat-view {
   line-height: 1.6;
   color: #1f2937;
   padding: 0 4px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.contact-outro-message.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ==========================================================================
