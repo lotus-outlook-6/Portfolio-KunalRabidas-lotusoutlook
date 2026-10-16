@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=40">
+<link rel="stylesheet" href="style.css?v=41">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -834,7 +834,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #fb923c;">Full-Stack Web App</div>
               <h3 class="project-title">SplitsBugs</h3>
-              <p class="project-desc">A modern, full-stack expense splitting web app. Features real-time group balances, secure user authentication, and responsive dark-mode styling.</p>
+              <p class="project-desc">Full-stack expense splitting app with real-time group balances and secure authentication.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -867,7 +867,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #38bdf8;">Computer Vision Tool</div>
               <h3 class="project-title">Dehaze</h3>
-              <p class="project-desc">Single image haze removal engine implementing the Dark Channel Prior (DCP) algorithm in Python and OpenCV with step-by-step atmospheric transmission visualization.</p>
+              <p class="project-desc">Single-image haze removal engine using Dark Channel Prior in Python &amp; OpenCV.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -900,7 +900,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #34d399;">IoT &amp; AI Healthcare</div>
               <h3 class="project-title">PulseML</h3>
-              <p class="project-desc">AI-powered health risk assessment system featuring real-time IoT pulse oximetry monitoring with ESP32 streaming and in-browser machine learning inference.</p>
+              <p class="project-desc">AI health risk system with ESP32 IoT pulse oximetry and in-browser ML inference.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -933,7 +933,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #c084fc;">Bioinformatics &amp; AI</div>
               <h3 class="project-title">ProteoPredict</h3>
-              <p class="project-desc">Advanced serverless deep learning engine for protein structure, solubility, and disorder prediction using hybrid CNN + BiLSTM architecture with Gemini AI.</p>
+              <p class="project-desc">Deep learning engine for protein solubility and disorder prediction using CNN + BiLSTM.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -966,7 +966,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #60a5fa;">Intelligence Scanner</div>
               <h3 class="project-title">GadiInfo</h3>
-              <p class="project-desc">High-performance vehicle scanning tool and intelligence gathering portal featuring automated verification, RC lookups, and secure authentication.</p>
+              <p class="project-desc">Vehicle intelligence scanner with automated verification and instant RC lookups.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -999,7 +999,7 @@ body.chat-sheet-open {
             <div class="project-card-top">
               <div class="project-category-tag" style="color: #f472b6;">Event Platform</div>
               <h3 class="project-title">Techfest '25</h3>
-              <p class="project-desc">Official digital event management platform for YANTRAKSH technical festival of Assam University. Built with React, Vite, TypeScript, and Firebase.</p>
+              <p class="project-desc">Official digital event management platform for Assam University's YANTRAKSH technical festival.</p>
             </div>
             <div class="project-card-bottom">
               <div class="project-tags-row">
@@ -2041,6 +2041,12 @@ body.chat-sheet-open {
     nextBtn.disabled = track.scrollLeft >= maxScroll - 6;
   };
 
+  const getCarouselVisibleCount = () => {
+    if (window.innerWidth <= 479) return 1;
+    if (window.innerWidth <= 720) return 2;
+    return 3;
+  };
+
   const initProjectsCarousel = () => {
     const track = document.getElementById('projects-carousel-track');
     const prevBtn = document.getElementById('projects-prev-btn');
@@ -2053,16 +2059,50 @@ body.chat-sheet-open {
     if (prevBtn && !prevBtn._hasBound) {
       prevBtn._hasBound = true;
       prevBtn.addEventListener('click', () => {
-        const step = track.clientWidth;
-        track.scrollBy({ left: -step, behavior: 'smooth' });
+        const cards = Array.from(track.querySelectorAll('.project-card'));
+        if (!cards.length) return;
+        const visibleCount = getCarouselVisibleCount();
+        const currentScroll = track.scrollLeft;
+
+        let currentIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - currentScroll);
+          if (diff < minDiff) {
+            minDiff = diff;
+            currentIdx = idx;
+          }
+        });
+
+        const targetIdx = Math.max(0, currentIdx - visibleCount);
+        const targetCard = cards[targetIdx];
+        track.scrollTo({ left: Math.max(0, targetCard.offsetLeft), behavior: 'smooth' });
       });
     }
 
     if (nextBtn && !nextBtn._hasBound) {
       nextBtn._hasBound = true;
       nextBtn.addEventListener('click', () => {
-        const step = track.clientWidth;
-        track.scrollBy({ left: step, behavior: 'smooth' });
+        const cards = Array.from(track.querySelectorAll('.project-card'));
+        if (!cards.length) return;
+        const visibleCount = getCarouselVisibleCount();
+        const currentScroll = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        let currentIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - currentScroll);
+          if (diff < minDiff) {
+            minDiff = diff;
+            currentIdx = idx;
+          }
+        });
+
+        const targetIdx = Math.min(cards.length - 1, currentIdx + visibleCount);
+        const targetCard = cards[targetIdx];
+        const targetLeft = Math.min(targetCard.offsetLeft, maxScroll);
+        track.scrollTo({ left: targetLeft, behavior: 'smooth' });
       });
     }
 
@@ -2124,6 +2164,55 @@ body.chat-sheet-open {
       if (outroText) outroText.classList.add('revealed');
       isTabRendered.projects = true;
     }, 100 + cards.length * 70 + 160 + listItems.length * 110 + 80));
+  };
+
+  // Skills staggered in-animations
+  let skillsTimers = [];
+  const clearSkillsTimers = () => {
+    skillsTimers.forEach(id => clearTimeout(id));
+    skillsTimers = [];
+  };
+
+  const renderSkillsSection = () => {
+    clearSkillsTimers();
+    const title = document.querySelector('.skills-main-title');
+    const groups = Array.from(document.querySelectorAll('.skills-group'));
+    const summaryBox = document.querySelector('.skills-summary-box');
+
+    if (title) title.classList.remove('revealed');
+    groups.forEach(g => {
+      g.classList.remove('revealed');
+      g.querySelectorAll('.skill-badge').forEach(b => b.classList.remove('revealed'));
+    });
+    if (summaryBox) summaryBox.classList.remove('revealed');
+
+    // 1. Title reveals
+    skillsTimers.push(setTimeout(() => {
+      if (title) title.classList.add('revealed');
+    }, 60));
+
+    // 2. Groups & Badges stagger in
+    let baseDelay = 140;
+    groups.forEach((group, gIdx) => {
+      skillsTimers.push(setTimeout(() => {
+        group.classList.add('revealed');
+      }, baseDelay));
+
+      const badges = Array.from(group.querySelectorAll('.skill-badge'));
+      badges.forEach((badge, bIdx) => {
+        skillsTimers.push(setTimeout(() => {
+          badge.classList.add('revealed');
+        }, baseDelay + 40 + bIdx * 35));
+      });
+
+      baseDelay += 60 + badges.length * 35;
+    });
+
+    // 3. Summary box reveals
+    skillsTimers.push(setTimeout(() => {
+      if (summaryBox) summaryBox.classList.add('revealed');
+      isTabRendered.skills = true;
+    }, baseDelay + 60));
   };
 
   // Contact typing message
@@ -2364,6 +2453,8 @@ body.chat-sheet-open {
         stopMePhotoCanvas();
       } else if (currentActiveTab === 'projects') {
         clearProjectsTimers();
+      } else if (currentActiveTab === 'skills') {
+        clearSkillsTimers();
       } else if (currentActiveTab === 'contact') {
         if (contactTypingAbort) { contactTypingAbort(); contactTypingAbort = null; }
       } else if (currentActiveTab === 'resume') {
@@ -2387,21 +2478,33 @@ body.chat-sheet-open {
       currentTypingAbort = null;
     }
 
-    // Hide question bubble & dots
-    if (chatQueryContainer) chatQueryContainer.style.display = 'none';
-    if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+    // Scroll to top
+    window.scrollTo(0, 0);
 
-    // Show answer container
-    if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
+    // Hide answer container while thinking
+    if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
+
+    // Show query bubble & 3-dot thinking animation
+    if (chatQueryContainer) {
+      chatQueryContainer.style.display = 'flex';
+      chatQueryContainer.style.opacity = '1';
+    }
+    if (chatBubble) {
+      chatBubble.textContent = query;
+      retriggerAnim(chatBubble);
+    }
+    if (chatTypingContainer) {
+      chatTypingContainer.style.display = 'flex';
+      chatTypingContainer.style.opacity = '1';
+    }
 
     // Only play search bar expand and buttons rise animation on first entrance
     if (isFirstEnter) {
       retriggerAnim(chatOptsRow);
       retriggerAnim(chatInputPill);
-      window.scrollTo(0, 0);
     }
 
-    // Update active pill state
+    // Update active pill state immediately
     document.querySelectorAll('[data-chat-key]').forEach(btn => {
       if (btn.dataset.chatKey === activeKey) {
         btn.classList.add('active');
@@ -2413,62 +2516,76 @@ body.chat-sheet-open {
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
 
-    // Hide all view sections
-    window.scrollTo(0, 0);
-    const sections = {
-      me: document.getElementById('chat-section-me'),
-      projects: document.getElementById('chat-section-projects'),
-      skills: document.getElementById('chat-section-skills'),
-      contact: document.getElementById('chat-section-contact'),
-      resume: document.getElementById('chat-section-resume'),
-      custom: document.getElementById('chat-section-custom')
-    };
-    Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
-
-    // Show selected section
-    if (activeKey === 'me') {
-      if (sections.me) sections.me.style.display = 'block';
-      renderMeSection();
-    } else if (activeKey === 'projects') {
-      if (sections.projects) sections.projects.style.display = 'block';
-      renderProjectsSection();
-    } else if (activeKey === 'skills') {
-      if (sections.skills) sections.skills.style.display = 'block';
-      isTabRendered.skills = true;
-    } else if (activeKey === 'contact') {
-      if (sections.contact) sections.contact.style.display = 'block';
-      renderContactSection();
-    } else if (activeKey === 'resume') {
-      if (sections.resume) sections.resume.style.display = 'flex';
-      renderResumeSection();
-    } else {
-      if (sections.custom) sections.custom.style.display = 'block';
-      const info = getAnswerData(query, activeKey);
-      const introEl = document.getElementById('chat-custom-intro-text');
-      const bodyEl = document.getElementById('chat-custom-body-text');
-      const tagsRow = document.getElementById('chat-custom-tags-row');
-      if (tagsRow) {
-        tagsRow.innerHTML = '';
-        (info.tags || []).forEach(tag => {
-          const sp = document.createElement('span');
-          sp.className = 'chat-tag';
-          sp.textContent = tag;
-          tagsRow.appendChild(sp);
-        });
-      }
-      if (introEl && bodyEl) {
-        introEl.innerHTML = '';
-        bodyEl.innerHTML = '';
-        const cancel1 = typewriteText(introEl, info.intro, 14, () => {
-          const cancel2 = typewriteText(bodyEl, info.body, 12);
-          currentTypingAbort = () => cancel2();
-        });
-        currentTypingAbort = () => cancel1();
-      }
-    }
-
     updateScrollFeather();
     updateBottomFeather();
+
+    // Schedule 5-second thinking animation, then reveal AI answer and trigger in-animations
+    answerTimeoutId = setTimeout(() => {
+      answerTimeoutId = null;
+
+      // Hide question bubble & dots
+      if (chatQueryContainer) chatQueryContainer.style.display = 'none';
+      if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+
+      // Show answer container
+      if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
+
+      // Hide all view sections
+      const sections = {
+        me: document.getElementById('chat-section-me'),
+        projects: document.getElementById('chat-section-projects'),
+        skills: document.getElementById('chat-section-skills'),
+        contact: document.getElementById('chat-section-contact'),
+        resume: document.getElementById('chat-section-resume'),
+        custom: document.getElementById('chat-section-custom')
+      };
+      Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
+
+      // Show and animate selected section
+      if (activeKey === 'me') {
+        if (sections.me) sections.me.style.display = 'block';
+        renderMeSection();
+      } else if (activeKey === 'projects') {
+        if (sections.projects) sections.projects.style.display = 'block';
+        renderProjectsSection();
+      } else if (activeKey === 'skills') {
+        if (sections.skills) sections.skills.style.display = 'block';
+        renderSkillsSection();
+      } else if (activeKey === 'contact') {
+        if (sections.contact) sections.contact.style.display = 'block';
+        renderContactSection();
+      } else if (activeKey === 'resume') {
+        if (sections.resume) sections.resume.style.display = 'flex';
+        renderResumeSection();
+      } else {
+        if (sections.custom) sections.custom.style.display = 'block';
+        const info = getAnswerData(query, activeKey);
+        const introEl = document.getElementById('chat-custom-intro-text');
+        const bodyEl = document.getElementById('chat-custom-body-text');
+        const tagsRow = document.getElementById('chat-custom-tags-row');
+        if (tagsRow) {
+          tagsRow.innerHTML = '';
+          (info.tags || []).forEach(tag => {
+            const sp = document.createElement('span');
+            sp.className = 'chat-tag';
+            sp.textContent = tag;
+            tagsRow.appendChild(sp);
+          });
+        }
+        if (introEl && bodyEl) {
+          introEl.innerHTML = '';
+          bodyEl.innerHTML = '';
+          const cancel1 = typewriteText(introEl, info.intro, 14, () => {
+            const cancel2 = typewriteText(bodyEl, info.body, 12);
+            currentTypingAbort = () => cancel2();
+          });
+          currentTypingAbort = () => cancel1();
+        }
+      }
+
+      updateScrollFeather();
+      updateBottomFeather();
+    }, 5000);
   };
 
   // Bottom feather controller: dynamically keeps the feather ~45px above the top control element

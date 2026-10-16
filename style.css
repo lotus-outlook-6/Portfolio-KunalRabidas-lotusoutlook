@@ -454,7 +454,7 @@ img, [alt="Hero avatar"] {
   width: 100%;
   max-width: 620px;
   padding: 0 1rem;
-  margin-top: 1.25rem;
+  margin: 1.25rem auto 0 auto;
   display: flex;
   justify-content: flex-start;
   z-index: 10;
@@ -1680,6 +1680,8 @@ body.chat-sheet-open #chat-view {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 6px 2px 14px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .projects-carousel-track::-webkit-scrollbar {
@@ -1707,6 +1709,8 @@ body.chat-sheet-open #chat-view {
   user-select: none;
   opacity: 0;
   transform: translateY(24px) scale(0.97);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.22s ease,
@@ -1966,10 +1970,26 @@ body.chat-sheet-open #chat-view {
   color: #111827;
   letter-spacing: -0.8px;
   margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skills-main-title.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .skills-group {
   margin-bottom: 22px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skills-group.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .skills-group-header {
@@ -2016,6 +2036,14 @@ body.chat-sheet-open #chat-view {
   letter-spacing: -0.2px;
   display: inline-block;
   user-select: none;
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-badge.revealed {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .skills-summary-box {
@@ -2025,6 +2053,14 @@ body.chat-sheet-open #chat-view {
   font-size: 14.5px;
   line-height: 1.65;
   color: #1f2937;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skills-summary-box.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .skills-summary-box .skills-intro {
