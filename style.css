@@ -1692,28 +1692,29 @@ body.chat-sheet-open #chat-view {
   width: calc((100% - 32px) / 3);
   min-width: calc((100% - 32px) / 3);
   max-width: calc((100% - 32px) / 3);
-  height: 485px;
-  border-radius: 22px;
+  height: 380px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: default;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px 18px 16px;
+  padding: 14px 16px 14px;
   box-sizing: border-box;
-  color: #ffffff;
-  background: #0f172a;
-  box-shadow: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #0f172a;
+  background: #ffffff;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9);
   user-select: none;
   opacity: 0;
-  transform: translateY(28px) scale(0.96);
+  transform: translateY(24px) scale(0.97);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.22s ease,
-              border-color 0.22s ease;
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
 }
 
 .project-card.revealed {
@@ -1726,6 +1727,7 @@ body.chat-sheet-open #chat-view {
     width: calc((100% - 16px) / 2);
     min-width: calc((100% - 16px) / 2);
     max-width: calc((100% - 16px) / 2);
+    height: 380px;
   }
 }
 
@@ -1734,27 +1736,29 @@ body.chat-sheet-open #chat-view {
     width: 85%;
     min-width: 85%;
     max-width: 85%;
+    height: 380px;
   }
 }
 
 .project-card:hover {
-  background: #090d16;
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: none !important;
+  background: #ffffff;
+  border-color: rgba(203, 213, 225, 1);
+  box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.1) !important;
   transform: none !important;
 }
 
-/* Project Visual Artwork Banner - Monochrome in default, Colorful on Hover */
+/* Project Visual Artwork Banner - Monochrome in default, Vibrant Color on Hover */
 .project-banner-wrapper {
   position: relative;
   width: 100%;
-  height: 135px;
-  border-radius: 14px;
+  height: 140px;
+  border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 14px;
-  background: #020617;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  background: #f8fafc;
+  border: 1px solid rgba(226, 232, 240, 0.85);
   flex-shrink: 0;
+  transform: none !important;
 }
 
 .project-banner-img {
@@ -1763,51 +1767,54 @@ body.chat-sheet-open #chat-view {
   object-fit: cover;
   object-position: center;
   display: block;
-  filter: grayscale(100%) brightness(0.85) contrast(1.05);
-  opacity: 0.85;
-  transform: scale(1.001);
-  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(100%) brightness(0.92) contrast(1.04);
+  opacity: 0.9;
+  transform: none !important;
+  transition: filter 0.35s ease, opacity 0.35s ease;
 }
 
 .project-banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02) 0%, rgba(15, 23, 42, 0.5) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 60%, rgba(15, 23, 42, 0.08) 100%);
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
 }
 
-/* On hover: bursting into rich, vibrant colors */
-.project-card:hover .project-banner-img {
-  filter: grayscale(0%) brightness(1.02) contrast(1.02);
-  opacity: 1;
-  transform: scale(1.04);
+/* On hover: bursting into rich, vibrant colors with ZERO enlargement / scale */
+.project-card:hover .project-banner-img,
+.project-banner-wrapper:hover .project-banner-img,
+.project-banner-img:hover {
+  filter: grayscale(0%) brightness(1.02) contrast(1.05) saturate(1.2) !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
-.project-card:hover .project-banner-overlay {
-  opacity: 0.2;
+.project-card:hover .project-banner-overlay,
+.project-banner-wrapper:hover .project-banner-overlay {
+  opacity: 0 !important;
 }
 
-/* Waving Corner GitHub Octocat - Clickable Link */
+/* Corner GitHub Octocat - Sized neatly for compact cards, NO hover enlargement */
 .project-github-corner {
   position: absolute;
   top: 0;
   right: 0;
   border: 0;
-  border-top-right-radius: 22px;
+  border-top-right-radius: 20px;
   overflow: hidden;
   z-index: 10;
   pointer-events: auto;
   cursor: pointer;
   display: block;
   text-decoration: none;
-  transition: transform 0.18s ease;
+  transform: none !important;
 }
 
 .github-cat-svg {
   display: block;
+  width: 44px;
+  height: 44px;
 }
 
 /* Wiggle ONLY when directly hovering over the GitHub cat itself, and ONLY 1 time */
@@ -1834,56 +1841,68 @@ body.chat-sheet-open #chat-view {
 }
 
 .project-category-tag {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 5px;
+  letter-spacing: 0.7px;
+  margin-bottom: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .project-title {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 800;
-  letter-spacing: -0.4px;
-  line-height: 1.2;
-  margin: 0 0 8px;
-  color: #f8fafc;
+  letter-spacing: -0.3px;
+  line-height: 1.22;
+  margin: 0 0 4px;
+  color: #0f172a;
 }
 
 .project-desc {
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #64748b;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-card-bottom {
   z-index: 2;
   position: relative;
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 6px;
   flex-shrink: 0;
 }
 
 .project-tags-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 5px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.project-tags-row::-webkit-scrollbar {
+  display: none;
 }
 
 .project-tag-pill {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #e2e8f0;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
   font-size: 10.5px;
   padding: 3px 8px;
   border-radius: 6px;
   font-weight: 550;
   letter-spacing: -0.1px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Bottom Action Row with Clean Button */
@@ -1891,9 +1910,9 @@ body.chat-sheet-open #chat-view {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: 38px;
+  padding-top: 6px;
+  border-top: 1px solid #f1f5f9;
+  min-height: 30px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -1901,34 +1920,34 @@ body.chat-sheet-open #chat-view {
 .project-visit-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #f1f5f9;
-  padding: 5px 13px;
+  gap: 5px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  padding: 3.5px 11px;
   border-radius: 9999px;
-  font-size: 11.5px;
-  font-weight: 550;
+  font-size: 11px;
+  font-weight: 600;
   text-decoration: none;
   letter-spacing: -0.1px;
   box-shadow: none !important;
   cursor: pointer;
-  transition: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .project-visit-btn:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
-  color: #f1f5f9 !important;
+  background: #0f172a !important;
+  border-color: #0f172a !important;
+  color: #ffffff !important;
   transform: none !important;
   box-shadow: none !important;
 }
 
 .project-visit-btn svg {
-  width: 11.5px;
-  height: 11.5px;
+  width: 11px;
+  height: 11px;
   stroke: currentColor;
   stroke-width: 2.2;
   opacity: 0.85;
@@ -1937,7 +1956,7 @@ body.chat-sheet-open #chat-view {
 
 .project-visit-btn:hover svg {
   transform: none !important;
-  opacity: 0.85 !important;
+  opacity: 1 !important;
 }
 
 .projects-highlights-card {
@@ -2575,6 +2594,247 @@ body.chat-sheet-open #chat-view {
     font-size: 22px;
   }
 }
+
+/* ==========================================================================
+   Dark Mode Toggle Button & Global Dark Theme
+   ========================================================================== */
+.chat-sheet-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-sheet-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-dark-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: #64748b;
+  padding: 2px 4px;
+  transition: color 0.2s ease;
+}
+
+.chat-dark-mode-toggle:hover {
+  color: #0f172a;
+}
+
+.chat-dark-toggle-track {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  transition: background-color 0.25s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.chat-dark-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
+}
+
+/* Dark mode active states */
+html.dark .chat-dark-mode-toggle {
+  color: #94a3b8;
+}
+
+html.dark .chat-dark-toggle-track {
+  background-color: #3b82f6;
+}
+
+html.dark .chat-dark-toggle-thumb {
+  transform: translateX(16px);
+  background-color: #ffffff;
+}
+
+/* Dark Theme Overrides */
+html.dark {
+  color-scheme: dark;
+  background-color: #090d16 !important;
+}
+
+html.dark body {
+  background-color: #090d16 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark #chat-view {
+  background-color: #090d16 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .chat-header {
+  background: rgba(9, 13, 22, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .chat-title {
+  color: #f8fafc !important;
+}
+
+html.dark .chat-pill-btn {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .chat-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+html.dark .chat-pill-btn.active {
+  background: #ffffff !important;
+  color: #090d16 !important;
+  border-color: #ffffff !important;
+}
+
+html.dark .chat-query-box {
+  background: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+}
+
+html.dark .chat-query-text {
+  color: #f8fafc !important;
+}
+
+html.dark .chat-input-bar-inner {
+  background: rgba(17, 24, 39, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html.dark .chat-input {
+  color: #f8fafc !important;
+}
+
+html.dark .chat-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .chat-sheet-modal {
+  background: #111827 !important;
+  color: #f8fafc !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+html.dark .chat-sheet-pill-handle {
+  background: #374151 !important;
+}
+
+html.dark .chat-sheet-section-header {
+  color: #f1f5f9 !important;
+  border-bottom-color: #1f2937 !important;
+}
+
+html.dark .chat-sheet-item {
+  background: #1f2937 !important;
+  color: #f3f4f6 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .chat-sheet-item:hover {
+  background: #374151 !important;
+}
+
+html.dark .chat-sheet-item.is-black {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.dark .chat-sheet-item-arrow {
+  color: #9ca3af !important;
+}
+
+/* In dark mode, keep project cards distinct dark-slate */
+html.dark .project-card {
+  background: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .project-card:hover {
+  background: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+html.dark .project-title {
+  color: #f8fafc !important;
+}
+
+html.dark .project-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .project-banner-wrapper {
+  background: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .project-tag-pill {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .project-actions-row {
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .project-visit-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .project-visit-btn:hover {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html.dark .projects-arrow-btn {
+  background: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .projects-arrow-btn:hover:not(:disabled) {
+  background: #334155 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html.dark .projects-highlights-card {
+  color: #cbd5e1 !important;
+}
+
+html.dark .projects-highlights-card .proj-link {
+  color: #60a5fa !important;
+}
+
+html.dark .projects-highlights-card .proj-desc {
+  color: #94a3b8 !important;
+}
+
 
 
 
