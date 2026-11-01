@@ -2249,17 +2249,19 @@ body.chat-sheet-open #chat-view {
   width: 24px;
   height: 24px;
   text-decoration: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .contact-social-btn:hover {
-  opacity: 0.8;
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 .contact-social-btn svg {
   display: block;
   width: 24px;
   height: 24px;
+  border-radius: 5.33px;
 }
 
 /* Right: Person info */
