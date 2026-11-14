@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=52">
+<link rel="stylesheet" href="style.css?v=60">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -1318,8 +1318,45 @@ body.chat-sheet-open {
     <!-- Section 5: Resume (Loading spinner morphs into interactive CV Paper Card) -->
     <div class="chat-section-view chat-section-resume" id="chat-section-resume" style="display: none;">
       <div class="resume-loading-card" id="resume-loading-card">
-        <div class="resume-spinner-circle"></div>
-        <span class="resume-loading-label">Loading resume...</span>
+        <span
+          role="status"
+          class="lattice-loader"
+          id="resume-lattice-loader"
+          data-status="working"
+          data-shape="round"
+        >
+          <span class="lattice-loader__grid" aria-hidden="true">
+            <span class="lattice-loader__layer lattice-loader__run">
+              <span class="lattice-loader__cell" style="animation-delay: 0ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 108ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 216ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 756ms;"></span>
+              <span class="lattice-loader__cell" data-hole=""></span>
+              <span class="lattice-loader__cell" style="animation-delay: 324ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 648ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 540ms;"></span>
+              <span class="lattice-loader__cell" style="animation-delay: 432ms;"></span>
+            </span>
+            <span class="lattice-loader__layer lattice-loader__mark">
+              <span class="lattice-loader__cell"></span>
+              <span class="lattice-loader__cell"></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell"></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell"></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell"></span>
+            </span>
+          </span>
+          <span class="lattice-loader__label" aria-hidden="true">
+            <span class="lattice-loader__text" id="ll-text-working" data-active="">Thinking</span>
+            <span class="lattice-loader__text" id="ll-text-done">Done in</span>
+            <span class="lattice-loader__text" id="ll-text-error">Failed after</span>
+          </span>
+          <span class="lattice-loader__timer" id="lattice-loader-timer" aria-hidden="true">0.0s</span>
+          <span class="lattice-loader__sr" id="lattice-loader-sr">Thinking, in progress</span>
+        </span>
       </div>
 
       <div class="resume-doc-card" id="resume-doc-card">
@@ -1353,23 +1390,20 @@ body.chat-sheet-open {
           <div class="resume-item">
             <div class="resume-item-header">
               <span class="resume-item-title">B.Tech in Electronics &amp; Communication Engineering</span>
-              <span class="resume-item-date">Expected 2027</span>
+              <span class="resume-item-right"><span class="resume-item-org">Assam University, Silchar</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-score">CGPA: 7.12</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-date">Expected 2027</span></span>
             </div>
-            <div class="resume-item-sub">Assam University, Silchar • CGPA: 7.12</div>
           </div>
           <div class="resume-item">
             <div class="resume-item-header">
               <span class="resume-item-title">XII (CBSE)</span>
-              <span class="resume-item-date">2022</span>
+              <span class="resume-item-right"><span class="resume-item-org">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-score">72%</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-date">2022</span></span>
             </div>
-            <div class="resume-item-sub">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam • 72%</div>
           </div>
           <div class="resume-item">
             <div class="resume-item-header">
               <span class="resume-item-title">X (CBSE)</span>
-              <span class="resume-item-date">2020</span>
+              <span class="resume-item-right"><span class="resume-item-org">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-score">83%</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-date">2020</span></span>
             </div>
-            <div class="resume-item-sub">Kendriya Vidyalaya H.P.C.L Jagiroad, Assam • 83%</div>
           </div>
         </section>
 
@@ -1379,7 +1413,7 @@ body.chat-sheet-open {
           <div class="resume-item">
             <div class="resume-item-header">
               <span class="resume-item-title">Internship Trainee — Networking &amp; Drone Technologies</span>
-              <span class="resume-item-date"><span class="resume-org">AMTRON</span> <span class="resume-divider">|</span> Jun 2026</span>
+              <span class="resume-item-right"><span class="resume-item-org">AMTRON</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-date">Jun 2026</span></span>
             </div>
             <ul class="resume-bullets">
               <li>Completed a structured internship program covering networking fundamentals and drone technology applications, gaining hands-on exposure to hardware-software integration.</li>
@@ -1390,12 +1424,12 @@ body.chat-sheet-open {
         <!-- Skills -->
         <section class="resume-section">
           <h2 class="resume-section-title">Skills</h2>
-          <div class="resume-skills-grid">
-            <div><strong>Programming Languages:</strong> Python, C, MATLAB</div>
-            <div><strong>VLSI &amp; Circuit Design:</strong> LTspice, Cadence Virtuoso, Silvaco TCAD</div>
-            <div><strong>Networking &amp; Simulation:</strong> Cisco Packet Tracer</div>
-            <div><strong>Machine Learning &amp; AI:</strong> TensorFlow, TensorFlow.js, Deep Learning (ANN, CNN, RNN, BiLSTM)</div>
-            <div><strong>Creative &amp; Tools:</strong> Photoshop, Premiere Pro, After Effects</div>
+          <div class="resume-skills-list">
+            <div class="resume-skill-row"><strong>Programming Languages:</strong> Python, C, MATLAB</div>
+            <div class="resume-skill-row"><strong>VLSI &amp; Circuit Design:</strong> LTspice, Cadence Virtuoso, Silvaco TCAD</div>
+            <div class="resume-skill-row"><strong>Networking &amp; Simulation:</strong> Cisco Packet Tracer</div>
+            <div class="resume-skill-row"><strong>Machine Learning &amp; AI:</strong> TensorFlow, TensorFlow.js, Deep Learning (ANN, CNN, RNN, BiLSTM)</div>
+            <div class="resume-skill-row"><strong>Creative &amp; Tools:</strong> Photoshop, Premiere Pro, After Effects</div>
           </div>
         </section>
 
@@ -1447,7 +1481,7 @@ body.chat-sheet-open {
           <div class="resume-item">
             <div class="resume-item-header">
               <span class="resume-item-title">Public Relations Team Member &amp; Event Coordinator</span>
-              <span class="resume-item-date"><span class="resume-org">YANTRAKSH, Assam University</span> <span class="resume-divider">|</span> Feb – Mar 2026</span>
+              <span class="resume-item-right"><span class="resume-item-org">YANTRAKSH, Assam University</span> <span class="resume-divider-pipe">|</span> <span class="resume-item-date">Feb – Mar 2026</span></span>
             </div>
             <ul class="resume-bullets">
               <li>Managed PR activities and outreach for the college techfest, ensuring maximum participation and engagement from the student body.</li>
@@ -1734,20 +1768,7 @@ body.chat-sheet-open {
 <script>
 (()=>{
   const m = document.getElementById('ff-modal');
-  const syncModalTheme = () => {
-    const isDark = document.documentElement.classList.contains('dark') || 
-                   (document.body && document.body.classList.contains('dark')) ||
-                   (!document.documentElement.classList.contains('light') && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    if (isDark) {
-      m.classList.add('dark-theme');
-    } else {
-      m.classList.remove('dark-theme');
-    }
-  };
-  const openModal = () => {
-    syncModalTheme();
-    m.classList.add('open');
-  };
+  const openModal = () => m.classList.add('open');
   const closeModal = () => m.classList.remove('open');
 
   document.querySelectorAll('.lucide-info, #chat-info-btn, #menu-about-btn').forEach(btn => {
@@ -2336,15 +2357,25 @@ body.chat-sheet-open {
     }
   };
 
-  // Resume spinner morph into document card
+  // Resume LatticeLoader morph into document card
   let resumeTimer = null;
+  let latticeInterval = null;
   const renderResumeSection = () => {
     if (resumeTimer) {
       clearTimeout(resumeTimer);
       resumeTimer = null;
     }
+    if (latticeInterval) {
+      clearInterval(latticeInterval);
+      latticeInterval = null;
+    }
     const loadingCard = document.getElementById('resume-loading-card');
     const docCard = document.getElementById('resume-doc-card');
+    const loader = document.getElementById('resume-lattice-loader');
+    const timerEl = document.getElementById('lattice-loader-timer');
+    const textWorking = document.getElementById('ll-text-working');
+    const textDone = document.getElementById('ll-text-done');
+    const srEl = document.getElementById('lattice-loader-sr');
 
     if (loadingCard) {
       loadingCard.classList.remove('morphed-out');
@@ -2354,12 +2385,40 @@ body.chat-sheet-open {
       docCard.classList.remove('morphed-in');
     }
 
+    if (loader) {
+      loader.setAttribute('data-status', 'working');
+      if (textWorking) textWorking.setAttribute('data-active', '');
+      if (textDone) textDone.removeAttribute('data-active');
+      if (timerEl) timerEl.textContent = '0.0s';
+      if (srEl) srEl.textContent = 'Thinking, in progress';
+
+      const startedAt = performance.now();
+      const fmt = ds => (ds < 600 ? `${(ds / 10).toFixed(1)}s` : `${Math.floor(ds / 600)}m ${((ds % 600) / 10).toFixed(1)}s`);
+      
+      latticeInterval = setInterval(() => {
+        const ds = Math.floor((performance.now() - startedAt) / 100);
+        if (timerEl) timerEl.textContent = fmt(ds);
+      }, 100);
+    }
+
     resumeTimer = setTimeout(() => {
-      if (loadingCard) loadingCard.classList.add('morphed-out');
-      if (docCard) docCard.classList.add('morphed-in');
-      isTabRendered.resume = true;
-      resumeTimer = null;
-    }, 600);
+      if (latticeInterval) {
+        clearInterval(latticeInterval);
+        latticeInterval = null;
+      }
+      if (loader) {
+        loader.setAttribute('data-status', 'done');
+        if (textWorking) textWorking.removeAttribute('data-active');
+        if (textDone) textDone.setAttribute('data-active', '');
+      }
+
+      setTimeout(() => {
+        if (loadingCard) loadingCard.classList.add('morphed-out');
+        if (docCard) docCard.classList.add('morphed-in');
+        isTabRendered.resume = true;
+        resumeTimer = null;
+      }, 400);
+    }, 700);
   };
 
   // Me section sequential animation timers

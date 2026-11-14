@@ -202,7 +202,7 @@ img, [alt="Hero avatar"] {
   box-sizing: border-box;
   background: #ffffff;
   color: #0a0a0a;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 48px 40px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
   animation: ff-pop .25s cubic-bezier(.22, 1, .36, 1);
@@ -274,72 +274,6 @@ img, [alt="Hero avatar"] {
 
 #ff-modal .ff-x:active {
   transform: scale(.92);
-}
-
-/* ==========================================================================
-   #ff-modal Dark Mode Styles (Theme-aware with high specificity)
-   ========================================================================== */
-html.dark #ff-modal .ff-card,
-.dark #ff-modal .ff-card,
-body.dark #ff-modal .ff-card,
-#ff-modal.dark-theme .ff-card {
-  background: #111827 !important;
-  color: #f8fafc !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85) !important;
-}
-
-html.dark #ff-modal h3,
-.dark #ff-modal h3,
-body.dark #ff-modal h3,
-#ff-modal.dark-theme h3 {
-  color: #ffffff !important;
-}
-
-html.dark #ff-modal p,
-.dark #ff-modal p,
-body.dark #ff-modal p,
-#ff-modal.dark-theme p {
-  color: #94a3b8 !important;
-}
-
-html.dark #ff-modal .ff-x,
-.dark #ff-modal .ff-x,
-body.dark #ff-modal .ff-x,
-#ff-modal.dark-theme .ff-x {
-  background: #1f2937 !important;
-  color: #f8fafc !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-html.dark #ff-modal .ff-x:hover,
-.dark #ff-modal .ff-x:hover,
-body.dark #ff-modal .ff-x:hover,
-#ff-modal.dark-theme .ff-x:hover {
-  background: #374151 !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) #ff-modal .ff-card {
-    background: #111827 !important;
-    color: #f8fafc !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85) !important;
-  }
-  :root:not(.light) #ff-modal h3 {
-    color: #ffffff !important;
-  }
-  :root:not(.light) #ff-modal p {
-    color: #94a3b8 !important;
-  }
-  :root:not(.light) #ff-modal .ff-x {
-    background: #1f2937 !important;
-    color: #f8fafc !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  }
-  :root:not(.light) #ff-modal .ff-x:hover {
-    background: #374151 !important;
-  }
 }
 
 @keyframes ff-fade {
@@ -2436,60 +2370,270 @@ body.chat-sheet-open #chat-view {
 }
 
 .resume-loading-card {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 14px !important;
-  padding: 48px 20px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
   background: transparent !important;
-  background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  outline: none !important;
-  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .resume-loading-card.morphed-out {
-  opacity: 0 !important;
-  transform: scale(0.9) !important;
-  pointer-events: none !important;
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
   display: none !important;
 }
 
-.resume-spinner-circle {
-  width: 40px;
-  height: 40px;
-  border: 3.5px solid rgba(148, 163, 184, 0.28);
-  border-top-color: #2563eb;
+/* LatticeLoader Component (React Bits adaptation in pure HTML & CSS) */
+.lattice-loader {
+  --ll-n: 3;
+  --ll-cell: 6px;
+  --ll-gap: 2.5px;
+  --ll-font: 14px;
+  --ll-color: currentColor;
+  --ll-mark: #22c55e;
+  --ll-idle: 0.15;
+  --ll-glow: currentColor;
+  --ll-mark-glow: #22c55e;
+  --ll-peak: 1;
+  --ll-cycle: 864ms;
+  --ll-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ll-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--ll-font) * 0.625);
+  font-family: inherit;
+  font-size: var(--ll-font);
+  line-height: 1;
+  color: #475569;
+}
+
+html.dark .lattice-loader {
+  color: #cbd5e1;
+}
+
+.lattice-loader__grid {
+  display: grid;
+  flex: none;
+}
+
+.lattice-loader__layer {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(var(--ll-n), var(--ll-cell));
+  gap: var(--ll-gap);
+}
+
+.lattice-loader__cell {
+  width: var(--ll-cell);
+  height: var(--ll-cell);
+  border-radius: max(1px, calc(var(--ll-cell) * 0.25));
+  background: var(--ll-color);
+  opacity: var(--ll-idle);
+}
+
+.lattice-loader[data-shape='round'] .lattice-loader__cell {
   border-radius: 50%;
-  animation: resumeSpin 0.8s linear infinite;
-  box-sizing: border-box;
 }
 
-html.dark .resume-spinner-circle,
-.dark .resume-spinner-circle,
-body.dark .resume-spinner-circle {
-  border-color: rgba(255, 255, 255, 0.15);
-  border-top-color: #3b82f6;
+.lattice-loader[data-glow] .lattice-loader__run .lattice-loader__cell:not([data-hole]) {
+  box-shadow: 0 0 calc(var(--ll-cell) * 1.2) calc(var(--ll-cell) * 0.12) var(--ll-glow);
 }
 
-@keyframes resumeSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.lattice-loader[data-glow] .lattice-loader__mark .lattice-loader__cell[data-on] {
+  box-shadow: 0 0 calc(var(--ll-cell) * 1.2) calc(var(--ll-cell) * 0.12) var(--ll-mark-glow);
 }
 
-.resume-loading-label {
-  font-size: 14px;
+.lattice-loader__run {
+  transition: opacity 200ms ease;
+}
+
+.lattice-loader__run .lattice-loader__cell {
+  animation: lattice-on var(--ll-cycle) var(--ll-ease-in-out) infinite;
+}
+
+.lattice-loader__run .lattice-loader__cell[data-lit='45'] {
+  animation-name: lattice-on-45;
+}
+
+.lattice-loader__run .lattice-loader__cell[data-lit='35'] {
+  animation-name: lattice-on-35;
+}
+
+.lattice-loader__run .lattice-loader__cell[data-lit='25'] {
+  animation-name: lattice-on-25;
+}
+
+.lattice-loader__run .lattice-loader__cell[data-hole] {
+  animation: none;
+  opacity: calc(var(--ll-idle) * 0.47);
+}
+
+.lattice-loader__mark {
+  opacity: 0;
+  transform: scale(0.9);
+  transform-origin: center;
+  transition:
+    opacity 160ms var(--ll-ease-out),
+    transform 160ms var(--ll-ease-out);
+}
+
+.lattice-loader__mark .lattice-loader__cell {
+  transition:
+    opacity 200ms ease,
+    background-color 200ms ease;
+}
+
+.lattice-loader__mark .lattice-loader__cell[data-on] {
+  background: var(--ll-mark);
+  opacity: var(--ll-peak);
+}
+
+.lattice-loader:not([data-status='working']) .lattice-loader__run {
+  opacity: 0;
+}
+
+.lattice-loader:not([data-status='working']) .lattice-loader__run .lattice-loader__cell {
+  animation-play-state: paused;
+}
+
+.lattice-loader:not([data-status='working']) .lattice-loader__mark {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 200ms ease,
+    transform 200ms var(--ll-ease-out);
+}
+
+.lattice-loader__label {
+  position: relative;
+  display: inline-block;
   font-weight: 500;
-  color: #64748b;
-  letter-spacing: 0.2px;
 }
 
-html.dark .resume-loading-label,
-.dark .resume-loading-label,
-body.dark .resume-loading-label {
-  color: #94a3b8;
+.lattice-loader__text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  opacity: 0;
+  filter: blur(2px);
+  transition:
+    opacity 200ms ease,
+    filter 200ms ease;
+}
+
+.lattice-loader__text[data-active] {
+  position: static;
+  opacity: 1;
+  filter: blur(0);
+}
+
+.lattice-loader__timer {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(var(--ll-font) * 0.875);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+.lattice-loader__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes lattice-on {
+  0%,
+  100% {
+    opacity: var(--ll-idle);
+  }
+
+  18%,
+  42% {
+    opacity: var(--ll-peak);
+  }
+
+  62% {
+    opacity: var(--ll-idle);
+  }
+}
+
+@keyframes lattice-on-45 {
+  0%,
+  100% {
+    opacity: var(--ll-idle);
+  }
+
+  13%,
+  31% {
+    opacity: var(--ll-peak);
+  }
+
+  45% {
+    opacity: var(--ll-idle);
+  }
+}
+
+@keyframes lattice-on-35 {
+  0%,
+  100% {
+    opacity: var(--ll-idle);
+  }
+
+  10%,
+  24% {
+    opacity: var(--ll-peak);
+  }
+
+  35% {
+    opacity: var(--ll-idle);
+  }
+}
+
+@keyframes lattice-on-25 {
+  0%,
+  100% {
+    opacity: var(--ll-idle);
+  }
+
+  7%,
+  17% {
+    opacity: var(--ll-peak);
+  }
+
+  25% {
+    opacity: var(--ll-idle);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lattice-loader__run {
+    --ll-peak: 0.7;
+  }
+
+  .lattice-loader__run .lattice-loader__cell {
+    animation-delay: 0ms !important;
+    animation-duration: 1400ms !important;
+  }
+
+  .lattice-loader .lattice-loader__mark {
+    transform: none;
+  }
+
+  .lattice-loader .lattice-loader__text {
+    filter: none;
+  }
 }
 
 /* Document Paper Card */
@@ -2508,7 +2652,7 @@ body.dark .resume-loading-label {
   opacity: 0;
   transform: scale(0.92) translateY(18px);
   transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  text-align: left !important;
+  text-align: left;
 }
 
 .resume-doc-card.morphed-in {
@@ -2522,7 +2666,6 @@ body.dark .resume-loading-label {
   padding-bottom: 16px;
   margin-bottom: 20px;
   position: relative;
-  text-align: left !important;
 }
 
 .resume-header-top-row {
@@ -2572,7 +2715,6 @@ body.dark .resume-loading-label {
   gap: 6px 10px;
   font-size: 12.5px;
   color: #475569;
-  text-align: left !important;
 }
 
 .resume-contact-bar a {
@@ -2595,7 +2737,6 @@ body.dark .resume-loading-label {
 
 .resume-section {
   margin-bottom: 18px;
-  text-align: left !important;
 }
 
 .resume-section:last-child {
@@ -2611,12 +2752,10 @@ body.dark .resume-loading-label {
   border-bottom: 1px solid #cbd5e1;
   padding-bottom: 4px;
   margin: 0 0 10px;
-  text-align: left !important;
 }
 
 .resume-item {
   margin-bottom: 12px;
-  text-align: left !important;
 }
 
 .resume-item:last-child {
@@ -2624,87 +2763,102 @@ body.dark .resume-loading-label {
 }
 
 .resume-item-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  flex-wrap: wrap !important;
-  gap: 4px 12px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
   margin-bottom: 3px;
-  text-align: left !important;
 }
 
 .resume-item-title {
   font-size: 13.5px;
   font-weight: 700;
   color: #0f172a;
-  text-align: left !important;
 }
 
-.resume-item-sub {
-  font-size: 12.5px;
+.resume-item-right {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12px;
   font-weight: 500;
-  color: #64748b;
-  text-align: left !important;
+  color: #475569;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .resume-item-tech {
   font-size: 12px;
   font-weight: 500;
   color: #475569;
-  text-align: right !important;
+  font-style: italic;
+  text-align: right;
+  white-space: nowrap;
 }
 
-.resume-org {
-  font-weight: 600;
-  color: #0f172a;
+.resume-item-sub {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
 }
 
 .resume-item-date {
   font-size: 12px;
   font-weight: 600;
   color: #475569;
-  text-align: right !important;
+}
+
+.resume-item-org {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.resume-item-score {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.resume-divider-pipe {
+  color: #94a3b8;
+  font-weight: 300;
+  margin: 0 2px;
 }
 
 .resume-bullets {
-  margin: 4px 0 0 !important;
-  padding-left: 20px !important;
-  list-style-type: disc !important;
+  margin: 4px 0 0;
+  padding-left: 20px;
   font-size: 13px;
   line-height: 1.55;
   color: #334155;
-  text-align: left !important;
 }
 
 .resume-bullets li {
-  margin-bottom: 4px !important;
-  text-align: left !important;
+  margin-bottom: 3px;
 }
 
 .resume-bullets li:last-child {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
-.resume-skills-grid {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
+.resume-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   font-size: 13px;
   line-height: 1.5;
   color: #334155;
-  text-align: left !important;
-  align-items: flex-start !important;
-  width: 100% !important;
+  text-align: left;
 }
 
-.resume-skills-grid div {
-  text-align: left !important;
-  width: 100% !important;
+.resume-skill-row {
+  text-align: left;
 }
 
-.resume-skills-grid strong {
+.resume-skill-row strong {
   color: #0f172a;
-  font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -3229,160 +3383,148 @@ html.dark .contact-outro-message {
 }
 
 /* Section 5: Resume in Dark Mode */
-html.dark .resume-loading-card,
-.dark .resume-loading-card,
-body.dark .resume-loading-card {
+html.dark .resume-loading-card {
   background: transparent !important;
-  background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-html.dark .resume-doc-card,
-.dark .resume-doc-card,
-body.dark .resume-doc-card {
+html.dark .resume-doc-card {
   background: #111827 !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #e2e8f0 !important;
+  color: #f1f5f9 !important;
   box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.7) !important;
 }
 
-html.dark .resume-doc-header,
-.dark .resume-doc-header,
-body.dark .resume-doc-header {
+html.dark .resume-doc-header {
   border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-html.dark .resume-name,
-.dark .resume-name,
-body.dark .resume-name {
+html.dark .resume-name {
   color: #ffffff !important;
 }
 
-html.dark .resume-download-btn,
-.dark .resume-download-btn,
-body.dark .resume-download-btn {
+html.dark .resume-download-btn {
   background: #1f2937 !important;
   border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
   color: #f8fafc !important;
 }
 
-html.dark .resume-download-btn:hover,
-.dark .resume-download-btn:hover,
-body.dark .resume-download-btn:hover {
+html.dark .resume-download-btn:hover {
   background: #374151 !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
-html.dark .resume-contact-bar,
-.dark .resume-contact-bar,
-body.dark .resume-contact-bar {
+html.dark .resume-contact-bar {
   color: #cbd5e1 !important;
 }
 
-html.dark .resume-contact-bar a,
-.dark .resume-contact-bar a,
-body.dark .resume-contact-bar a {
+html.dark .resume-contact-bar a {
   color: #60a5fa !important;
 }
 
 html.dark .resume-divider,
-.dark .resume-divider,
-body.dark .resume-divider {
+html.dark .resume-divider-pipe {
   color: #64748b !important;
 }
 
-html.dark .resume-section-title,
-.dark .resume-section-title,
-body.dark .resume-section-title {
+html.dark .resume-section-title {
   color: #ffffff !important;
-  border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-html.dark .resume-item-title,
-.dark .resume-item-title,
-body.dark .resume-item-title {
+html.dark .resume-item-title {
   color: #ffffff !important;
 }
 
-html.dark .resume-item-sub,
-.dark .resume-item-sub,
-body.dark .resume-item-sub {
+html.dark .resume-item-org {
   color: #e2e8f0 !important;
 }
 
-html.dark .resume-org,
-.dark .resume-org,
-body.dark .resume-org {
-  color: #ffffff !important;
-}
-
-html.dark .resume-item-tech,
-.dark .resume-item-tech,
-body.dark .resume-item-tech {
-  color: #93c5fd !important;
-}
-
-html.dark .resume-item-date,
-.dark .resume-item-date,
-body.dark .resume-item-date {
+html.dark .resume-item-date {
   color: #cbd5e1 !important;
 }
 
-html.dark .resume-bullets,
-.dark .resume-bullets,
-body.dark .resume-bullets {
+html.dark .resume-item-right {
+  color: #cbd5e1 !important;
+}
+
+html.dark .resume-item-tech {
+  color: #cbd5e1 !important;
+}
+
+html.dark .resume-item-sub {
+  color: #cbd5e1 !important;
+}
+
+html.dark .resume-item-score {
+  color: #cbd5e1 !important;
+}
+
+html.dark .resume-bullets {
   color: #e2e8f0 !important;
 }
 
-html.dark .resume-bullets li,
-.dark .resume-bullets li,
-body.dark .resume-bullets li {
+html.dark .resume-bullets li {
   color: #e2e8f0 !important;
 }
 
-html.dark .resume-bullets li::marker,
-.dark .resume-bullets li::marker,
-body.dark .resume-bullets li::marker {
-  color: #60a5fa !important;
-}
-
-html.dark .resume-skills-grid,
-.dark .resume-skills-grid,
-body.dark .resume-skills-grid {
-  color: #e2e8f0 !important;
-}
-
-html.dark .resume-skills-grid div,
-.dark .resume-skills-grid div,
-body.dark .resume-skills-grid div {
-  color: #e2e8f0 !important;
-}
-
-html.dark .resume-skills-grid strong,
-.dark .resume-skills-grid strong,
-body.dark .resume-skills-grid strong {
+html.dark .resume-bullets li strong {
   color: #ffffff !important;
-  font-weight: 600 !important;
 }
 
-html.dark .resume-item-desc,
-.dark .resume-item-desc,
-body.dark .resume-item-desc {
+html.dark .resume-skills-list {
   color: #e2e8f0 !important;
 }
 
-html.dark .resume-bullets-list li,
-.dark .resume-bullets-list li,
-body.dark .resume-bullets-list li {
+html.dark .resume-skill-row {
   color: #e2e8f0 !important;
 }
 
-html.dark .resume-bullet,
-.dark .resume-bullet,
-body.dark .resume-bullet {
-  color: #94a3b8 !important;
+html.dark .resume-skill-row strong {
+  color: #ffffff !important;
+}
+
+html.dark .resume-doc-card strong {
+  color: #ffffff !important;
+}
+
+/* Info Welcome Modal in Dark Mode */
+html.dark #ff-modal,
+.dark #ff-modal {
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+
+html.dark #ff-modal .ff-card,
+.dark #ff-modal .ff-card {
+  background: #111827 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7) !important;
+}
+
+html.dark #ff-modal h3,
+.dark #ff-modal h3 {
+  color: #ffffff !important;
+}
+
+html.dark #ff-modal p,
+.dark #ff-modal p {
+  color: #cbd5e1 !important;
+}
+
+html.dark #ff-modal .ff-x,
+.dark #ff-modal .ff-x {
+  background: #1f2937 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+html.dark #ff-modal .ff-x:hover,
+.dark #ff-modal .ff-x:hover {
+  background: #374151 !important;
+  color: #ffffff !important;
 }
 
 /* Custom Answers / General Queries in Dark Mode */
