@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=60">
+<link rel="stylesheet" href="style.css?v=61">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -1501,23 +1501,23 @@ body.chat-sheet-open {
       </div>
     </div>
 
-    <!-- Section 6: Custom Question (Fallback AI answer card) -->
+    <!-- Section 6: Custom Question (AI Chat Conversation View) -->
     <div class="chat-section-view chat-section-custom" id="chat-section-custom" style="display: none;">
-      <div class="chat-answer-card">
-        <div class="chat-answer-top-grid">
-          <div class="chat-answer-photo-wrapper">
-            <img src="assets/images/outlook-id.png" alt="Kunal Rabidas" class="chat-answer-photo">
-          </div>
-          <div class="chat-answer-profile-info">
-            <div class="chat-answer-name-ghost">Kunal Rabidas</div>
-            <div class="chat-answer-meta-row">
-              <span class="chat-answer-meta-text">ECE Student • Silchar, India</span>
-            </div>
-            <div class="chat-answer-intro-text" id="chat-custom-intro-text"></div>
-            <div class="chat-answer-tags-row" id="chat-custom-tags-row"></div>
-          </div>
+      <div class="ai-chat-thread">
+        <!-- User Question bubble on the RIGHT -->
+        <div class="ai-chat-user-row">
+          <div class="ai-chat-user-bubble" id="ai-chat-user-bubble"></div>
         </div>
-        <div class="chat-answer-body-text" id="chat-custom-body-text"></div>
+
+        <!-- AI Response on the LEFT -->
+        <div class="ai-chat-bot-row">
+          <div class="ai-chat-typing-dots" id="ai-chat-typing-indicator" style="display: none;">
+            <span class="chat-dot"></span>
+            <span class="chat-dot"></span>
+            <span class="chat-dot"></span>
+          </div>
+          <div class="ai-chat-bot-response" id="ai-chat-bot-response"></div>
+        </div>
       </div>
     </div>
 
@@ -1655,30 +1655,23 @@ body.chat-sheet-open {
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="What makes you a valuable team member?" data-sheet-key="valuable_team" role="button">
+        <div class="chat-sheet-item" data-sheet-query="Tell me about your internship at AMTRON." data-sheet-key="amtron" role="button">
           <div class="chat-sheet-item-left">
-            <span>What makes you a valuable team member?</span>
+            <span>Tell me about your internship at AMTRON.</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="Where are you working now?" data-sheet-key="working_now" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What is your educational background?" data-sheet-key="education" role="button">
           <div class="chat-sheet-item-left">
-            <span>Where are you working now?</span>
+            <span>What is your educational background?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="Why should I hire you?" data-sheet-key="hire_me" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What are your key certifications?" data-sheet-key="certifications" role="button">
           <div class="chat-sheet-item-left">
-            <span>Why should I hire you?</span>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
-        </div>
-
-        <div class="chat-sheet-item" data-sheet-query="What's your educational background?" data-sheet-key="education" role="button">
-          <div class="chat-sheet-item-left">
-            <span>What's your educational background?</span>
+            <span>What are your key certifications?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
@@ -1692,10 +1685,31 @@ body.chat-sheet-open {
         <span>Projects</span>
       </div>
       <div class="chat-sheet-items-list">
-        <div class="chat-sheet-item is-black" data-sheet-query="What projects are you most proud of?" data-sheet-key="projects_proud" role="button">
+        <div class="chat-sheet-item is-black" data-sheet-query="What projects are you most proud of?" data-sheet-key="projects" role="button">
           <div class="chat-sheet-item-left">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-sparkle-icon"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
             <span>What projects are you most proud of?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="Tell me about ProteoPredict Pro." data-sheet-key="proteopredict" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Tell me about ProteoPredict Pro.</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="How does your PulseML health monitor work?" data-sheet-key="pulseml" role="button">
+          <div class="chat-sheet-item-left">
+            <span>How does your PulseML health monitor work?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What algorithm did you use in Dehaze?" data-sheet-key="dehaze" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What algorithm did you use in Dehaze?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
@@ -1717,9 +1731,23 @@ body.chat-sheet-open {
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="How was your experience at École 42?" data-sheet-key="experience_learning" role="button">
+        <div class="chat-sheet-item" data-sheet-query="What programming languages do you use most?" data-sheet-key="languages" role="button">
           <div class="chat-sheet-item-left">
-            <span>How was your experience at École 42?</span>
+            <span>What programming languages do you use most?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What is your experience with Machine Learning & AI?" data-sheet-key="ml_experience" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What is your experience with Machine Learning & AI?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <div class="chat-sheet-item" data-sheet-query="What VLSI & circuit design tools do you work with?" data-sheet-key="vlsi_tools" role="button">
+          <div class="chat-sheet-item-left">
+            <span>What VLSI & circuit design tools do you work with?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
@@ -1741,6 +1769,13 @@ body.chat-sheet-open {
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
+        <div class="chat-sheet-item" data-sheet-query="Where are you located?" data-sheet-key="location" role="button">
+          <div class="chat-sheet-item-left">
+            <span>Where are you located?</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
         <div class="chat-sheet-item" data-sheet-query="What kind of project would make you say 'yes' immediately?" data-sheet-key="project_yes" role="button">
           <div class="chat-sheet-item-left">
             <span>What kind of project would make you say 'yes' immediately?</span>
@@ -1748,9 +1783,9 @@ body.chat-sheet-open {
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
 
-        <div class="chat-sheet-item" data-sheet-query="Where are you located?" data-sheet-key="location" role="button">
+        <div class="chat-sheet-item" data-sheet-query="Are you open to internships or full-time roles?" data-sheet-key="open_roles" role="button">
           <div class="chat-sheet-item-left">
-            <span>Where are you located?</span>
+            <span>Are you open to internships or full-time roles?</span>
           </div>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="chat-sheet-item-arrow"><path d="m9 18 6-6-6-6"/></svg>
         </div>
@@ -1799,112 +1834,157 @@ body.chat-sheet-open {
   };
 
   const answerMap = {
-    me: {
-      intro: "Hey 👋\nI'm Kunal. I'm an ECE student at Assam University Silchar. I'm passionate about Electronics, AI, Web Development, and building sleek software products.",
-      tags: ['ECE', 'Developer', 'Assam Univ', 'Hardware', 'Web & AI'],
-      body: "I'm Kunal Rabidas, an Electronics and Communication Engineering student at Assam University, Silchar. Before diving deep into tech, I loved tinkering with electronics, circuits, and modern software! Now, I build full-stack web applications, interactive AI experiences, and dive into embedded systems. I'm super passionate about tech, entrepreneurship, and crafting intuitive user interfaces. What brings you here? 😊"
-    },
-    passions: {
-      intro: "Hey 👋\nHere is what drives and inspires me every day 🚀",
-      tags: ['Tech & AI', 'Hardware', 'UI/UX', 'Building Products', 'Continuous Learning'],
-      body: "My primary passion is crafting high-impact software and innovative engineering solutions. I love bridging hardware principles from my ECE studies with modern web technologies, WebGL visual computing, and fluid interfaces. Beyond coding, I'm passionate about tech entrepreneurship, exploring autonomous AI agents, and designing experiences that make users say 'wow'!"
-    },
-    started: {
-      intro: "Hey 👋\nHere's how my engineering journey started 💡",
-      tags: ['Origin', 'ECE', 'Curiosity', 'First Code', 'Assam Univ'],
-      body: "It started with pure curiosity about how devices and computers communicate under the hood. As an Electronics & Communication Engineering student at Assam University, I began by experimenting with microcontrollers, breadboards, and circuit diagrams. Soon after, I discovered web development and software engineering — being able to translate an idea into a living, responsive interface instantly captivated me. Since then, I've been building full-stack apps and exploring interactive technologies."
-    },
-    future: {
-      intro: "Looking into the future 🎯",
-      tags: ['Leadership', 'Software Engineering', 'AI Products', 'Innovation', 'Growth'],
-      body: "In 5 years, I envision myself architecting scalable, cutting-edge products at the intersection of AI, hardware, and interactive web software. I aim to lead innovative technical teams, solve high-impact real-world problems, and contribute meaningfully to the open-source and developer ecosystems."
-    },
-    projects: {
-      intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
-      tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
-      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
-    },
-    skills: {
-      intro: "Here's an overview of my technical toolset and strengths ⚡️\nI combine hardware understanding with modern full-stack development.",
-      tags: ['JavaScript', 'Flutter', 'HTML/CSS', 'C/C++', 'ECE', 'Git'],
-      body: "Here is a breakdown of my skillset:\n\n🛠 Hard Skills & Technologies:\n• Languages: JavaScript, TypeScript, Dart, C, C++, Python, HTML5, CSS3\n• Frameworks & Tools: Flutter, WebGL, Node.js, Git, Linux, REST APIs\n• Engineering & ECE: Digital Electronics, Circuit Analysis, Signal Systems, Embedded Systems\n\n💡 Soft Skills:\n• Problem solving, fast learning, UI/UX eye for detail, project ownership, and strong teamwork."
-    },
-    contact: {
-      intro: "I'd love to connect with you! 📬\nFeel free to reach out for collaboration, projects, or just a friendly chat.",
-      tags: ['Email', 'LinkedIn', 'GitHub', 'Silchar', 'Collaboration'],
-      body: "You can reach out to me anytime:\n\n• Location: Silchar, Assam, India\n• Socials: Connect on GitHub and LinkedIn to follow my work and contributions.\n• Opportunities: Open to freelance projects, internships, and software engineering roles!\n\nI'm always open to talking about tech, engineering, and creative ideas!"
-    },
-    resume: {
-      intro: "Here is a summary of my background and education 📄",
-      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
-      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
-    },
-    valuable_team: {
-      intro: "What makes me a valuable team player 🤝\nClear communication, rapid execution, and high ownership.",
-      tags: ['Ownership', 'Collaboration', 'Problem Solving', 'Adaptability'],
-      body: "I bring a balance of hardware-level rigor and modern software agility. I communicate transparently, adapt quickly to new tech stacks, and genuinely love collaborating with designers and engineers to build polished, reliable products that deliver real value."
-    },
-    working_now: {
-      intro: "What I'm currently working on ⚡️\nBuilding real-world products and exploring new engineering frontiers.",
-      tags: ['Assam Univ', 'Flutter', 'Web Tech', 'AI Interfaces', 'Projects'],
-      body: "Right now, I'm pursuing my engineering degree at Assam University while actively building software products:\n\n• Splitsbug: A cross-platform group expense and budget app built with Flutter.\n• Lotus Outlook: This dynamic AI-powered portfolio experience.\n• Exploring autonomous AI tools and interactive web engineering."
-    },
-    hire_me: {
-      intro: "Why hire me? 🚀\nFast execution, product sense, and engineering dedication.",
-      tags: ['Impact', 'High Velocity', 'Quality Code', 'Product Mindset'],
-      body: "I don't just write code — I build user-first products. I learn new technologies at rapid speed, pay obsessive attention to detail, and work proactively to ship high-quality solutions that create real impact for users and teams."
-    },
-    education: {
-      intro: "Here is a summary of my background and education 📄",
-      tags: ['Education', 'Assam Univ', 'ECE', 'Experience', 'Engineering'],
-      body: "🎓 Education:\n• Bachelor of Technology in Electronics and Communication Engineering (ECE)\n• Assam University, Silchar\n\n💼 Focus Areas:\n• Software Engineering, Embedded Systems & Electronics, Frontend Architecture & Creative Coding.\n\nWant to know more details about coursework, academic projects, or certifications? Ask away!"
-    },
-    projects_proud: {
-      intro: "Here is a snapshot of what I've been creating recently 🚀\nI love building products that merge slick aesthetics with practical utility.",
-      tags: ['Projects', 'Full-Stack', 'Flutter', 'AI Tools', 'WebApps'],
-      body: "I have built and worked on several exciting projects:\n\n• Lotus Outlook Portfolio: An interactive, dynamic AI-powered portfolio designed with a modern fluid UI, fast interactions, and responsive design.\n• Splitsbug App: A collaborative expense-sharing and group ledger app built with Flutter and Dart, supporting intuitive budget management.\n• Web & AI Experiments: Multiple interactive web experiences, real-time WebGL fluid simulations, and responsive full-stack applications.\n\nI'm constantly building and experimenting with new tech. Ask me if you want to know about any specific project!"
-    },
-    experience_learning: {
-      intro: "My experience with project-based, self-directed learning 💡",
-      tags: ['Hands-on Learning', 'Problem Solving', 'Peer Coding', 'Projects'],
-      body: "Project-based, peer-driven learning taught me how to solve difficult engineering problems independently. Instead of relying solely on textbooks, building real projects from scratch, reading documentation, and debugging under constraints shaped my resourcefulness and technical adaptability."
-    },
-    project_yes: {
-      intro: "The kind of project that makes me say 'YES' immediately 🤩",
-      tags: ['Ambitious', 'AI Interfaces', 'Design-Driven', 'High Performance'],
-      body: "Any project that blends ambitious technology with exceptional aesthetics: real-time AI experiences, fluid user interfaces, creative developer tools, or hardware-software integrations. If it challenges the status quo and requires building something that wows people, count me in!"
-    },
-    location: {
-      intro: "Where I'm located 📍",
-      tags: ['Silchar', 'Assam', 'India', 'Remote Ready'],
-      body: "I am based in Silchar, Assam, India. I work seamlessly in remote and hybrid setups across global time zones, and I'm open to relocation for exciting opportunities!"
-    }
+    passions: `My primary passion lies at the intersection of **hardware engineering, artificial intelligence, and interactive software systems**. With a foundation in Electronics & Communication Engineering (ECE), I love exploring how physical signals, microcontrollers, and circuits connect with intelligent real-time computing.\n\nOn the software and ML side, I'm passionate about building **deep learning architectures** (such as CNNs and BiLSTMs) and deploying them seamlessly into modern, fluid web interfaces using **TensorFlow.js**.\n\nOutside of core engineering, I'm deeply enthusiastic about photography, videography, video editing, and crafting intuitive user experiences that make complex technology feel natural and accessible.`,
+
+    started: `My journey began with a natural curiosity about how electronic devices and computing hardware operate under the hood. Growing up, I was drawn to tinkering with circuits, understanding signals, and exploring how code can breathe life into physical hardware.\n\nThis curiosity led me to pursue **Electronics and Communication Engineering at Assam University, Silchar**. As I mastered circuit analysis, microcontrollers, and digital electronics, I expanded into **Python, machine learning, and modern web development**.\n\nBeing able to design both the low-level embedded hardware (like ESP32 IoT sensors) and the high-level neural networks running in the browser was the defining spark that drove my dedication to engineering.`,
+
+    future: `In 5 years, I envision myself as a **Lead Machine Learning & Systems Engineer**, architecting intelligent, high-impact products that bridge edge computing, embedded hardware, and scalable AI infrastructure.\n\nI aim to work on transformative technologies—whether in edge AI diagnostics, autonomous robotics, or intelligent signal processing. Alongside technical leadership, I want to actively mentor aspiring engineers, contribute to open-source developer tooling, and lead cross-functional engineering teams solving real-world challenges.`,
+
+    amtron: `At **AMTRON** (Assam Electronics Development Corporation Ltd.), I completed a structured internship as an **Internship Trainee in Networking & Drone Technologies** in June 2026.\n\nKey takeaways and responsibilities included:\n• **Networking Fundamentals:** Configured network topologies, IP routing protocols, switching, and network simulation using **Cisco Packet Tracer**.\n• **Drone Technology Applications:** Studied UAV systems, flight controller hardware, telemetry modules, and real-time aerial sensor integration.\n• **Hardware-Software Integration:** Bridged embedded controllers with communication protocols for reliable telemetry and operational monitoring.`,
+
+    education: `I am currently pursuing my **Bachelor of Technology (B.Tech) in Electronics and Communication Engineering (ECE)** at **Assam University, Silchar** (a central university established by an Act of Parliament).\n\nMy academic curriculum covers core engineering principles including:\n• **Digital Signal Processing & Communication Systems**\n• **VLSI & Circuit Design** (working with Cadence Virtuoso, Silvaco TCAD, and LTspice)\n• **Embedded Systems & Microcontrollers** (interfacing sensors and communication modules)\n• **Computer Architecture & Machine Learning Foundations**\n\nI combine this rigorous academic grounding with self-directed development in modern deep learning frameworks, in-browser inference, and full-stack web engineering.`,
+
+    certifications: `Here are my key professional certifications and specialized trainings:\n\n• **Udemy:** *Deep Learning A-Z 2026 — Neural Networks, AI & ChatGPT Prize* (March 2026) — Comprehensive mastery of Artificial Neural Networks (ANN), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and generative AI workflows.\n• **NIT Silchar & Jet Aero:** *One-Week Bootcamp on Drone Technology and Related Applications* (February 2026) — Practical training on unmanned aerial vehicle (UAV) systems, flight mechanics, and telemetry.\n• **Google Cloud:** *Introduction to Generative AI* (December 2023) — Fundamental principles of Large Language Models (LLMs) and responsible AI application design.\n• **Google Cloud Arcade:** Awarded Google Cloud swags and skill badges for completing cloud computing challenges.`,
+
+    proteopredict: `**ProteoPredict Pro** is a multi-task deep learning web application I developed for predicting **protein secondary structure** directly in the browser.\n\nKey architectural highlights:\n• **Neural Network Architecture:** Combines **Convolutional Neural Networks (CNN)** for extracting local amino acid motif features with **Bidirectional Long Short-Term Memory (BiLSTM)** networks to capture long-range contextual sequence dependencies.\n• **Browser-Native Inference:** Exported and optimized with **TensorFlow.js**, enabling predictions to run 100% locally on the client's GPU via WebGL with zero server latency and total data privacy.\n• **Generative AI Insights:** Integrated with **Google Gemini AI** to produce biochemical explanations, structural stability assessments, and functional insights based on the predicted conformations.`,
+
+    pulseml: `**PulseML** is an AI-powered health risk assessment and biometric monitoring system that bridges **IoT hardware with browser-native machine learning**.\n\nHere's how it operates:\n• **Edge Sensing:** An **ESP32 microcontroller** interfaces with a photoplethysmography (PPG) pulse oximeter sensor to capture real-time heart rate and blood oxygen saturation (SpO2) data.\n• **Data Streaming:** Telemetry is transmitted over Wi-Fi/WebSockets to a modern responsive dashboard.\n• **Edge Inference:** A client-side machine learning model analyzes the incoming pulse waveform in real-time, detecting anomalies and estimating cardiovascular risk metrics without sending sensitive physiological data to external servers.`,
+
+    dehaze: `**Dehaze** is a single-image fog and haze restoration tool implemented using the **Dark Channel Prior (DCP)** algorithm, built with **MATLAB, Python, and OpenCV**.\n\nHow it works:\n• **Atmospheric Scattering Model:** Operates on the physical formulation \\(I(x) = J(x)t(x) + A(1 - t(x))\\), where the goal is to recover the haze-free scene radiance \\(J(x)\\).\n• **Dark Channel Estimation:** Exploits the observation that in most non-sky patches of haze-free outdoor images, at least one color channel has very low intensity.\n• **Transmission Map & Refinement:** Estimates coarse scene transmission \\(t(x)\\) and refines it using soft matting and guided filtering to eliminate halo artifacts around depth discontinuities.\n• **Visualization:** The tool provides step-by-step visualizations of each processing stage: the dark channel, raw transmission, guided-filtered map, and the final restored image.`,
+
+    languages: `My primary programming languages and everyday technical stack include:\n\n• **Python:** My go-to language for Machine Learning, Deep Learning (TensorFlow, PyTorch), data processing (NumPy, Pandas), and OpenCV computer vision pipelines.\n• **C / C++:** Used for embedded systems, microcontrollers (ESP32, Arduino), hardware-level performance optimization, and algorithmic problem-solving.\n• **JavaScript (ES6+) & TypeScript:** Used for building modern web applications, interactive interfaces, browser-native ML (TensorFlow.js), and Node.js backends.\n• **MATLAB:** Used for academic research, signal processing analysis, and algorithm prototyping (e.g. image dehazing experiments).`,
+
+    ml_experience: `My experience in **Machine Learning and Artificial Intelligence** spans theoretical modeling through to production web deployment:\n\n• **Deep Learning Architectures:** Practical experience designing, training, and evaluating **ANNs, CNNs (Convolutional Networks), RNNs, and BiLSTMs (Bidirectional LSTMs)** for sequence and spatial data.\n• **Frameworks & Libraries:** Proficient with **TensorFlow, Keras, TensorFlow.js, Scikit-learn, OpenCV**, and data analytics libraries.\n• **Edge & In-Browser AI:** Specialized in converting and deploying trained models directly to the browser with **TensorFlow.js**, optimizing performance with WebGL acceleration.\n• **Generative AI & LLMs:** Experienced in integrating LLM APIs (such as **Google Gemini**) into full-stack workflows to provide context-aware summaries and automated analytical insights.`,
+
+    vlsi_tools: `As an ECE student, I have hands-on academic and laboratory experience with industry-standard Electronic Design Automation (EDA) and circuit simulation tools:\n\n• **Cadence Virtuoso:** Schematic capture, analog layout, and circuit simulation for microelectronic circuits.\n• **Silvaco TCAD:** Semiconductor device simulation, exploring 2D/3D process and device physics for nanoscale transistors.\n• **LTspice:** Analog circuit simulation, transient analysis, AC frequency response, and power supply design.\n• **Cisco Packet Tracer:** Network protocol simulation, switch/router configuration, and subnet design.`,
+
+    location: `I am based in **Silchar, Assam, India**, where I study at Assam University.\n\nI have extensive experience collaborating remotely on software projects across different time zones. I am fully equipped for remote work, and I am also actively open to **relocation** for high-impact internships, research positions, or full-time software engineering roles.`,
+
+    project_yes: `A project that would make me say **'YES' immediately** is one that combines **deep technical challenge with high visual or practical impact**.\n\nSpecifically:\n• **Edge AI & IoT Systems:** Integrating intelligent ML models onto low-power microcontrollers or embedded devices for real-time monitoring.\n• **Interactive Web & Machine Learning:** Building innovative web apps that run complex models in-browser (TensorFlow.js, WebGPU, WebGL) with breathtaking, fluid UI design.\n• **Collaborative & Fast-Paced Environments:** Working alongside passionate engineers and designers on products that solve genuine problems for real users!`,
+
+    open_roles: `**Yes, absolutely!** I am actively open to:\n\n• **Software Engineering Internships** (Full-Stack, Frontend, or Backend)\n• **Machine Learning / AI Engineering Internships**\n• **Embedded Systems & IoT Engineering Opportunities**\n• **Full-Time Engineering Roles** (for upcoming graduate placement)\n• **Technical Collaboration & Freelance Projects**\n\nIf you have an opportunity or would like to discuss a project, feel free to reach out via the **Contact** tab or message me on LinkedIn/GitHub!`
   };
 
-  const getAnswerData = (query, key) => {
+  const getAnswerText = (query, key) => {
     const qLower = (query || '').toLowerCase();
     if (key && answerMap[key]) return answerMap[key];
+
+    // Check specific topics
     if (qLower.includes('passion')) return answerMap.passions;
     if (qLower.includes('started') || qLower.includes('how did you get')) return answerMap.started;
     if (qLower.includes('5 year') || qLower.includes('five year') || qLower.includes('future')) return answerMap.future;
-    if (qLower.includes('who are you') || qLower.includes('about you') || qLower.includes('me')) return answerMap.me;
-    if (qLower.includes('valuable team')) return answerMap.valuable_team;
-    if (qLower.includes('working now')) return answerMap.working_now;
-    if (qLower.includes('why should i hire')) return answerMap.hire_me;
-    if (qLower.includes('proud of')) return answerMap.projects_proud || answerMap.projects;
-    if (qLower.includes('project') || qLower.includes('working on')) return answerMap.projects;
-    if (qLower.includes('skill')) return answerMap.skills;
-    if (qLower.includes('contact') || qLower.includes('reach you') || qLower.includes('hire') || qLower.includes('social')) return answerMap.contact;
-    if (qLower.includes('resume') || qLower.includes('cv') || qLower.includes('education') || qLower.includes('educational background')) return answerMap.resume;
+    if (qLower.includes('amtron') || qLower.includes('internship at amtron')) return answerMap.amtron;
+    if (qLower.includes('education') || qLower.includes('educational background') || qLower.includes('degree') || qLower.includes('b.tech') || qLower.includes('assam univ')) return answerMap.education;
+    if (qLower.includes('certification') || qLower.includes('certificate') || qLower.includes('bootcamp')) return answerMap.certifications;
+    if (qLower.includes('proteopredict') || qLower.includes('protein')) return answerMap.proteopredict;
+    if (qLower.includes('pulseml') || qLower.includes('pulse') || qLower.includes('esp32')) return answerMap.pulseml;
+    if (qLower.includes('dehaze') || qLower.includes('dark channel') || qLower.includes('fog')) return answerMap.dehaze;
+    if (qLower.includes('programming language') || qLower.includes('languages do you use')) return answerMap.languages;
+    if (qLower.includes('machine learning') || qLower.includes('ml & ai') || qLower.includes('deep learning')) return answerMap.ml_experience;
+    if (qLower.includes('vlsi') || qLower.includes('cadence') || qLower.includes('circuit design')) return answerMap.vlsi_tools;
+    if (qLower.includes('located') || qLower.includes('where are you') || qLower.includes('location')) return answerMap.location;
     if (qLower.includes('say \'yes\'') || qLower.includes('say yes') || qLower.includes('kind of project')) return answerMap.project_yes;
-    if (qLower.includes('located') || qLower.includes('where are you')) return answerMap.location;
-    if (qLower.includes('école 42') || qLower.includes('ecole 42') || qLower.includes('experience at') || qLower.includes('learning')) return answerMap.experience_learning;
+    if (qLower.includes('open to') || qLower.includes('open roles') || qLower.includes('hire') || qLower.includes('internship')) return answerMap.open_roles;
 
-    return {
-      intro: `Thanks for asking about "${query}" 🤖\nHere is what I know:`,
-      tags: ['Kunal', 'Assam Univ', 'ECE', 'Developer'],
-      body: `I'm an AI assistant representing Kunal Rabidas. Kunal is an ECE student at Assam University Silchar, passionate about building responsive web applications, mobile apps with Flutter, and embedded hardware.\n\nFeel free to use the options below or ask more details about his projects, skills, or experience!`
+    // Intelligent default AI response
+    return `I'm an AI assistant for **Kunal Rabidas**, an Electronics & Communication Engineering (ECE) student at Assam University, Silchar.\n\nWhile I don't have a specific pre-configured note for "${query}", I can share that Kunal specializes in **Machine Learning (CNNs, BiLSTMs)**, **in-browser AI (TensorFlow.js)**, **embedded IoT systems (ESP32)**, and **full-stack web development**.\n\nYou can explore his interactive tabs below (**Me**, **Projects**, **Skills**, **Contact**, **Resume**) or open the **Options (•••)** menu for detailed insights into his work and background!`;
+  };
+
+  const formatMarkdown = (text) => {
+    if (!text) return '';
+    const blocks = text.trim().split(/\n\s*\n/);
+    return blocks.map(block => {
+      let b = block.trim();
+      if (!b) return '';
+      const lines = b.split('\n');
+      const isBulletList = lines.some(l => l.trim().startsWith('• '));
+      if (isBulletList) {
+        let html = '';
+        let inUl = false;
+        let pLines = [];
+        const flushP = () => {
+          if (pLines.length > 0) {
+            const pText = pLines.join('<br>')
+              .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*\*([^*]+)$/g, '<strong>$1</strong>');
+            html += '<p>' + pText + '</p>';
+            pLines = [];
+          }
+        };
+        lines.forEach(l => {
+          const tr = l.trim();
+          if (tr.startsWith('• ')) {
+            flushP();
+            if (!inUl) {
+              html += '<ul class="ai-chat-list">';
+              inUl = true;
+            }
+            const itemText = tr.slice(2)
+              .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*\*([^*]+)$/g, '<strong>$1</strong>');
+            html += '<li>' + itemText + '</li>';
+          } else {
+            if (inUl) {
+              html += '</ul>';
+              inUl = false;
+            }
+            pLines.push(tr);
+          }
+        });
+        flushP();
+        if (inUl) html += '</ul>';
+        return html;
+      } else {
+        let pText = b.replace(/\n/g, '<br>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*\*([^*]+)$/g, '<strong>$1</strong>');
+        return '<p>' + pText + '</p>';
+      }
+    }).join('');
+  };
+
+  let currentChatStreamAbort = null;
+  const streamAiMessage = (targetEl, fullText, speed = 10, onDone) => {
+    if (!targetEl) return () => {};
+    if (currentChatStreamAbort) {
+      currentChatStreamAbort();
+      currentChatStreamAbort = null;
+    }
+
+    let index = 0;
+    let isAborted = false;
+    let timerId = null;
+
+    targetEl.innerHTML = '<span class="ai-cursor"></span>';
+
+    const step = () => {
+      if (isAborted) return;
+      const chunk = Math.min(Math.floor(Math.random() * 3) + 2, fullText.length - index);
+      index += chunk;
+
+      const currentText = fullText.slice(0, index);
+      targetEl.innerHTML = formatMarkdown(currentText) + '<span class="ai-cursor"></span>';
+
+      if (index < fullText.length) {
+        timerId = setTimeout(step, speed);
+      } else {
+        targetEl.innerHTML = formatMarkdown(fullText);
+        currentChatStreamAbort = null;
+        if (onDone) onDone();
+      }
     };
+
+    timerId = setTimeout(step, speed);
+
+    const abort = () => {
+      isAborted = true;
+      if (timerId) clearTimeout(timerId);
+      targetEl.innerHTML = formatMarkdown(fullText);
+      currentChatStreamAbort = null;
+    };
+
+    currentChatStreamAbort = abort;
+    return abort;
   };
 
   const homeView = document.getElementById('home-view');
@@ -2593,17 +2673,26 @@ body.chat-sheet-open {
     if (!query) query = queryMap.projects;
     if (!activeKey) {
       const qLower = query.trim().toLowerCase();
-      if (qLower.includes('project')) activeKey = 'projects';
-      else if (qLower.includes('skill')) activeKey = 'skills';
-      else if (qLower.includes('contact') || qLower.includes('reach') || qLower.includes('hire')) activeKey = 'contact';
+      if (qLower.includes('who are you') || qLower === 'me' || qLower.includes('about you')) activeKey = 'me';
+      else if ((qLower.includes('project') || qLower.includes('working on')) && !qLower.includes('proteo') && !qLower.includes('pulse') && !qLower.includes('dehaze')) activeKey = 'projects';
+      else if (qLower.includes('skill') && !qLower.includes('language') && !qLower.includes('vlsi') && !qLower.includes('machine learning')) activeKey = 'skills';
+      else if ((qLower.includes('contact') || qLower.includes('reach you') || qLower.includes('email') || qLower.includes('social')) && !qLower.includes('location')) activeKey = 'contact';
       else if (qLower.includes('resume') || qLower.includes('cv')) activeKey = 'resume';
-      else if (qLower.includes('who are you') || qLower.includes('about you') || qLower.includes('me')) activeKey = 'me';
       else activeKey = 'custom';
     }
 
-    // Audio requirement: If already active and rendered, DO NOT regenerate!
-    if (activeKey === currentActiveTab && isTabRendered[activeKey]) {
+    const tabKeys = ['me', 'projects', 'skills', 'contact', 'resume'];
+    const isTabKey = tabKeys.includes(activeKey);
+
+    // If already active and rendered for a tab, don't regenerate
+    if (isTabKey && activeKey === currentActiveTab && isTabRendered[activeKey]) {
       return;
+    }
+
+    // Abort any ongoing AI stream
+    if (currentChatStreamAbort) {
+      currentChatStreamAbort();
+      currentChatStreamAbort = null;
     }
 
     // If leaving any active tab to another, reset its state so returning replays nicely
@@ -2642,32 +2731,15 @@ body.chat-sheet-open {
     // Scroll to top
     window.scrollTo(0, 0);
 
-    // Hide answer container while thinking
-    if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
-
-    // Show query bubble & 3-dot thinking animation
-    if (chatQueryContainer) {
-      chatQueryContainer.style.display = 'flex';
-      chatQueryContainer.style.opacity = '1';
-    }
-    if (chatBubble) {
-      chatBubble.textContent = query;
-      retriggerAnim(chatBubble);
-    }
-    if (chatTypingContainer) {
-      chatTypingContainer.style.display = 'flex';
-      chatTypingContainer.style.opacity = '1';
-    }
-
     // Only play search bar expand and buttons rise animation on first entrance
     if (isFirstEnter) {
       retriggerAnim(chatOptsRow);
       retriggerAnim(chatInputPill);
     }
 
-    // Update active pill state immediately
+    // Update active pill state: highlight only if it is one of the 5 bottom tabs
     document.querySelectorAll('[data-chat-key]').forEach(btn => {
-      if (btn.dataset.chatKey === activeKey) {
+      if (isTabKey && btn.dataset.chatKey === activeKey) {
         btn.classList.add('active');
       } else {
         btn.classList.remove('active');
@@ -2677,83 +2749,118 @@ body.chat-sheet-open {
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
 
-    updateScrollFeather();
-    updateBottomFeather();
+    const sections = {
+      me: document.getElementById('chat-section-me'),
+      projects: document.getElementById('chat-section-projects'),
+      skills: document.getElementById('chat-section-skills'),
+      contact: document.getElementById('chat-section-contact'),
+      resume: document.getElementById('chat-section-resume'),
+      custom: document.getElementById('chat-section-custom')
+    };
 
-    // Schedule 5-second thinking animation, then reveal AI answer and trigger in-animations
-    answerTimeoutId = setTimeout(() => {
-      answerTimeoutId = null;
+    if (isTabKey) {
+      // TAB VIEW (Me, Projects, Skills, Contact, Resume)
+      const renderTab = () => {
+        answerTimeoutId = null;
 
-      // Hide question bubble & dots
+        // Hide question bubble & dots
+        if (chatQueryContainer) chatQueryContainer.style.display = 'none';
+        if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+
+        // Show answer container
+        if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
+
+        // Hide all view sections
+        Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
+
+        // Reset carousel track scroll position instantly while hidden
+        const carouselTrack = document.getElementById('projects-carousel-track');
+        if (carouselTrack) {
+          carouselTrack.style.scrollBehavior = 'auto';
+          carouselTrack.scrollLeft = 0;
+        }
+
+        // Show and animate selected section
+        if (activeKey === 'me') {
+          if (sections.me) sections.me.style.display = 'block';
+          renderMeSection();
+        } else if (activeKey === 'projects') {
+          if (sections.projects) sections.projects.style.display = 'block';
+          renderProjectsSection();
+        } else if (activeKey === 'skills') {
+          if (sections.skills) sections.skills.style.display = 'block';
+          renderSkillsSection();
+        } else if (activeKey === 'contact') {
+          if (sections.contact) sections.contact.style.display = 'block';
+          renderContactSection();
+        } else if (activeKey === 'resume') {
+          if (sections.resume) sections.resume.style.display = 'flex';
+          renderResumeSection();
+        }
+
+        updateScrollFeather();
+        updateBottomFeather();
+      };
+
+      if (isFirstEnter) {
+        // Hide answer container while thinking briefly on first entrance
+        if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
+        if (chatQueryContainer) {
+          chatQueryContainer.style.display = 'flex';
+          chatQueryContainer.style.opacity = '1';
+        }
+        if (chatBubble) {
+          chatBubble.textContent = query;
+          retriggerAnim(chatBubble);
+        }
+        if (chatTypingContainer) {
+          chatTypingContainer.style.display = 'flex';
+          chatTypingContainer.style.opacity = '1';
+        }
+        updateScrollFeather();
+        updateBottomFeather();
+        answerTimeoutId = setTimeout(renderTab, 600);
+      } else {
+        renderTab();
+      }
+
+    } else {
+      // CUSTOM AI CHAT VIEW (ChatGPT / Claude style conversation)
+      // Hide top query bubble & dots
       if (chatQueryContainer) chatQueryContainer.style.display = 'none';
       if (chatTypingContainer) chatTypingContainer.style.display = 'none';
 
-      // Show answer container
+      // Show answer container and custom chat section
       if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
-
-      // Hide all view sections
-      const sections = {
-        me: document.getElementById('chat-section-me'),
-        projects: document.getElementById('chat-section-projects'),
-        skills: document.getElementById('chat-section-skills'),
-        contact: document.getElementById('chat-section-contact'),
-        resume: document.getElementById('chat-section-resume'),
-        custom: document.getElementById('chat-section-custom')
-      };
       Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
+      if (sections.custom) sections.custom.style.display = 'block';
 
-      // Reset carousel track scroll position instantly while hidden so it never rewinds on view
-      const carouselTrack = document.getElementById('projects-carousel-track');
-      if (carouselTrack) {
-        carouselTrack.style.scrollBehavior = 'auto';
-        carouselTrack.scrollLeft = 0;
-      }
+      // Set user question in right-aligned bubble
+      const userBubble = document.getElementById('ai-chat-user-bubble');
+      const botResponse = document.getElementById('ai-chat-bot-response');
+      const typingIndicator = document.getElementById('ai-chat-typing-indicator');
 
-      // Show and animate selected section
-      if (activeKey === 'me') {
-        if (sections.me) sections.me.style.display = 'block';
-        renderMeSection();
-      } else if (activeKey === 'projects') {
-        if (sections.projects) sections.projects.style.display = 'block';
-        renderProjectsSection();
-      } else if (activeKey === 'skills') {
-        if (sections.skills) sections.skills.style.display = 'block';
-        renderSkillsSection();
-      } else if (activeKey === 'contact') {
-        if (sections.contact) sections.contact.style.display = 'block';
-        renderContactSection();
-      } else if (activeKey === 'resume') {
-        if (sections.resume) sections.resume.style.display = 'flex';
-        renderResumeSection();
-      } else {
-        if (sections.custom) sections.custom.style.display = 'block';
-        const info = getAnswerData(query, activeKey);
-        const introEl = document.getElementById('chat-custom-intro-text');
-        const bodyEl = document.getElementById('chat-custom-body-text');
-        const tagsRow = document.getElementById('chat-custom-tags-row');
-        if (tagsRow) {
-          tagsRow.innerHTML = '';
-          (info.tags || []).forEach(tag => {
-            const sp = document.createElement('span');
-            sp.className = 'chat-tag';
-            sp.textContent = tag;
-            tagsRow.appendChild(sp);
-          });
-        }
-        if (introEl && bodyEl) {
-          introEl.innerHTML = '';
-          bodyEl.innerHTML = '';
-          const cancel1 = typewriteText(introEl, info.intro, 14, () => {
-            const cancel2 = typewriteText(bodyEl, info.body, 12);
-            currentTypingAbort = () => cancel2();
-          });
-          currentTypingAbort = () => cancel1();
-        }
-      }
+      if (userBubble) userBubble.textContent = query;
+      if (botResponse) botResponse.innerHTML = '';
+      if (typingIndicator) typingIndicator.style.display = 'inline-flex';
 
       updateScrollFeather();
       updateBottomFeather();
-    }, 5000);
+
+      const answerText = getAnswerText(query, activeKey);
+
+      // Brief realistic pause (~350ms) before streaming response
+      answerTimeoutId = setTimeout(() => {
+        answerTimeoutId = null;
+        if (typingIndicator) typingIndicator.style.display = 'none';
+        if (botResponse) {
+          streamAiMessage(botResponse, answerText, 10, () => {
+            updateScrollFeather();
+            updateBottomFeather();
+          });
+        }
+      }, 350);
+    }
   };
 
   // Bottom feather controller: dynamically keeps the feather ~45px above the top control element
