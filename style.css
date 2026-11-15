@@ -1236,29 +1236,38 @@ html.dark .ai-chat-list li {
   background: #1e40af;
 }
 
-/* Fastfolio badge */
+/* Gemini Wordmark Badge */
 .fastfolio-badge {
   position: fixed;
   bottom: 20px;
   right: 24px;
-  background: #1f1f1f;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  text-decoration: none;
-  z-index: 50;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: opacity 0.2s, transform 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 9999px !important;
+  padding: 5px 14px !important;
+  text-decoration: none !important;
+  z-index: 50 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+  transition: opacity 0.2s ease, transform 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
 }
 
 .fastfolio-badge:hover {
-  opacity: 0.95;
-  transform: translateY(-1px);
+  opacity: 0.92 !important;
+  transform: translateY(-1px) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.gemini-wordmark-img {
+  height: 22px !important;
+  width: auto !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: 4px !important;
 }
 
 /* Chat top feather overlay */
@@ -2494,6 +2503,43 @@ html.dark .ai-chat-list li {
   display: none !important;
 }
 
+/* Resume Loading Spinner Card */
+.resume-spinner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 36px 20px;
+  min-height: 180px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.resume-spinner-card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.resume-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(34, 197, 94, 0.2);
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: resumeSpin 0.75s linear infinite;
+}
+
+html.dark .resume-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #22c55e;
+}
+
+@keyframes resumeSpin {
+  to { transform: rotate(360deg); }
+}
+
 /* LatticeLoader Component (React Bits adaptation in pure HTML & CSS) */
 .lattice-loader {
   --ll-n: 3;
@@ -2501,10 +2547,10 @@ html.dark .ai-chat-list li {
   --ll-gap: 2.5px;
   --ll-font: 14px;
   --ll-color: currentColor;
-  --ll-mark: #3b82f6;
+  --ll-mark: #22c55e;
   --ll-idle: 0.15;
   --ll-glow: currentColor;
-  --ll-mark-glow: #3b82f6;
+  --ll-mark-glow: #22c55e;
   --ll-peak: 1;
   --ll-cycle: 864ms;
   --ll-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -2596,10 +2642,18 @@ html.dark .lattice-loader {
     background-color 200ms ease;
 }
 
+.lattice-loader__cell.is-green {
+  background: #22c55e !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.75) !important;
+  animation: none !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease !important;
+}
+
 .lattice-loader__mark .lattice-loader__cell[data-on] {
   background: var(--ll-mark) !important;
   opacity: var(--ll-peak) !important;
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.6) !important;
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.75) !important;
 }
 
 .lattice-loader:not([data-status='working']) .lattice-loader__run {
@@ -2936,24 +2990,37 @@ html.dark .lattice-loader {
 }
 
 .resume-bullets {
-  list-style-type: disc !important;
-  list-style: disc !important;
+  list-style: none !important;
   margin: 6px 0 0 !important;
-  padding-left: 20px !important;
-  font-size: 13px;
-  line-height: 1.55;
-  color: #334155;
+  padding: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #334155 !important;
 }
 
 .resume-bullets li {
-  display: list-item !important;
-  list-style-type: disc !important;
-  list-style: disc !important;
-  margin-bottom: 4px;
+  position: relative !important;
+  display: block !important;
+  padding-left: 18px !important;
+  margin-bottom: 5px !important;
+  list-style: none !important;
+  color: #334155 !important;
+}
+
+.resume-bullets li::before {
+  content: "•" !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: -1px !important;
+  color: #475569 !important;
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  display: block !important;
 }
 
 .resume-bullets li:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .resume-skills-list {
@@ -3260,11 +3327,10 @@ html.dark .chat-input-pill input::placeholder {
 }
 
 html.dark .fastfolio-badge {
-  background: #1e293b !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #f1f5f9 !important;
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Section 1: Me View in Dark Mode */
@@ -3582,6 +3648,10 @@ html.dark .resume-bullets {
 
 html.dark .resume-bullets li {
   color: #e2e8f0 !important;
+}
+
+html.dark .resume-bullets li::before {
+  color: #94a3b8 !important;
 }
 
 html.dark .resume-bullets li strong {

@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=63">
+<link rel="stylesheet" href="style.css?v=65">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -690,6 +690,133 @@ html.dark .chat-input-pill:focus-within {
 .chat-top-feather {
   display: none !important;
 }
+
+/* Resume Bullets Styling (Guarantees bullets are always visible) */
+.resume-bullets {
+  list-style: none !important;
+  margin: 6px 0 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #334155 !important;
+}
+.resume-bullets li {
+  position: relative !important;
+  display: block !important;
+  padding-left: 18px !important;
+  margin-bottom: 5px !important;
+  list-style: none !important;
+  color: #334155 !important;
+}
+.resume-bullets li::before {
+  content: "•" !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: -1px !important;
+  color: #475569 !important;
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  display: block !important;
+}
+.resume-bullets li:last-child {
+  margin-bottom: 0 !important;
+}
+html.dark .resume-bullets,
+html.dark .resume-bullets li {
+  color: #e2e8f0 !important;
+}
+html.dark .resume-bullets li::before {
+  color: #94a3b8 !important;
+}
+html.dark .resume-bullets li strong {
+  color: #ffffff !important;
+}
+
+/* Progressive Green Cells & Done State for LatticeLoader */
+.lattice-loader__cell.is-green {
+  background: #22c55e !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.75) !important;
+  animation: none !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease !important;
+}
+.lattice-loader__mark .lattice-loader__cell[data-on] {
+  background: #22c55e !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.75) !important;
+}
+
+/* Resume Loading Spinner */
+.resume-spinner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 36px 20px;
+  min-height: 180px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.resume-spinner-card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.resume-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(34, 197, 94, 0.2);
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: resumeSpin 0.75s linear infinite;
+}
+html.dark .resume-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #22c55e;
+}
+@keyframes resumeSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Gemini Wordmark Badge */
+.fastfolio-badge {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 24px !important;
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 9999px !important;
+  padding: 5px 14px !important;
+  text-decoration: none !important;
+  z-index: 50 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+  transition: opacity 0.2s ease, transform 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+.fastfolio-badge:hover {
+  opacity: 0.92 !important;
+  transform: translateY(-1px) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+.gemini-wordmark-img {
+  height: 22px !important;
+  width: auto !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: 4px !important;
+}
+html.dark .fastfolio-badge {
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+}
 </style>
 </head><body class="__className_246ccd"><div hidden=""><!--$--><!--/$--></div><!--$--><!--/$--><main><div class="min-h-screen bg-transparent text-foreground transition-colors"><div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20" id="home-view"><div class="pointer-events-none absolute left-0 right-0 bottom-0 flex justify-center overflow-hidden select-none z-0" style="width:100vw;margin:0;padding:0;z-index:1;">
   <svg viewBox="0 0 1000 160" style="width: 100vw; height: auto; margin-bottom: -1.3vw;" class="select-none pointer-events-none">
@@ -1325,12 +1452,12 @@ html.dark .chat-input-pill:focus-within {
           data-shape="round"
         >
           <span class="lattice-loader__grid" aria-hidden="true">
-            <span class="lattice-loader__layer lattice-loader__run">
+            <span class="lattice-loader__layer lattice-loader__run" id="lattice-run-layer">
               <span class="lattice-loader__cell" style="animation-delay: 0ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 108ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 216ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 756ms;"></span>
-              <span class="lattice-loader__cell" data-hole=""></span>
+              <span class="lattice-loader__cell" style="animation-delay: 864ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 324ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 648ms;"></span>
               <span class="lattice-loader__cell" style="animation-delay: 540ms;"></span>
@@ -1356,6 +1483,9 @@ html.dark .chat-input-pill:focus-within {
           <span class="lattice-loader__timer" id="lattice-loader-timer" aria-hidden="true">0.0s</span>
           <span class="lattice-loader__sr" id="lattice-loader-sr">Thinking, in progress</span>
         </span>
+      </div>
+      <div class="resume-spinner-card" id="resume-spinner-card" style="display: none;">
+        <div class="resume-spinner" aria-label="Loading resume"></div>
       </div>
 
       <div class="resume-doc-card" id="resume-doc-card">
@@ -1580,18 +1710,8 @@ html.dark .chat-input-pill:focus-within {
     </form>
   </div>
 
-  <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="fastfolio-badge" title="Powered by Gemini 3.8 Flash">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="gemini-star-icon" style="flex-shrink: 0;">
-      <path d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z" fill="url(#gemini-star-grad)"/>
-      <defs>
-        <linearGradient id="gemini-star-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#4E82EE"/>
-          <stop offset="0.5" stop-color="#9B72CF"/>
-          <stop offset="1" stop-color="#D96570"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    <span>Powered by Gemini 3.8 Flash</span>
+  <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="fastfolio-badge" title="Gemini 3.8 Flash">
+    <img src="gemini workmark.png" alt="Gemini 3.8 Flash" class="gemini-wordmark-img" />
   </a>
 </div>
 
@@ -2466,8 +2586,10 @@ html.dark .chat-input-pill:focus-within {
   };
 
   // Resume LatticeLoader morph into document card
+  // Resume LatticeLoader progressive green cells, wait, spinner and doc reveal
   let resumeTimer = null;
-  let resumeMorphTimer = null;
+  let resumeWaitTimer = null;
+  let resumeSpinnerTimer = null;
   let latticeInterval = null;
 
   const clearResumeTimers = () => {
@@ -2475,9 +2597,13 @@ html.dark .chat-input-pill:focus-within {
       clearTimeout(resumeTimer);
       resumeTimer = null;
     }
-    if (resumeMorphTimer) {
-      clearTimeout(resumeMorphTimer);
-      resumeMorphTimer = null;
+    if (resumeWaitTimer) {
+      clearTimeout(resumeWaitTimer);
+      resumeWaitTimer = null;
+    }
+    if (resumeSpinnerTimer) {
+      clearTimeout(resumeSpinnerTimer);
+      resumeSpinnerTimer = null;
     }
     if (latticeInterval) {
       clearInterval(latticeInterval);
@@ -2489,6 +2615,7 @@ html.dark .chat-input-pill:focus-within {
     clearResumeTimers();
 
     const loadingCard = document.getElementById('resume-loading-card');
+    const spinnerCard = document.getElementById('resume-spinner-card');
     const docCard = document.getElementById('resume-doc-card');
     const loader = document.getElementById('resume-lattice-loader');
     const timerEl = document.getElementById('lattice-loader-timer');
@@ -2500,6 +2627,10 @@ html.dark .chat-input-pill:focus-within {
       if (loadingCard) {
         loadingCard.classList.add('morphed-out');
         loadingCard.style.display = 'none';
+      }
+      if (spinnerCard) {
+        spinnerCard.classList.remove('visible');
+        spinnerCard.style.display = 'none';
       }
       if (docCard) {
         docCard.classList.add('morphed-in');
@@ -2517,11 +2648,19 @@ html.dark .chat-input-pill:focus-within {
     if (loadingCard) {
       loadingCard.classList.remove('morphed-out');
       loadingCard.style.display = 'flex';
+      loadingCard.style.opacity = '1';
+    }
+    if (spinnerCard) {
+      spinnerCard.classList.remove('visible');
+      spinnerCard.style.display = 'none';
     }
     if (docCard) {
       docCard.classList.remove('morphed-in');
       docCard.style.display = 'none';
     }
+
+    const runCells = loader ? loader.querySelectorAll('.lattice-loader__run .lattice-loader__cell') : [];
+    runCells.forEach(cell => cell.classList.remove('is-green'));
 
     if (loader) {
       loader.setAttribute('data-status', 'working');
@@ -2532,23 +2671,39 @@ html.dark .chat-input-pill:focus-within {
 
       const startedAt = performance.now();
       const fmt = ds => (ds < 600 ? `${(ds / 10).toFixed(1)}s` : `${Math.floor(ds / 600)}m ${((ds % 600) / 10).toFixed(1)}s`);
-      
+
       latticeInterval = setInterval(() => {
-        const ds = Math.floor((performance.now() - startedAt) / 100);
-        if (ds <= 73) {
-          if (timerEl) timerEl.textContent = fmt(ds);
+        const elapsedMs = performance.now() - startedAt;
+        const elapsedDs = Math.floor(elapsedMs / 100);
+
+        // Turn cells green one by one across 7.0s (9 cells total)
+        const greenCount = Math.min(9, Math.floor((elapsedMs / 7000) * 9));
+        runCells.forEach((cell, idx) => {
+          if (idx < greenCount) {
+            cell.classList.add('is-green');
+          } else {
+            cell.classList.remove('is-green');
+          }
+        });
+
+        if (elapsedMs < 7000) {
+          if (timerEl) timerEl.textContent = fmt(elapsedDs);
+        } else if (elapsedMs < 7300) {
+          runCells.forEach(cell => cell.classList.add('is-green'));
+          if (timerEl) timerEl.textContent = `${Math.min(7.3, elapsedDs / 10).toFixed(1)}s`;
         } else {
           if (timerEl) timerEl.textContent = '7.3s';
         }
-      }, 100);
+      }, 70);
     }
 
-    // Thinking loader takes full 7.3 seconds (7300ms)
+    // At 7.0s all 9 cells are green. Wait 0.3s (7.0s to 7.3s)
     resumeTimer = setTimeout(() => {
       if (latticeInterval) {
         clearInterval(latticeInterval);
         latticeInterval = null;
       }
+      runCells.forEach(cell => cell.classList.add('is-green'));
       if (timerEl) timerEl.textContent = '7.3s';
       if (srEl) srEl.textContent = 'Done in 7.3 seconds';
 
@@ -2558,22 +2713,36 @@ html.dark .chat-input-pill:focus-within {
         if (textDone) textDone.setAttribute('data-active', '');
       }
 
-      // All dots are now blue. After a brief showcase of all blue dots, morph into the CV document card!
-      resumeMorphTimer = setTimeout(() => {
+      // In that 0.3 seconds it will wait, and then show a loading spinner
+      resumeWaitTimer = setTimeout(() => {
         if (loadingCard) {
           loadingCard.classList.add('morphed-out');
           loadingCard.style.display = 'none';
         }
-        if (docCard) {
-          docCard.style.display = 'block';
-          docCard.classList.add('morphed-in');
+        if (spinnerCard) {
+          spinnerCard.style.display = 'flex';
+          requestAnimationFrame(() => spinnerCard.classList.add('visible'));
         }
-        isTabRendered.resume = true;
-        resumeMorphTimer = null;
-      }, 600);
+
+        // Show spinner for ~850ms, then reveal resume doc card
+        resumeSpinnerTimer = setTimeout(() => {
+          if (spinnerCard) {
+            spinnerCard.classList.remove('visible');
+            spinnerCard.style.display = 'none';
+          }
+          if (docCard) {
+            docCard.style.display = 'block';
+            docCard.classList.add('morphed-in');
+          }
+          isTabRendered.resume = true;
+          resumeSpinnerTimer = null;
+        }, 850);
+
+        resumeWaitTimer = null;
+      }, 300);
 
       resumeTimer = null;
-    }, 7300);
+    }, 7000);
   };
 
   // Me section sequential animation timers
