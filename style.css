@@ -1125,20 +1125,9 @@ html.dark .ai-chat-bot-response strong {
   color: #ffffff !important;
 }
 
-/* Blinking AI Cursor */
+/* Blinking AI Cursor - Hidden as requested */
 .ai-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background-color: #2563eb;
-  vertical-align: text-bottom;
-  margin-left: 2px;
-  animation: cursorBlink 0.8s infinite;
-}
-
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  display: none !important;
 }
 
 .ai-chat-list {
@@ -1172,7 +1161,7 @@ html.dark .ai-chat-list li {
 .chat-input-pill {
   width: 100%;
   background: #ffffff;
-  border: 1.5px solid #3b82f6;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
   border-radius: 9999px;
   padding: 5px 6px 5px 22px;
   min-height: 50px;
@@ -1180,15 +1169,15 @@ html.dark .ai-chat-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 18px -4px rgba(59, 130, 246, 0.16);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transform-origin: center;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   animation: searchBarCenterExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .chat-input-pill:focus-within {
-  border-color: #2563eb;
-  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.22);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 4px 18px -4px rgba(59, 130, 246, 0.2);
 }
 
 @keyframes searchBarCenterExpand {
@@ -1257,15 +1246,19 @@ html.dark .ai-chat-list li {
   font-size: 12px;
   font-weight: 500;
   padding: 6px 14px;
-  border-radius: 8px;
+  border-radius: 9999px;
   text-decoration: none;
   z-index: 50;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .fastfolio-badge:hover {
-  opacity: 0.9;
+  opacity: 0.95;
+  transform: translateY(-1px);
 }
 
 /* Chat top feather overlay */
@@ -2508,10 +2501,10 @@ html.dark .ai-chat-list li {
   --ll-gap: 2.5px;
   --ll-font: 14px;
   --ll-color: currentColor;
-  --ll-mark: #22c55e;
+  --ll-mark: #3b82f6;
   --ll-idle: 0.15;
   --ll-glow: currentColor;
-  --ll-mark-glow: #22c55e;
+  --ll-mark-glow: #3b82f6;
   --ll-peak: 1;
   --ll-cycle: 864ms;
   --ll-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -2604,8 +2597,9 @@ html.dark .lattice-loader {
 }
 
 .lattice-loader__mark .lattice-loader__cell[data-on] {
-  background: var(--ll-mark);
-  opacity: var(--ll-peak);
+  background: var(--ll-mark) !important;
+  opacity: var(--ll-peak) !important;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.6) !important;
 }
 
 .lattice-loader:not([data-status='working']) .lattice-loader__run {
@@ -2942,15 +2936,20 @@ html.dark .lattice-loader {
 }
 
 .resume-bullets {
-  margin: 4px 0 0;
-  padding-left: 20px;
+  list-style-type: disc !important;
+  list-style: disc !important;
+  margin: 6px 0 0 !important;
+  padding-left: 20px !important;
   font-size: 13px;
   line-height: 1.55;
   color: #334155;
 }
 
 .resume-bullets li {
-  margin-bottom: 3px;
+  display: list-item !important;
+  list-style-type: disc !important;
+  list-style: disc !important;
+  margin-bottom: 4px;
 }
 
 .resume-bullets li:last-child {
@@ -3243,13 +3242,13 @@ html.dark .chat-more-bounce-arrow {
 /* Chat Input Bar Pill */
 html.dark .chat-input-pill {
   background: #111827 !important;
-  border: 1.5px solid #3b82f6 !important;
-  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.6) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.dark .chat-input-pill:focus-within {
-  border-color: #60a5fa !important;
-  box-shadow: 0 4px 20px -2px rgba(59, 130, 246, 0.35) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), 0 4px 18px -4px rgba(0, 0, 0, 0.7) !important;
 }
 
 html.dark .chat-input-pill input {
@@ -3264,6 +3263,7 @@ html.dark .fastfolio-badge {
   background: #1e293b !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   color: #f1f5f9 !important;
+  border-radius: 9999px !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
 }
 

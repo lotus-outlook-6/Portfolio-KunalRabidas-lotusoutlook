@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=61">
+<link rel="stylesheet" href="style.css?v=63">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -611,19 +611,9 @@ body.chat-sheet-open {
   color: #1f2937;
   white-space: pre-line;
 }
-/* Blinking AI Cursor */
+/* Blinking AI Cursor - Removed as requested */
 .ai-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background-color: #2563eb;
-  vertical-align: text-bottom;
-  margin-left: 2px;
-  animation: cursorBlink 0.8s infinite;
-}
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  display: none !important;
 }
 .chat-input-form {
   width: 100%;
@@ -634,7 +624,7 @@ body.chat-sheet-open {
 .chat-input-pill {
   width: 100% !important;
   background: #ffffff !important;
-  border: 1.5px solid #3b82f6 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 9999px !important;
   padding: 5px 6px 5px 22px !important;
   min-height: 50px !important;
@@ -642,14 +632,23 @@ body.chat-sheet-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 18px -4px rgba(59, 130, 246, 0.16) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
   transform-origin: center;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   animation: searchBarCenterExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .chat-input-pill:focus-within {
-  border-color: #2563eb !important;
-  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.22) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 4px 18px -4px rgba(59, 130, 246, 0.2) !important;
+}
+html.dark .chat-input-pill {
+  background: #111827 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.5) !important;
+}
+html.dark .chat-input-pill:focus-within {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), 0 4px 18px -4px rgba(0, 0, 0, 0.7) !important;
 }
 .chat-input-pill input {
   background: transparent !important;
@@ -1338,15 +1337,15 @@ body.chat-sheet-open {
               <span class="lattice-loader__cell" style="animation-delay: 432ms;"></span>
             </span>
             <span class="lattice-loader__layer lattice-loader__mark">
-              <span class="lattice-loader__cell"></span>
-              <span class="lattice-loader__cell"></span>
               <span class="lattice-loader__cell" data-on=""></span>
               <span class="lattice-loader__cell" data-on=""></span>
-              <span class="lattice-loader__cell"></span>
               <span class="lattice-loader__cell" data-on=""></span>
-              <span class="lattice-loader__cell"></span>
               <span class="lattice-loader__cell" data-on=""></span>
-              <span class="lattice-loader__cell"></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell" data-on=""></span>
+              <span class="lattice-loader__cell" data-on=""></span>
             </span>
           </span>
           <span class="lattice-loader__label" aria-hidden="true">
@@ -1581,8 +1580,18 @@ body.chat-sheet-open {
     </form>
   </div>
 
-  <a href="https://fastfol.io" target="_blank" rel="noopener noreferrer" class="fastfolio-badge">
-    Powered by Fastfolio
+  <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="fastfolio-badge" title="Powered by Gemini 3.8 Flash">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="gemini-star-icon" style="flex-shrink: 0;">
+      <path d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z" fill="url(#gemini-star-grad)"/>
+      <defs>
+        <linearGradient id="gemini-star-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#4E82EE"/>
+          <stop offset="0.5" stop-color="#9B72CF"/>
+          <stop offset="1" stop-color="#D96570"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span>Powered by Gemini 3.8 Flash</span>
   </a>
 </div>
 
@@ -1844,13 +1853,13 @@ body.chat-sheet-open {
 
     education: `I am currently pursuing my **Bachelor of Technology (B.Tech) in Electronics and Communication Engineering (ECE)** at **Assam University, Silchar** (a central university established by an Act of Parliament).\n\nMy academic curriculum covers core engineering principles including:\n• **Digital Signal Processing & Communication Systems**\n• **VLSI & Circuit Design** (working with Cadence Virtuoso, Silvaco TCAD, and LTspice)\n• **Embedded Systems & Microcontrollers** (interfacing sensors and communication modules)\n• **Computer Architecture & Machine Learning Foundations**\n\nI combine this rigorous academic grounding with self-directed development in modern deep learning frameworks, in-browser inference, and full-stack web engineering.`,
 
-    certifications: `Here are my key professional certifications and specialized trainings:\n\n• **Udemy:** *Deep Learning A-Z 2026 — Neural Networks, AI & ChatGPT Prize* (March 2026) — Comprehensive mastery of Artificial Neural Networks (ANN), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and generative AI workflows.\n• **NIT Silchar & Jet Aero:** *One-Week Bootcamp on Drone Technology and Related Applications* (February 2026) — Practical training on unmanned aerial vehicle (UAV) systems, flight mechanics, and telemetry.\n• **Google Cloud:** *Introduction to Generative AI* (December 2023) — Fundamental principles of Large Language Models (LLMs) and responsible AI application design.\n• **Google Cloud Arcade:** Awarded Google Cloud swags and skill badges for completing cloud computing challenges.`,
+    certifications: `Here are my key professional certifications and specialized trainings:\n\n• **Udemy:** Deep Learning A-Z 2026 — Neural Networks, AI & ChatGPT Prize (March 2026) — Comprehensive mastery of Artificial Neural Networks (ANN), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and generative AI workflows.\n• **NIT Silchar & Jet Aero:** One-Week Bootcamp on Drone Technology and Related Applications (February 2026) — Practical training on unmanned aerial vehicle (UAV) systems, flight mechanics, and telemetry.\n• **Google Cloud:** Introduction to Generative AI (December 2023) — Fundamental principles of Large Language Models (LLMs) and responsible AI application design.\n• **Google Cloud Arcade:** Awarded Google Cloud swags and skill badges for completing cloud computing challenges.`,
 
     proteopredict: `**ProteoPredict Pro** is a multi-task deep learning web application I developed for predicting **protein secondary structure** directly in the browser.\n\nKey architectural highlights:\n• **Neural Network Architecture:** Combines **Convolutional Neural Networks (CNN)** for extracting local amino acid motif features with **Bidirectional Long Short-Term Memory (BiLSTM)** networks to capture long-range contextual sequence dependencies.\n• **Browser-Native Inference:** Exported and optimized with **TensorFlow.js**, enabling predictions to run 100% locally on the client's GPU via WebGL with zero server latency and total data privacy.\n• **Generative AI Insights:** Integrated with **Google Gemini AI** to produce biochemical explanations, structural stability assessments, and functional insights based on the predicted conformations.`,
 
     pulseml: `**PulseML** is an AI-powered health risk assessment and biometric monitoring system that bridges **IoT hardware with browser-native machine learning**.\n\nHere's how it operates:\n• **Edge Sensing:** An **ESP32 microcontroller** interfaces with a photoplethysmography (PPG) pulse oximeter sensor to capture real-time heart rate and blood oxygen saturation (SpO2) data.\n• **Data Streaming:** Telemetry is transmitted over Wi-Fi/WebSockets to a modern responsive dashboard.\n• **Edge Inference:** A client-side machine learning model analyzes the incoming pulse waveform in real-time, detecting anomalies and estimating cardiovascular risk metrics without sending sensitive physiological data to external servers.`,
 
-    dehaze: `**Dehaze** is a single-image fog and haze restoration tool implemented using the **Dark Channel Prior (DCP)** algorithm, built with **MATLAB, Python, and OpenCV**.\n\nHow it works:\n• **Atmospheric Scattering Model:** Operates on the physical formulation \\(I(x) = J(x)t(x) + A(1 - t(x))\\), where the goal is to recover the haze-free scene radiance \\(J(x)\\).\n• **Dark Channel Estimation:** Exploits the observation that in most non-sky patches of haze-free outdoor images, at least one color channel has very low intensity.\n• **Transmission Map & Refinement:** Estimates coarse scene transmission \\(t(x)\\) and refines it using soft matting and guided filtering to eliminate halo artifacts around depth discontinuities.\n• **Visualization:** The tool provides step-by-step visualizations of each processing stage: the dark channel, raw transmission, guided-filtered map, and the final restored image.`,
+    dehaze: `**Dehaze** is a single-image fog and haze restoration tool implemented using the **Dark Channel Prior (DCP)** algorithm, built with **MATLAB, Python, and OpenCV**.\n\nHow it works:\n• **Atmospheric Scattering Model:** Operates on the physical formulation **I(x) = J(x) · t(x) + A · (1 − t(x))**, where **I(x)** is the observed hazy image, **J(x)** is the true haze-free scene radiance to recover, **t(x)** is the medium transmission map, and **A** is the global atmospheric light.\n• **Dark Channel Estimation:** Exploits the observation that in most non-sky patches of haze-free outdoor images, at least one color channel has very low intensity.\n• **Transmission Map & Refinement:** Estimates coarse scene transmission **t(x)** and refines it using soft matting and guided filtering to eliminate halo artifacts around depth discontinuities.\n• **Visualization:** The tool provides step-by-step visualizations of each processing stage: the dark channel, raw transmission, guided-filtered map, and the final restored image.`,
 
     languages: `My primary programming languages and everyday technical stack include:\n\n• **Python:** My go-to language for Machine Learning, Deep Learning (TensorFlow, PyTorch), data processing (NumPy, Pandas), and OpenCV computer vision pipelines.\n• **C / C++:** Used for embedded systems, microcontrollers (ESP32, Arduino), hardware-level performance optimization, and algorithmic problem-solving.\n• **JavaScript (ES6+) & TypeScript:** Used for building modern web applications, interactive interfaces, browser-native ML (TensorFlow.js), and Node.js backends.\n• **MATLAB:** Used for academic research, signal processing analysis, and algorithm prototyping (e.g. image dehazing experiments).`,
 
@@ -1937,7 +1946,8 @@ body.chat-sheet-open {
       } else {
         let pText = b.replace(/\n/g, '<br>')
           .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*\*([^*]+)$/g, '<strong>$1</strong>');
+          .replace(/\*\*([^*]+)$/g, '<strong>$1</strong>')
+          .replace(/\*/g, '');
         return '<p>' + pText + '</p>';
       }
     }).join('');
@@ -1955,7 +1965,7 @@ body.chat-sheet-open {
     let isAborted = false;
     let timerId = null;
 
-    targetEl.innerHTML = '<span class="ai-cursor"></span>';
+    targetEl.innerHTML = '';
 
     const step = () => {
       if (isAborted) return;
@@ -1963,7 +1973,7 @@ body.chat-sheet-open {
       index += chunk;
 
       const currentText = fullText.slice(0, index);
-      targetEl.innerHTML = formatMarkdown(currentText) + '<span class="ai-cursor"></span>';
+      targetEl.innerHTML = formatMarkdown(currentText);
 
       if (index < fullText.length) {
         timerId = setTimeout(step, speed);
@@ -2027,11 +2037,8 @@ body.chat-sheet-open {
   let currentTypingAbort = null;
 
   // Typewriter streaming effect - handles unicode emojis cleanly without surrogate splitting
-  const typewriteText = (targetEl, text, speed = 16, onComplete, keepCursorOnDone = false) => {
+  const typewriteText = (targetEl, text, speed = 16, onComplete) => {
     targetEl.innerHTML = '';
-    const cursor = document.createElement('span');
-    cursor.className = 'ai-cursor';
-    targetEl.appendChild(cursor);
 
     const chars = Array.from(text || '');
     let index = 0;
@@ -2040,22 +2047,18 @@ body.chat-sheet-open {
     const intervalId = setInterval(() => {
       if (isCancelled) {
         clearInterval(intervalId);
-        cursor.remove();
         return;
       }
       if (index < chars.length) {
         const char = chars[index];
         if (char === '\n') {
-          targetEl.insertBefore(document.createElement('br'), cursor);
+          targetEl.appendChild(document.createElement('br'));
         } else {
-          targetEl.insertBefore(document.createTextNode(char), cursor);
+          targetEl.appendChild(document.createTextNode(char));
         }
         index++;
       } else {
         clearInterval(intervalId);
-        if (!keepCursorOnDone) {
-          cursor.remove();
-        }
         if (onComplete) onComplete();
       }
     }, speed);
@@ -2063,7 +2066,6 @@ body.chat-sheet-open {
     return () => {
       isCancelled = true;
       clearInterval(intervalId);
-      cursor.remove();
     };
   };
 
@@ -2302,7 +2304,7 @@ body.chat-sheet-open {
     projectsTimers = [];
   };
 
-  const renderProjectsSection = () => {
+  const renderProjectsSection = (instant = false) => {
     const track = document.getElementById('projects-carousel-track');
     if (track) {
       track.style.scrollBehavior = 'auto';
@@ -2317,6 +2319,18 @@ body.chat-sheet-open {
     const listItems = Array.from(document.querySelectorAll('.projects-numbered-list li'));
     const outroText = document.querySelector('.projects-outro-text');
 
+    const showInstant = instant || isTabRendered.projects;
+
+    if (showInstant) {
+      if (headerRow) headerRow.classList.add('revealed');
+      cards.forEach(c => c.classList.add('revealed'));
+      if (introText) introText.classList.add('revealed');
+      listItems.forEach(li => li.classList.add('revealed'));
+      if (outroText) outroText.classList.add('revealed');
+      isTabRendered.projects = true;
+      return;
+    }
+
     if (headerRow) headerRow.classList.remove('revealed');
     cards.forEach(c => c.classList.remove('revealed'));
     if (introText) introText.classList.remove('revealed');
@@ -2326,32 +2340,34 @@ body.chat-sheet-open {
     // 1. Header with title and nav arrows reveals smoothly
     projectsTimers.push(setTimeout(() => {
       if (headerRow) headerRow.classList.add('revealed');
-    }, 100));
+    }, 60));
 
     // 2. Project cards animate in with smooth, calm staggered glide
     cards.forEach((card, idx) => {
       projectsTimers.push(setTimeout(() => {
         card.classList.add('revealed');
-      }, 160 + idx * 130));
+      }, 100 + idx * 75));
     });
+
+    const cardsEnd = 100 + cards.length * 75;
 
     // 3. Highlights intro text
     projectsTimers.push(setTimeout(() => {
       if (introText) introText.classList.add('revealed');
-    }, 160 + cards.length * 130 + 120));
+    }, cardsEnd + 60));
 
     // 4. Staggered numbered list highlights
     listItems.forEach((li, idx) => {
       projectsTimers.push(setTimeout(() => {
         li.classList.add('revealed');
-      }, 160 + cards.length * 130 + 200 + idx * 120));
+      }, cardsEnd + 100 + idx * 50));
     });
 
     // 5. Outro note
     projectsTimers.push(setTimeout(() => {
       if (outroText) outroText.classList.add('revealed');
       isTabRendered.projects = true;
-    }, 160 + cards.length * 130 + 200 + listItems.length * 120 + 80));
+    }, cardsEnd + 100 + listItems.length * 50 + 50));
   };
 
   // Skills staggered in-animations
@@ -2361,11 +2377,24 @@ body.chat-sheet-open {
     skillsTimers = [];
   };
 
-  const renderSkillsSection = () => {
+  const renderSkillsSection = (instant = false) => {
     clearSkillsTimers();
     const title = document.querySelector('.skills-main-title');
     const groups = Array.from(document.querySelectorAll('.skills-group'));
     const summaryBox = document.querySelector('.skills-summary-box');
+
+    const showInstant = instant || isTabRendered.skills;
+
+    if (showInstant) {
+      if (title) title.classList.add('revealed');
+      groups.forEach(g => {
+        g.classList.add('revealed');
+        g.querySelectorAll('.skill-badge').forEach(b => b.classList.add('revealed'));
+      });
+      if (summaryBox) summaryBox.classList.add('revealed');
+      isTabRendered.skills = true;
+      return;
+    }
 
     if (title) title.classList.remove('revealed');
     groups.forEach(g => {
@@ -2377,11 +2406,11 @@ body.chat-sheet-open {
     // 1. Title reveals
     skillsTimers.push(setTimeout(() => {
       if (title) title.classList.add('revealed');
-    }, 60));
+    }, 50));
 
     // 2. Groups & Badges stagger in
-    let baseDelay = 140;
-    groups.forEach((group, gIdx) => {
+    let baseDelay = 100;
+    groups.forEach((group) => {
       skillsTimers.push(setTimeout(() => {
         group.classList.add('revealed');
       }, baseDelay));
@@ -2390,22 +2419,22 @@ body.chat-sheet-open {
       badges.forEach((badge, bIdx) => {
         skillsTimers.push(setTimeout(() => {
           badge.classList.add('revealed');
-        }, baseDelay + 40 + bIdx * 35));
+        }, baseDelay + 25 + bIdx * 20));
       });
 
-      baseDelay += 60 + badges.length * 35;
+      baseDelay += 35 + badges.length * 20;
     });
 
     // 3. Summary box reveals
     skillsTimers.push(setTimeout(() => {
       if (summaryBox) summaryBox.classList.add('revealed');
       isTabRendered.skills = true;
-    }, baseDelay + 60));
+    }, baseDelay + 40));
   };
 
   // Contact section reveal & typing animation
   let contactTypingAbort = null;
-  const renderContactSection = () => {
+  const renderContactSection = (instant = false) => {
     if (contactTypingAbort) {
       contactTypingAbort();
       contactTypingAbort = null;
@@ -2413,25 +2442,24 @@ body.chat-sheet-open {
 
     const card = document.getElementById('contact-card');
     const outroEl = document.getElementById('contact-outro-message');
+    const fullText = "You can reach me through the contact info above! Feel free to hit me up anytime, I'd be happy to chat! 😉 What's on your mind?";
 
     if (card) {
-      card.classList.remove('revealed');
-      setTimeout(() => {
-        card.classList.add('revealed');
-      }, 60);
+      card.classList.add('revealed');
     }
 
     if (outroEl) {
-      outroEl.classList.remove('revealed');
-      const fullText = "You can reach me through the contact info above! Feel free to hit me up anytime, I'd be happy to chat! 😉 What's on your mind?";
-      outroEl.innerHTML = '';
-      setTimeout(() => {
-        outroEl.classList.add('revealed');
+      outroEl.classList.add('revealed');
+      if (instant) {
+        outroEl.textContent = fullText;
+        isTabRendered.contact = true;
+      } else {
+        outroEl.innerHTML = '';
         contactTypingAbort = typewriteText(outroEl, fullText, 14, () => {
           isTabRendered.contact = true;
           contactTypingAbort = null;
         });
-      }, 400);
+      }
     } else {
       isTabRendered.contact = true;
     }
@@ -2439,16 +2467,27 @@ body.chat-sheet-open {
 
   // Resume LatticeLoader morph into document card
   let resumeTimer = null;
+  let resumeMorphTimer = null;
   let latticeInterval = null;
-  const renderResumeSection = () => {
+
+  const clearResumeTimers = () => {
     if (resumeTimer) {
       clearTimeout(resumeTimer);
       resumeTimer = null;
+    }
+    if (resumeMorphTimer) {
+      clearTimeout(resumeMorphTimer);
+      resumeMorphTimer = null;
     }
     if (latticeInterval) {
       clearInterval(latticeInterval);
       latticeInterval = null;
     }
+  };
+
+  const renderResumeSection = (instant = false) => {
+    clearResumeTimers();
+
     const loadingCard = document.getElementById('resume-loading-card');
     const docCard = document.getElementById('resume-doc-card');
     const loader = document.getElementById('resume-lattice-loader');
@@ -2457,12 +2496,31 @@ body.chat-sheet-open {
     const textDone = document.getElementById('ll-text-done');
     const srEl = document.getElementById('lattice-loader-sr');
 
+    if (instant) {
+      if (loadingCard) {
+        loadingCard.classList.add('morphed-out');
+        loadingCard.style.display = 'none';
+      }
+      if (docCard) {
+        docCard.classList.add('morphed-in');
+        docCard.style.display = 'block';
+      }
+      if (loader) {
+        loader.setAttribute('data-status', 'done');
+        if (textWorking) textWorking.removeAttribute('data-active');
+        if (textDone) textDone.setAttribute('data-active', '');
+      }
+      isTabRendered.resume = true;
+      return;
+    }
+
     if (loadingCard) {
       loadingCard.classList.remove('morphed-out');
       loadingCard.style.display = 'flex';
     }
     if (docCard) {
       docCard.classList.remove('morphed-in');
+      docCard.style.display = 'none';
     }
 
     if (loader) {
@@ -2477,28 +2535,45 @@ body.chat-sheet-open {
       
       latticeInterval = setInterval(() => {
         const ds = Math.floor((performance.now() - startedAt) / 100);
-        if (timerEl) timerEl.textContent = fmt(ds);
+        if (ds <= 73) {
+          if (timerEl) timerEl.textContent = fmt(ds);
+        } else {
+          if (timerEl) timerEl.textContent = '7.3s';
+        }
       }, 100);
     }
 
+    // Thinking loader takes full 7.3 seconds (7300ms)
     resumeTimer = setTimeout(() => {
       if (latticeInterval) {
         clearInterval(latticeInterval);
         latticeInterval = null;
       }
+      if (timerEl) timerEl.textContent = '7.3s';
+      if (srEl) srEl.textContent = 'Done in 7.3 seconds';
+
       if (loader) {
         loader.setAttribute('data-status', 'done');
         if (textWorking) textWorking.removeAttribute('data-active');
         if (textDone) textDone.setAttribute('data-active', '');
       }
 
-      setTimeout(() => {
-        if (loadingCard) loadingCard.classList.add('morphed-out');
-        if (docCard) docCard.classList.add('morphed-in');
+      // All dots are now blue. After a brief showcase of all blue dots, morph into the CV document card!
+      resumeMorphTimer = setTimeout(() => {
+        if (loadingCard) {
+          loadingCard.classList.add('morphed-out');
+          loadingCard.style.display = 'none';
+        }
+        if (docCard) {
+          docCard.style.display = 'block';
+          docCard.classList.add('morphed-in');
+        }
         isTabRendered.resume = true;
-        resumeTimer = null;
-      }, 400);
-    }, 700);
+        resumeMorphTimer = null;
+      }, 600);
+
+      resumeTimer = null;
+    }, 7300);
   };
 
   // Me section sequential animation timers
@@ -2508,7 +2583,71 @@ body.chat-sheet-open {
     meTimers = [];
   };
 
-  const renderMeSection = () => {
+  const meTokens = [
+    { t: 'word', v: 'Hey' },
+    { t: 'hand', v: '👋' },
+    { t: 'word', v: 'I' },
+    { t: 'word', v: 'am' },
+    { t: 'word', v: 'Kunal' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'an' },
+    { t: 'word', v: 'ECE' },
+    { t: 'word', v: 'student' },
+    { t: 'word', v: 'passionate' },
+    { t: 'word', v: 'about' },
+    { t: 'word', v: 'electronics' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'AI' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'and' },
+    { t: 'word', v: 'software' },
+    { t: 'word', v: 'engineering' },
+    { t: 'punct', v: '.' },
+    { t: 'word', v: 'Currently' },
+    { t: 'word', v: 'pursuing' },
+    { t: 'word', v: 'my' },
+    { t: 'word', v: 'B.Tech' },
+    { t: 'word', v: 'at' },
+    { t: 'word', v: 'Assam' },
+    { t: 'word', v: 'University' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'I' },
+    { t: 'word', v: 'engineer' },
+    { t: 'word', v: 'smart' },
+    { t: 'word', v: 'IoT' },
+    { t: 'word', v: 'devices' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'deep' },
+    { t: 'word', v: 'learning' },
+    { t: 'word', v: 'pipelines' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'and' },
+    { t: 'word', v: 'modern' },
+    { t: 'word', v: 'high-performance' },
+    { t: 'word', v: 'web' },
+    { t: 'word', v: 'applications' },
+    { t: 'punct', v: '.' },
+    { t: 'word', v: 'Always' },
+    { t: 'word', v: 'eager' },
+    { t: 'word', v: 'to' },
+    { t: 'word', v: 'explore' },
+    { t: 'word', v: 'cutting-edge' },
+    { t: 'word', v: 'tech' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'collaborate' },
+    { t: 'word', v: 'on' },
+    { t: 'word', v: 'innovative' },
+    { t: 'word', v: 'projects' },
+    { t: 'punct', v: ',' },
+    { t: 'word', v: 'and' },
+    { t: 'word', v: 'build' },
+    { t: 'word', v: 'impactful' },
+    { t: 'word', v: 'digital' },
+    { t: 'word', v: 'experiences' },
+    { t: 'punct', v: '.' }
+  ];
+
+  const renderMeSection = (instant = false) => {
     clearMeTimers();
 
     const firstName = document.getElementById('me-first-name');
@@ -2525,7 +2664,49 @@ body.chat-sheet-open {
     const chips = Array.from(document.querySelectorAll('.me-tags-row .me-chip'));
     const bioContainer = document.getElementById('me-bio-container');
 
-    // Reset initial states
+    const showInstant = instant || isTabRendered.me;
+
+    const populateIntroTokens = () => {
+      if (!introEl) return;
+      introEl.innerHTML = '';
+      meTokens.forEach(tok => {
+        if (tok.t === 'hand') {
+          const sp = document.createElement('span');
+          sp.className = 'wave-hand';
+          sp.textContent = tok.v;
+          sp.title = 'Say hi!';
+          introEl.appendChild(sp);
+        } else if (tok.t === 'punct') {
+          const sp = document.createElement('span');
+          sp.className = 'me-token-punct pop-in';
+          sp.textContent = tok.v;
+          introEl.appendChild(sp);
+        } else {
+          const sp = document.createElement('span');
+          sp.className = 'me-token-word slide-in';
+          sp.textContent = tok.v;
+          introEl.appendChild(sp);
+        }
+      });
+    };
+
+    if (showInstant) {
+      if (firstName) firstName.classList.add('slide-in');
+      if (lastName) lastName.classList.add('slide-in');
+      metaUnits.forEach((u, i) => {
+        if (u) {
+          u.classList.add(i === 2 || i === 4 ? 'pop-in' : 'slide-in');
+        }
+      });
+      populateIntroTokens();
+      chips.forEach(c => c.classList.add('pop-in'));
+      stopMePhotoCanvas();
+      if (bioContainer) bioContainer.classList.add('visible');
+      isTabRendered.me = true;
+      return;
+    }
+
+    // Reset initial states for first entrance
     if (firstName) firstName.classList.remove('slide-in');
     if (lastName) lastName.classList.remove('slide-in');
     metaUnits.forEach(u => {
@@ -2541,24 +2722,22 @@ body.chat-sheet-open {
     // 0s: Start WebGL avatar swirling generation canvas
     startMePhotoCanvas();
 
-    // 0.1s: "Kunal" slides down
+    // Fast, responsive staggered timings:
     meTimers.push(setTimeout(() => {
       if (firstName) firstName.classList.add('slide-in');
-    }, 100));
+    }, 60));
 
-    // 0.5s: "Rabidas" slides down
     meTimers.push(setTimeout(() => {
       if (lastName) lastName.classList.add('slide-in');
-    }, 500));
+    }, 180));
 
-    // Meta elements word-by-word (ECE student • Silchar, Assam)
     const metaSchedule = [
-      { el: metaUnits[0], type: 'slide-in', delay: 950 },  // ECE
-      { el: metaUnits[1], type: 'slide-in', delay: 1250 }, // student
-      { el: metaUnits[2], type: 'pop-in',   delay: 1550 }, // •
-      { el: metaUnits[3], type: 'slide-in', delay: 1850 }, // Silchar
-      { el: metaUnits[4], type: 'pop-in',   delay: 2150 }, // ,
-      { el: metaUnits[5], type: 'slide-in', delay: 2450 }  // Assam
+      { el: metaUnits[0], type: 'slide-in', delay: 280 },
+      { el: metaUnits[1], type: 'slide-in', delay: 350 },
+      { el: metaUnits[2], type: 'pop-in',   delay: 410 },
+      { el: metaUnits[3], type: 'slide-in', delay: 470 },
+      { el: metaUnits[4], type: 'pop-in',   delay: 530 },
+      { el: metaUnits[5], type: 'slide-in', delay: 590 }
     ];
     metaSchedule.forEach(item => {
       meTimers.push(setTimeout(() => {
@@ -2566,72 +2745,7 @@ body.chat-sheet-open {
       }, item.delay));
     });
 
-    // 2.7s: Intro text tokens with waving hand emoji
-    const tokens = [
-      { t: 'word', v: 'Hey' },
-      { t: 'hand', v: '👋' },
-      { t: 'word', v: 'I' },
-      { t: 'word', v: 'am' },
-      { t: 'word', v: 'Kunal' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'an' },
-      { t: 'word', v: 'ECE' },
-      { t: 'word', v: 'student' },
-      { t: 'word', v: 'passionate' },
-      { t: 'word', v: 'about' },
-      { t: 'word', v: 'electronics' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'AI' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'and' },
-      { t: 'word', v: 'software' },
-      { t: 'word', v: 'engineering' },
-      { t: 'punct', v: '.' },
-      { t: 'word', v: 'Currently' },
-      { t: 'word', v: 'pursuing' },
-      { t: 'word', v: 'my' },
-      { t: 'word', v: 'B.Tech' },
-      { t: 'word', v: 'at' },
-      { t: 'word', v: 'Assam' },
-      { t: 'word', v: 'University' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'I' },
-      { t: 'word', v: 'engineer' },
-      { t: 'word', v: 'smart' },
-      { t: 'word', v: 'IoT' },
-      { t: 'word', v: 'devices' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'deep' },
-      { t: 'word', v: 'learning' },
-      { t: 'word', v: 'pipelines' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'and' },
-      { t: 'word', v: 'modern' },
-      { t: 'word', v: 'high-performance' },
-      { t: 'word', v: 'web' },
-      { t: 'word', v: 'applications' },
-      { t: 'punct', v: '.' },
-      { t: 'word', v: 'Always' },
-      { t: 'word', v: 'eager' },
-      { t: 'word', v: 'to' },
-      { t: 'word', v: 'explore' },
-      { t: 'word', v: 'cutting-edge' },
-      { t: 'word', v: 'tech' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'collaborate' },
-      { t: 'word', v: 'on' },
-      { t: 'word', v: 'innovative' },
-      { t: 'word', v: 'projects' },
-      { t: 'punct', v: ',' },
-      { t: 'word', v: 'and' },
-      { t: 'word', v: 'build' },
-      { t: 'word', v: 'impactful' },
-      { t: 'word', v: 'digital' },
-      { t: 'word', v: 'experiences' },
-      { t: 'punct', v: '.' }
-    ];
-
-    tokens.forEach((tok, i) => {
+    meTokens.forEach((tok, i) => {
       meTimers.push(setTimeout(() => {
         if (!introEl) return;
         if (tok.t === 'hand') {
@@ -2651,22 +2765,22 @@ body.chat-sheet-open {
           sp.textContent = tok.v;
           introEl.appendChild(sp);
         }
-      }, 2650 + i * 30));
+      }, 640 + i * 14));
     });
 
-    // 4.55s: Chips staggered pop in
+    const tokensEnd = 640 + meTokens.length * 14;
+
     chips.forEach((c, idx) => {
       meTimers.push(setTimeout(() => {
         c.classList.add('pop-in');
-      }, 4550 + idx * 75));
+      }, tokensEnd + 40 + idx * 30));
     });
 
-    // 5.2s: Generation completes, reveal photo & formatted bio
     meTimers.push(setTimeout(() => {
       stopMePhotoCanvas();
       if (bioContainer) bioContainer.classList.add('visible');
       isTabRendered.me = true;
-    }, 5200));
+    }, tokensEnd + 40 + chips.length * 30 + 60));
   };
 
   const showChatView = (query, activeKey) => {
@@ -2684,36 +2798,6 @@ body.chat-sheet-open {
     const tabKeys = ['me', 'projects', 'skills', 'contact', 'resume'];
     const isTabKey = tabKeys.includes(activeKey);
 
-    // If already active and rendered for a tab, don't regenerate
-    if (isTabKey && activeKey === currentActiveTab && isTabRendered[activeKey]) {
-      return;
-    }
-
-    // Abort any ongoing AI stream
-    if (currentChatStreamAbort) {
-      currentChatStreamAbort();
-      currentChatStreamAbort = null;
-    }
-
-    // If leaving any active tab to another, reset its state so returning replays nicely
-    if (currentActiveTab && currentActiveTab !== activeKey) {
-      isTabRendered[currentActiveTab] = false;
-      if (currentActiveTab === 'me') {
-        clearMeTimers();
-        stopMePhotoCanvas();
-      } else if (currentActiveTab === 'projects') {
-        clearProjectsTimers();
-      } else if (currentActiveTab === 'skills') {
-        clearSkillsTimers();
-      } else if (currentActiveTab === 'contact') {
-        if (contactTypingAbort) { contactTypingAbort(); contactTypingAbort = null; }
-      } else if (currentActiveTab === 'resume') {
-        if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
-      }
-    }
-
-    currentActiveTab = activeKey;
-
     const isFirstEnter = !chatView.classList.contains('active');
     if (homeView) homeView.style.display = 'none';
     if (chatView) chatView.classList.add('active');
@@ -2727,6 +2811,58 @@ body.chat-sheet-open {
       currentTypingAbort();
       currentTypingAbort = null;
     }
+    if (currentChatStreamAbort) {
+      currentChatStreamAbort();
+      currentChatStreamAbort = null;
+    }
+
+    const sections = {
+      me: document.getElementById('chat-section-me'),
+      projects: document.getElementById('chat-section-projects'),
+      skills: document.getElementById('chat-section-skills'),
+      contact: document.getElementById('chat-section-contact'),
+      resume: document.getElementById('chat-section-resume'),
+      custom: document.getElementById('chat-section-custom')
+    };
+
+    // If clicking the tab that is ALREADY active, ensure it is fully displayed and return
+    if (isTabKey && activeKey === currentActiveTab) {
+      if (chatQueryContainer) chatQueryContainer.style.display = 'none';
+      if (chatTypingContainer) chatTypingContainer.style.display = 'none';
+      if (chatAnswerContainer) chatAnswerContainer.style.display = 'block';
+
+      Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
+      if (activeKey === 'resume') {
+        if (sections.resume) sections.resume.style.display = 'flex';
+        renderResumeSection(true);
+      } else if (sections[activeKey]) {
+        sections[activeKey].style.display = 'block';
+        if (activeKey === 'me') renderMeSection(true);
+        else if (activeKey === 'projects') renderProjectsSection(true);
+        else if (activeKey === 'skills') renderSkillsSection(true);
+        else if (activeKey === 'contact') renderContactSection(true);
+      }
+      updateScrollFeather();
+      updateBottomFeather();
+      return;
+    }
+
+    // Finalize the previous tab so it remains ready whenever returned to
+    if (currentActiveTab && currentActiveTab !== activeKey) {
+      if (currentActiveTab === 'me') {
+        renderMeSection(true);
+      } else if (currentActiveTab === 'projects') {
+        renderProjectsSection(true);
+      } else if (currentActiveTab === 'skills') {
+        renderSkillsSection(true);
+      } else if (currentActiveTab === 'contact') {
+        renderContactSection(true);
+      } else if (currentActiveTab === 'resume') {
+        clearResumeTimers();
+      }
+    }
+
+    currentActiveTab = activeKey;
 
     // Scroll to top
     window.scrollTo(0, 0);
@@ -2748,15 +2884,6 @@ body.chat-sheet-open {
 
     if (chatInput) chatInput.value = '';
     if (chatMoreMenu) chatMoreMenu.classList.remove('open');
-
-    const sections = {
-      me: document.getElementById('chat-section-me'),
-      projects: document.getElementById('chat-section-projects'),
-      skills: document.getElementById('chat-section-skills'),
-      contact: document.getElementById('chat-section-contact'),
-      resume: document.getElementById('chat-section-resume'),
-      custom: document.getElementById('chat-section-custom')
-    };
 
     if (isTabKey) {
       // TAB VIEW (Me, Projects, Skills, Contact, Resume)
@@ -2802,8 +2929,10 @@ body.chat-sheet-open {
         updateBottomFeather();
       };
 
-      if (isFirstEnter) {
-        // Hide answer container while thinking briefly on first entrance
+      if (activeKey === 'resume') {
+        renderTab();
+      } else {
+        // Show question bubble and 3 bouncing dots loader for a bit (~650ms)
         if (chatAnswerContainer) chatAnswerContainer.style.display = 'none';
         if (chatQueryContainer) {
           chatQueryContainer.style.display = 'flex';
@@ -2819,9 +2948,7 @@ body.chat-sheet-open {
         }
         updateScrollFeather();
         updateBottomFeather();
-        answerTimeoutId = setTimeout(renderTab, 600);
-      } else {
-        renderTab();
+        answerTimeoutId = setTimeout(renderTab, 650);
       }
 
     } else {
@@ -2907,6 +3034,7 @@ body.chat-sheet-open {
   window.addEventListener('resize', updateBottomFeather);
 
   const showHomeView = () => {
+    currentActiveTab = null;
     if (answerTimeoutId) {
       clearTimeout(answerTimeoutId);
       answerTimeoutId = null;
@@ -3361,7 +3489,7 @@ body.chat-sheet-open {
 
   // Dark Mode Toggle inside Options Sheet "Me" header
   const darkToggleBtn = document.getElementById('chat-dark-mode-toggle');
-  const applyThemeMode = (isDark) => {
+  const applyThemeMode = (isDark, isManual = false) => {
     if (isDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
@@ -3383,9 +3511,11 @@ body.chat-sheet-open {
       }
       if (darkToggleBtn) darkToggleBtn.setAttribute('aria-checked', 'false');
     }
-    try {
-      localStorage.setItem('portfolio_theme', isDark ? 'dark' : 'light');
-    } catch (e) {}
+    if (isManual) {
+      try {
+        localStorage.setItem('portfolio_theme', isDark ? 'dark' : 'light');
+      } catch (e) {}
+    }
   };
 
   // Initialize theme from saved preference or system preference
@@ -3393,11 +3523,25 @@ body.chat-sheet-open {
     try { return localStorage.getItem('portfolio_theme'); } catch (e) { return null; }
   })();
   if (savedThemeMode === 'dark') {
-    applyThemeMode(true);
+    applyThemeMode(true, false);
   } else if (savedThemeMode === 'light') {
-    applyThemeMode(false);
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    applyThemeMode(true);
+    applyThemeMode(false, false);
+  } else {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyThemeMode(prefersDark, false);
+  }
+
+  // Listen to system changes dynamically if user has NOT manually set a preference
+  if (window.matchMedia) {
+    const systemThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+    systemThemeMedia.addEventListener('change', (e) => {
+      const currentSaved = (() => {
+        try { return localStorage.getItem('portfolio_theme'); } catch (err) { return null; }
+      })();
+      if (!currentSaved) {
+        applyThemeMode(e.matches, false);
+      }
+    });
   }
 
   if (darkToggleBtn) {
@@ -3405,7 +3549,7 @@ body.chat-sheet-open {
       e.stopPropagation();
       e.preventDefault();
       const willBeDark = !document.documentElement.classList.contains('dark');
-      applyThemeMode(willBeDark);
+      applyThemeMode(willBeDark, true);
     });
   }
 })();
