@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=68">
+<link rel="stylesheet" href="style.css?v=69">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -897,6 +897,27 @@ html.dark .chat-sheet-item.is-black .chat-sheet-sparkle-icon {
 html.dark .chat-sheet-item.is-black .chat-sheet-item-arrow {
   color: #000000 !important;
   stroke: #000000 !important;
+}
+
+/* User Question Bubble (Vibrant Blue #0070f3 with White Text) */
+.ai-chat-user-bubble {
+  max-width: 82% !important;
+  background: #0070f3 !important;
+  color: #ffffff !important;
+  border-radius: 20px 20px 6px 20px !important;
+  padding: 12px 20px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 14px rgba(0, 112, 243, 0.28) !important;
+  word-break: break-word !important;
+  text-align: left !important;
+}
+html.dark .ai-chat-user-bubble {
+  background: #0070f3 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 112, 243, 0.35) !important;
 }
 
 /* LatticeLoader Stability: Prevent Dots Shifting When Label Changes to Done */
@@ -3965,10 +3986,27 @@ const hsv=(h,s,v)=>{const i=Math.floor(h*6),f=h*6-i,p=v*(1-s),q=v*(1-f*s),t=v*(1
 return[[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][i%6]};
 const gen=()=>hsv(Math.random(),1,1).map(x=>x*.2);
 let col=gen(),ct=0,pm=null;
-addEventListener('pointermove',e=>{const x=e.clientX/innerWidth,y=1-e.clientY/innerHeight;
-if(!pm){pm=[x,y];return}
-let dx=x-pm[0],dy=y-pm[1];pm=[x,y];if(aspect<1)dx*=aspect;if(aspect>1)dy/=aspect;
-if(!dx&&!dy)return;splat(x,y,dx*P.F,dy*P.F,col)});
+addEventListener('pointermove',e=>{
+  const cv = document.getElementById('chat-view');
+  if (cv && cv.classList.contains('active')) {
+    pm = null;
+    return;
+  }
+  const hv = document.getElementById('home-view');
+  if (hv && hv.style.display === 'none') {
+    pm = null;
+    return;
+  }
+  if (window.location.pathname.includes('/chat')) {
+    pm = null;
+    return;
+  }
+
+  const x=e.clientX/innerWidth,y=1-e.clientY/innerHeight;
+  if(!pm){pm=[x,y];return}
+  let dx=x-pm[0],dy=y-pm[1];pm=[x,y];if(aspect<1)dx*=aspect;if(aspect>1)dy/=aspect;
+  if(!dx&&!dy)return;splat(x,y,dx*P.F,dy*P.F,col)
+});
 addEventListener('resize',build);build();
 setTimeout(()=>{
   splat(.48,.46,160,-60,hsv(.58,.85,1).map(x=>x*.25));
@@ -3976,9 +4014,19 @@ setTimeout(()=>{
   splat(.50,.36,50,-110,hsv(.22,.85,1).map(x=>x*.25));
 },200);
 let last=performance.now();
-(function loop(){const now=performance.now(),dt=Math.min((now-last)/1000,.016666);last=now;
-ct+=dt*10;if(ct>=1){ct%=1;col=gen()}
-step(dt);gl.clearColor(0,0,0,0);gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.clear(gl.COLOR_BUFFER_BIT);
-run(dispP,{s:dye.read},null);requestAnimationFrame(loop)})();
+(function loop(){
+  const now=performance.now(),dt=Math.min((now-last)/1000,.016666);last=now;
+  const isChatActive = document.querySelector('#chat-view.active') || (document.getElementById('home-view') && document.getElementById('home-view').style.display === 'none');
+  if (isChatActive) {
+    c.style.visibility = 'hidden';
+    requestAnimationFrame(loop);
+    return;
+  } else {
+    c.style.visibility = 'visible';
+  }
+  ct+=dt*10;if(ct>=1){ct%=1;col=gen()}
+  step(dt);gl.clearColor(0,0,0,0);gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.clear(gl.COLOR_BUFFER_BIT);
+  run(dispP,{s:dye.read},null);requestAnimationFrame(loop)
+})();
 })();
 </script></body>
