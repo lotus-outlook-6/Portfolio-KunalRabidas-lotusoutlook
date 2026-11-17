@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
 <link rel="apple-touch-icon" href="favicon.png?v=5">
-<link rel="stylesheet" href="style.css?v=66">
+<link rel="stylesheet" href="style.css?v=68">
 <style id="chat-custom-styles">
 #chat-view {
   position: relative;
@@ -463,6 +463,20 @@ body.chat-sheet-open {
   background: #171717 !important;
 }
 
+.chat-sheet-item.is-black span {
+  color: #ffffff !important;
+}
+
+.chat-sheet-item.is-black .chat-sheet-sparkle-icon {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.chat-sheet-item.is-black .chat-sheet-item-arrow {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 .chat-sheet-item-left {
   display: flex;
   align-items: center;
@@ -780,18 +794,19 @@ html.dark .resume-spinner {
   to { transform: rotate(360deg); }
 }
 
-/* Gemini Wordmark Badge (Larger, No Hover Effects, Opens Link) */
+/* Gemini Wordmark Badge (Same Size Text, Cropped Star Logo, No Hover Shift) */
 .fastfolio-badge {
   position: fixed !important;
-  bottom: 24px !important;
-  right: 28px !important;
+  bottom: 22px !important;
+  right: 24px !important;
   background: #000000 !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 9999px !important;
-  padding: 8px 22px !important;
+  padding: 6px 14px !important;
+  gap: 6px !important;
   text-decoration: none !important;
   z-index: 50 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
   transition: none !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -804,21 +819,52 @@ html.dark .resume-spinner {
 .fastfolio-badge:focus {
   opacity: 1 !important;
   transform: none !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
 }
-.gemini-wordmark-img {
-  height: 36px !important;
-  width: auto !important;
-  display: block !important;
+.fastfolio-badge .powered-by-text {
+  font-family: inherit;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.01em !important;
+}
+.fastfolio-badge .gemini-star-icon {
+  height: 14px !important;
+  width: 14px !important;
+  display: inline-block !important;
   object-fit: contain !important;
-  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+  margin-left: 1px !important;
+  margin-right: 1px !important;
+}
+.fastfolio-badge .gemini-brand-text {
+  font-family: inherit;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.01em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3.5px !important;
+}
+.fastfolio-badge .gemini-version-muted {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+}
+.fastfolio-badge .gemini-version-flash {
+  color: #ffffff !important;
+  font-weight: 600 !important;
 }
 html.dark .fastfolio-badge {
   background: #000000 !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
   transform: none !important;
   opacity: 1 !important;
 }
@@ -827,8 +873,30 @@ html.dark .fastfolio-badge:active,
 html.dark .fastfolio-badge:focus {
   transform: none !important;
   opacity: 1 !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 1st Options Highlight: White in Dark Mode, Permanent Highlight */
+html.dark .chat-sheet-item.is-black {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+html.dark .chat-sheet-item.is-black:hover {
+  background: #f1f5f9 !important;
+  color: #000000 !important;
+}
+html.dark .chat-sheet-item.is-black span {
+  color: #000000 !important;
+}
+html.dark .chat-sheet-item.is-black .chat-sheet-sparkle-icon {
+  stroke: #000000 !important;
+  color: #000000 !important;
+}
+html.dark .chat-sheet-item.is-black .chat-sheet-item-arrow {
+  color: #000000 !important;
+  stroke: #000000 !important;
 }
 
 /* LatticeLoader Stability: Prevent Dots Shifting When Label Changes to Done */
@@ -1814,8 +1882,10 @@ html.dark #ff-modal .ff-x {
     </form>
   </div>
 
-  <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="fastfolio-badge" title="Gemini 3.8 Flash">
-    <img src="gemini workmark.png" alt="Gemini 3.8 Flash" class="gemini-wordmark-img" />
+  <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="fastfolio-badge" title="Powered by Gemini 3.8 Flash">
+    <span class="powered-by-text">Powered by</span>
+    <img src="gemini-star.png" alt="Gemini" class="gemini-star-icon" />
+    <span class="gemini-brand-text">Gemini <span class="gemini-version-muted">3.8</span> <span class="gemini-version-flash">Flash</span></span>
   </a>
 </div>
 
@@ -3663,31 +3733,12 @@ html.dark #ff-modal .ff-x {
   // Handle clicks on sheet items
   document.querySelectorAll('.chat-sheet-item').forEach(item => {
     item.addEventListener('click', () => {
-      // Highlight selected item as black card
-      document.querySelectorAll('.chat-sheet-item').forEach(el => {
-        el.classList.remove('is-black');
-        const spark = el.querySelector('.chat-sheet-sparkle-icon');
-        if (spark) spark.remove();
-      });
-      item.classList.add('is-black');
-      const leftDiv = item.querySelector('.chat-sheet-item-left');
-      if (leftDiv && !leftDiv.querySelector('.chat-sheet-sparkle-icon')) {
-        const spark = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        spark.setAttribute('width', '16');
-        spark.setAttribute('height', '16');
-        spark.setAttribute('viewBox', '0 0 24 24');
-        spark.setAttribute('fill', 'none');
-        spark.setAttribute('stroke', 'currentColor');
-        spark.setAttribute('stroke-width', '2');
-        spark.setAttribute('stroke-linecap', 'round');
-        spark.setAttribute('stroke-linejoin', 'round');
-        spark.classList.add('chat-sheet-sparkle-icon');
-        spark.innerHTML = '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>';
-        leftDiv.prepend(spark);
-      }
-
       const q = item.dataset.sheetQuery || item.querySelector('.chat-sheet-item-left span')?.textContent || '';
       const k = item.dataset.sheetKey || '';
+      closeSheet(false);
+      navigateToChat(q, k);
+    });
+  });
       closeSheet(false);
       navigateToChat(q, k);
     });

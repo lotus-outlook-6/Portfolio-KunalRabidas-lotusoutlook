@@ -864,6 +864,20 @@ body.chat-sheet-open #chat-view {
   background: #171717 !important;
 }
 
+.chat-sheet-item.is-black span {
+  color: #ffffff !important;
+}
+
+.chat-sheet-item.is-black .chat-sheet-sparkle-icon {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.chat-sheet-item.is-black .chat-sheet-item-arrow {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 .chat-sheet-item-left {
   display: flex;
   align-items: center;
@@ -1236,18 +1250,19 @@ html.dark .ai-chat-list li {
   background: #1e40af;
 }
 
-/* Gemini Wordmark Badge */
+/* Gemini Wordmark Badge (Same Size Text, Cropped Star Logo, No Hover Shift) */
 .fastfolio-badge {
   position: fixed;
-  bottom: 24px;
-  right: 28px;
+  bottom: 22px;
+  right: 24px;
   background: #000000 !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 9999px !important;
-  padding: 8px 22px !important;
+  padding: 6px 14px !important;
+  gap: 6px !important;
   text-decoration: none !important;
   z-index: 50 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
   transition: none !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -1261,16 +1276,51 @@ html.dark .ai-chat-list li {
 .fastfolio-badge:focus {
   opacity: 1 !important;
   transform: none !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
 }
 
-.gemini-wordmark-img {
-  height: 36px !important;
-  width: auto !important;
-  display: block !important;
+.fastfolio-badge .powered-by-text {
+  font-family: inherit;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.01em !important;
+}
+
+.fastfolio-badge .gemini-star-icon {
+  height: 14px !important;
+  width: 14px !important;
+  display: inline-block !important;
   object-fit: contain !important;
-  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+  margin-left: 1px !important;
+  margin-right: 1px !important;
+}
+
+.fastfolio-badge .gemini-brand-text {
+  font-family: inherit;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.01em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3.5px !important;
+}
+
+.fastfolio-badge .gemini-version-muted {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+}
+
+.fastfolio-badge .gemini-version-flash {
+  color: #ffffff !important;
+  font-weight: 600 !important;
 }
 
 /* Chat top feather overlay */
@@ -3336,9 +3386,9 @@ html.dark .chat-input-pill input::placeholder {
 
 html.dark .fastfolio-badge {
   background: #000000 !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
   transform: none !important;
   opacity: 1 !important;
 }
@@ -3348,8 +3398,8 @@ html.dark .fastfolio-badge:active,
 html.dark .fastfolio-badge:focus {
   transform: none !important;
   opacity: 1 !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* Info & Close Buttons Click Area Enlargement */
@@ -3836,9 +3886,28 @@ html.dark .chat-sheet-item:hover {
 }
 
 html.dark .chat-sheet-item.is-black {
-  background: #0f172a !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+html.dark .chat-sheet-item.is-black:hover {
+  background: #f1f5f9 !important;
+  color: #000000 !important;
+}
+
+html.dark .chat-sheet-item.is-black span {
+  color: #000000 !important;
+}
+
+html.dark .chat-sheet-item.is-black .chat-sheet-sparkle-icon {
+  stroke: #000000 !important;
+  color: #000000 !important;
+}
+
+html.dark .chat-sheet-item.is-black .chat-sheet-item-arrow {
+  color: #000000 !important;
+  stroke: #000000 !important;
 }
 
 html.dark .chat-sheet-item-arrow {
