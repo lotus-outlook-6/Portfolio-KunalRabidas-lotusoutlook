@@ -1239,16 +1239,16 @@ html.dark .ai-chat-list li {
 /* Gemini Wordmark Badge */
 .fastfolio-badge {
   position: fixed;
-  bottom: 20px;
-  right: 24px;
+  bottom: 24px;
+  right: 28px;
   background: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
   border-radius: 9999px !important;
-  padding: 5px 14px !important;
+  padding: 8px 22px !important;
   text-decoration: none !important;
   z-index: 50 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
-  transition: opacity 0.2s ease, transform 0.15s ease !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  transition: none !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1256,14 +1256,17 @@ html.dark .ai-chat-list li {
   cursor: pointer !important;
 }
 
-.fastfolio-badge:hover {
-  opacity: 0.92 !important;
-  transform: translateY(-1px) !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
+.fastfolio-badge:hover,
+.fastfolio-badge:active,
+.fastfolio-badge:focus {
+  opacity: 1 !important;
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
 }
 
 .gemini-wordmark-img {
-  height: 22px !important;
+  height: 36px !important;
   width: auto !important;
   display: block !important;
   object-fit: contain !important;
@@ -2629,11 +2632,9 @@ html.dark .lattice-loader {
 
 .lattice-loader__mark {
   opacity: 0;
-  transform: scale(0.9);
+  transform: none !important;
   transform-origin: center;
-  transition:
-    opacity 160ms var(--ll-ease-out),
-    transform 160ms var(--ll-ease-out);
+  transition: opacity 160ms var(--ll-ease-out);
 }
 
 .lattice-loader__mark .lattice-loader__cell {
@@ -2666,34 +2667,37 @@ html.dark .lattice-loader {
 
 .lattice-loader:not([data-status='working']) .lattice-loader__mark {
   opacity: 1;
-  transform: none;
-  transition:
-    opacity 200ms ease,
-    transform 200ms var(--ll-ease-out);
+  transform: none !important;
+  transition: opacity 200ms ease;
 }
 
 .lattice-loader__label {
   position: relative;
-  display: inline-block;
+  display: inline-grid;
+  grid-template-areas: "stack";
+  align-items: center;
+  width: 72px;
+  min-width: 72px;
+  max-width: 72px;
   font-weight: 500;
+  text-align: left;
 }
 
 .lattice-loader__text {
-  position: absolute;
-  top: 0;
-  left: 0;
+  grid-area: stack;
   white-space: nowrap;
   opacity: 0;
   filter: blur(2px);
   transition:
-    opacity 200ms ease,
-    filter 200ms ease;
+    opacity 250ms ease,
+    filter 250ms ease;
+  pointer-events: none;
 }
 
 .lattice-loader__text[data-active] {
-  position: static;
   opacity: 1;
   filter: blur(0);
+  pointer-events: auto;
 }
 
 .lattice-loader__timer {
@@ -2701,6 +2705,10 @@ html.dark .lattice-loader {
   font-size: calc(var(--ll-font) * 0.875);
   font-variant-numeric: tabular-nums;
   opacity: 0.6;
+  display: inline-block;
+  width: 44px;
+  min-width: 44px;
+  text-align: left;
 }
 
 .lattice-loader__sr {
@@ -3328,9 +3336,74 @@ html.dark .chat-input-pill input::placeholder {
 
 html.dark .fastfolio-badge {
   background: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+html.dark .fastfolio-badge:hover,
+html.dark .fastfolio-badge:active,
+html.dark .fastfolio-badge:focus {
+  transform: none !important;
+  opacity: 1 !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Info & Close Buttons Click Area Enlargement */
+#home-info-btn,
+#chat-info-btn,
+.info-modal-trigger {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  user-select: none !important;
+}
+
+#home-info-btn svg,
+#chat-info-btn svg,
+.info-modal-trigger svg {
+  pointer-events: none !important;
+}
+
+#ff-modal .ff-x {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  border: 0 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  z-index: 100 !important;
+}
+
+#ff-modal .ff-x svg {
+  pointer-events: none !important;
+}
+
+#ff-modal .ff-x::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: -14px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+}
+
+html.dark #ff-modal .ff-x {
+  background: #1f2937 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
 }
 
 /* Section 1: Me View in Dark Mode */
