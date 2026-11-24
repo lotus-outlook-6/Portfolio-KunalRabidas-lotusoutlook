@@ -5,7 +5,19 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<base href="/">
+<script>
+(function() {
+  var p = window.location.pathname;
+  if (window.location.hostname.endsWith("github.io")) {
+    var repo = p.split("/").filter(Boolean)[0];
+    if (repo === "Portfolio-KunalRabidas-lotusoutlook") {
+      document.write("<base href="/" + repo + "/">");
+      return;
+    }
+  }
+  document.write("<base href="/">");
+})();
+</script>
 <link rel="icon" type="image/png" sizes="128x128" href="favicon.png?v=5">
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=5">
 <link rel="shortcut icon" href="favicon.ico?v=5">
@@ -3979,14 +3991,20 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
     window.scrollTo(0, 0);
   };
 
+  const getAppBase = () => {
+    const isGh = window.location.hostname.endsWith('github.io');
+    const repo = window.location.pathname.split('/').filter(Boolean)[0];
+    return (isGh && repo === 'Portfolio-KunalRabidas-lotusoutlook') ? '/' + repo : '';
+  };
+
   const navigateToChat = (query, key) => {
-    const targetUrl = '/lotusoutlook/chat?query=' + encodeURIComponent(query);
+    const targetUrl = getAppBase() + '/lotusoutlook/chat?query=' + encodeURIComponent(query);
     history.pushState({ view: 'chat', query, key }, '', targetUrl);
     showChatView(query, key);
   };
 
   const navigateToHome = () => {
-    history.pushState({ view: 'home' }, '', '/lotusoutlook');
+    history.pushState({ view: 'home' }, '', getAppBase() + '/lotusoutlook');
     showHomeView();
   };
 
@@ -4041,7 +4059,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
   const sheetScrollContainer = document.getElementById('chat-sheet-scroll-container');
   let savedScrollY = 0;
   let isSheetOpen = false;
-  let previousChatUrl = '/lotusoutlook/chat';
+  let previousChatUrl = getAppBase() + '/lotusoutlook/chat';
 
   const openSheet = (pushRoute = true) => {
     if (!sheetModal || !sheetBackdrop) return;
@@ -4077,7 +4095,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
       if (!window.location.pathname.includes('/options') && !window.location.pathname.includes('/more')) {
         previousChatUrl = window.location.pathname + window.location.search;
       }
-      history.pushState({ view: 'options', modal: true }, '', '/lotusoutlook/options');
+      history.pushState({ view: 'options', modal: true }, '', getAppBase() + '/lotusoutlook/options');
     }
   };
 
@@ -4106,7 +4124,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
     sheetBackdrop.style.opacity = '0';
 
     if (updateRoute && (window.location.pathname.includes('/options') || window.location.pathname.includes('/more'))) {
-      const targetUrl = previousChatUrl || '/lotusoutlook/chat';
+      const targetUrl = previousChatUrl || (getAppBase() + '/lotusoutlook/chat');
       history.pushState({ view: 'chat' }, '', targetUrl);
     }
 
@@ -4323,7 +4341,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
       }
     } else {
       showHomeView();
-      previousChatUrl = '/lotusoutlook';
+      previousChatUrl = getAppBase() + '/lotusoutlook';
     }
 
     if (isOptionsRoute) {
