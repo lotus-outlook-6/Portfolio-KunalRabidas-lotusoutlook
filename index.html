@@ -2579,7 +2579,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
 
   const callGeminiApi = async (userQuery) => {
     const config = window.PORTFOLIO_CONFIG || {};
-    const proxyUrl = (config.PROXY_URL || '').trim();
+    const proxyUrl = (config.PROXY_URL || 'https://portfolio-gemini.kunalrabidas2004.workers.dev').trim();
     const apiKey = (config.GEMINI_API_KEY || '').trim();
 
     if (proxyUrl) {
@@ -3856,7 +3856,7 @@ Your mission is to answer questions about Kunal accurately, thoughtfully, and co
       if (activeKey === 'custom_gemini') {
         const config = window.PORTFOLIO_CONFIG || {};
         const apiKey = (config.GEMINI_API_KEY || '').trim();
-        const proxyUrl = (config.PROXY_URL || '').trim();
+        const proxyUrl = (config.PROXY_URL || 'https://portfolio-gemini.kunalrabidas2004.workers.dev').trim();
 
         if (!apiKey && !proxyUrl) {
           // No API key configured
