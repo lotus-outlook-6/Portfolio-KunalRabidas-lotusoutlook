@@ -8,14 +8,10 @@
 <script>
 (function() {
   var p = window.location.pathname;
-  if (window.location.hostname.endsWith("github.io")) {
-    var repo = p.split("/").filter(Boolean)[0];
-    if (repo === "Portfolio-KunalRabidas-lotusoutlook") {
-      document.write("<base href="/" + repo + "/">");
-      return;
-    }
-  }
-  document.write("<base href="/">");
+  var isGh = window.location.hostname.endsWith("github.io");
+  var repo = p.split("/").filter(Boolean)[0];
+  var base = (isGh && repo === "Portfolio-KunalRabidas-lotusoutlook") ? ("/" + repo + "/") : "/";
+  document.write('<base href="' + base + '">');
 })();
 </script>
 <link rel="icon" type="image/png" sizes="128x128" href="favicon.png?v=5">
