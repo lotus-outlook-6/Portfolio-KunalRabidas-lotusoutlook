@@ -3914,6 +3914,428 @@ html.dark .chat-sheet-item-arrow {
   color: #9ca3af !important;
 }
 
+/* ==========================================================================
+   Mobile Optimization & Responsive Layout Enhancements
+   ========================================================================== */
+
+/* 1. Home View on Mobile (< 640px) */
+@media (max-width: 640px) {
+  #home-view {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+    justify-content: flex-start !important;
+    min-height: 100vh !important;
+    height: auto !important;
+  }
+
+  #home-view > .z-40.mt-24 {
+    margin-top: 2.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #home-view h1 {
+    font-size: 1.65rem !important;
+    line-height: 1.25 !important;
+    padding: 0 0.5rem !important;
+    max-width: 340px !important;
+  }
+
+  #home-view h2 {
+    font-size: 1.05rem !important;
+  }
+
+  #home-view .relative.z-10.h-44 {
+    width: 120px !important;
+    height: 120px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Home search bar */
+  #home-search-form {
+    max-width: 92vw !important;
+    padding: 0 4px !important;
+  }
+
+  /* Make the 5 category buttons on mobile wrap gracefully into compact responsive tiles */
+  #home-view .mt-4.flex.flex-col,
+  .home-category-pills {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    max-width: 360px !important;
+    padding: 0 8px !important;
+  }
+
+  #home-view [data-home-key] {
+    width: calc(33.333% - 6px) !important;
+    min-width: 90px !important;
+    max-width: 110px !important;
+    height: auto !important;
+    min-height: 44px !important;
+    padding: 8px 10px !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  #home-view [data-home-key] > div {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+  }
+
+  #home-view [data-home-key] svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #home-view [data-home-key] span {
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+  }
+
+  /* Home info button */
+  #home-view .absolute.top-6.right-8 {
+    top: 1rem !important;
+    right: 1rem !important;
+  }
+
+  /* Watermark SVG position on mobile */
+  #home-view .pointer-events-none.absolute.bottom-0 {
+    opacity: 0.55 !important;
+  }
+}
+
+/* 2. Chat View - Bottom Bar, Gemini Badge & Avoid Overlaps (<= 768px) */
+@media (max-width: 768px) {
+  #chat-view {
+    padding-bottom: 200px !important;
+  }
+
+  .chat-bottom-bar {
+    bottom: 0.5rem !important;
+    padding: 0 0.75rem !important;
+    max-width: 100vw !important;
+  }
+
+  .chat-input-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .chat-input-pill {
+    height: 46px !important;
+    padding: 0 6px 0 16px !important;
+  }
+
+  .chat-send-btn {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  /* FIX: Gemini badge on mobile sits neatly centered below search bar, never overlapping */
+  .fastfolio-badge,
+  html.dark .fastfolio-badge {
+    position: static !important;
+    margin: 6px auto 0 !important;
+    display: inline-flex !important;
+    transform: none !important;
+    padding: 3px 10px !important;
+    font-size: 11px !important;
+    z-index: 45 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .fastfolio-badge .powered-by-text,
+  .fastfolio-badge .gemini-brand-text {
+    font-size: 11px !important;
+  }
+
+  .fastfolio-badge .gemini-star-icon {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .chat-bottom-feather {
+    height: 140px !important;
+  }
+
+  .chat-bottom-feather.collapsed {
+    height: 85px !important;
+  }
+}
+
+/* 3. Chat Quick Questions Row (Scrollable Horizontal Carousel on Mobile) */
+@media (max-width: 640px) {
+  .chat-options-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 4px 4px 6px !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    gap: 6px !important;
+  }
+
+  .chat-options-row::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .chat-pill-btn {
+    flex-shrink: 0 !important;
+    height: 32px !important;
+    padding: 4px 12px !important;
+    font-size: 12px !important;
+    border-radius: 10px !important;
+    gap: 5px !important;
+  }
+
+  .chat-pill-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .chat-more-btn,
+  .chat-more-wrapper {
+    width: 32px !important;
+    height: 32px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .chat-toggle-questions-btn {
+    font-size: 11px !important;
+    margin-bottom: 2px !important;
+    padding: 2px 8px !important;
+  }
+
+  /* Compact Avatar and Header on Mobile */
+  .chat-avatar-wrapper {
+    top: 0.6rem !important;
+    margin-top: 0.6rem !important;
+  }
+
+  .chat-avatar-squircle {
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 16px !important;
+  }
+
+  .chat-top-right {
+    top: 0.6rem !important;
+    right: 0.75rem !important;
+  }
+
+  .chat-query-container {
+    margin-top: 0.75rem !important;
+    padding: 0 0.75rem !important;
+  }
+
+  .chat-query-bubble {
+    font-size: 13.5px !important;
+    padding: 8px 16px !important;
+    max-width: 90vw !important;
+  }
+
+  .chat-answer-container {
+    padding: 0 0.75rem !important;
+    margin: 1rem auto 12px !important;
+  }
+
+  /* Me Tab on Mobile */
+  .me-card {
+    padding: 0 !important;
+  }
+
+  .me-photo-wrapper {
+    width: 180px !important;
+    max-width: 65% !important;
+    min-height: 216px !important;
+    aspect-ratio: 4 / 4.8 !important;
+    border-radius: 18px !important;
+  }
+
+  .me-name-row {
+    font-size: 22px !important;
+    justify-content: center !important;
+  }
+
+  .me-meta-row {
+    font-size: 12.5px !important;
+    justify-content: center !important;
+    margin-bottom: 10px !important;
+  }
+
+  .me-intro-text {
+    font-size: 13.5px !important;
+    text-align: center !important;
+  }
+
+  .me-tags-row {
+    justify-content: center !important;
+  }
+
+  /* Projects Carousel on Mobile */
+  .projects-carousel-container {
+    padding: 2px 0 8px !important;
+  }
+
+  .projects-carousel-track {
+    gap: 12px !important;
+    padding: 4px 2px 10px !important;
+  }
+
+  .project-card {
+    width: 86% !important;
+    min-width: 86% !important;
+    max-width: 86% !important;
+    height: 360px !important;
+  }
+
+  .project-banner-wrapper {
+    height: 140px !important;
+  }
+
+  .project-content {
+    padding: 12px 14px !important;
+  }
+
+  .project-title {
+    font-size: 16px !important;
+  }
+
+  .project-desc {
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  .projects-outro-text {
+    font-size: 13px !important;
+    padding: 0 4px !important;
+  }
+
+  /* Skills Section on Mobile */
+  .skills-main-title {
+    font-size: 24px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .skills-group {
+    margin-bottom: 16px !important;
+  }
+
+  .skill-badge {
+    font-size: 11.5px !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Contact Card on Mobile */
+  .contact-card {
+    padding: 20px 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .contact-person-name {
+    font-size: 20px !important;
+  }
+
+  .contact-person-role {
+    font-size: 14px !important;
+  }
+
+  .contact-person-location {
+    font-size: 12.5px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .contact-person-email {
+    font-size: 13px !important;
+    word-break: break-all !important;
+  }
+
+  .social-circle-btn {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .contact-outro-message {
+    font-size: 13.5px !important;
+  }
+
+  /* Resume on Mobile */
+  .resume-doc-card {
+    padding: 18px 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .resume-name {
+    font-size: 20px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .resume-contact-line {
+    font-size: 11px !important;
+    gap: 2px 6px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .resume-item-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+  }
+
+  .resume-item-right,
+  .resume-item-tech {
+    text-align: left !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+  }
+
+  .resume-bullets {
+    font-size: 12px !important;
+  }
+
+  .resume-bullets li {
+    padding-left: 14px !important;
+  }
+
+  /* Options Bottom Sheet on Mobile */
+  .chat-sheet-modal {
+    height: 68vh !important;
+    max-height: 85vh !important;
+    border-radius: 18px 18px 0 0 !important;
+  }
+
+  .chat-sheet-content {
+    padding: 0 14px 28px !important;
+  }
+
+  .chat-sheet-item {
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Welcome Info Modal on Mobile */
+  #ff-modal {
+    padding: 12px !important;
+  }
+
+  #ff-modal .ff-card {
+    padding: 22px 18px !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+
 
 
 

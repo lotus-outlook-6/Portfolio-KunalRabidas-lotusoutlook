@@ -1,16 +1,20 @@
-# Lotus Outlook 🌸 | AI-Powered Interactive Portfolio
-
 <div align="center">
 
+# 🌸 Lotus Outlook
+
+### AI-Powered Interactive Portfolio
+
 [![Live Demo](https://img.shields.io/badge/Live_Site-GitHub_Pages-2ea44f?style=for-the-badge&logo=github)](https://lotus-outlook-6.github.io/Portfolio-KunalRabidas-lotusoutlook/)
-[![Google Gemini](https://img.shields.io/badge/AI_Engine-Gemini_3.5_Flash-4285F4?style=for-the-badge&logo=google)](https://aistudio.google.com/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI_Engine-886CE4?style=for-the-badge&logo=googlegemini&logoColor=white)](https://aistudio.google.com/)
 [![Cloudflare Workers](https://img.shields.io/badge/Backend-Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare)](https://workers.cloudflare.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 <br/>
 
-**A modern, fluid, intelligent personal engineering portfolio built for Kunal Rabidas**  
-*Electronics & Communication Engineering (ECE) Student @ Assam University, Silchar*
+> *A modern, fluid, intelligent personal engineering portfolio built for Kunal Rabidas*  
+> *Electronics & Communication Engineering (ECE) Student @ Assam University, Silchar*
+
+<br/>
 
 </div>
 
@@ -21,6 +25,8 @@
 <div align="center">
   <img src="Screenshot 2026-11-24 at 2.21.26 PM.png" alt="Lotus Outlook Portfolio Homepage" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.12);" />
 </div>
+
+<br/>
 
 ### 🔍 Description of the Interface
 
@@ -54,24 +60,22 @@ Lotus Outlook pairs static client-side hosting with serverless edge compute for 
 
 ```mermaid
 flowchart TD
-    User([👤 Visitor Query]) --> Input[Search Bar Input / Quick Tabs]
-    Input --> Matcher{75% Similarity Matcher<br/>Token Dice + 3-Gram Dice}
+    User([Visitor Query]) --> Input[Search Bar Input / Quick Tabs]
+    Input --> Matcher{75% Similarity Matcher}
 
-    %% Preset Branch
-    Matcher -->|Score >= 75%| Preset[🎯 Curated Preset Route]
+    Matcher -->|Score >= 75%| Preset[Curated Preset Route]
     Preset --> ActionType{Topic Type?}
-    ActionType -->|5 Core Tabs| TabView[📱 Render Rich Tab View<br/>Me / Projects / Skills / Contact / Resume]
-    ActionType -->|15 Curated Answers| CuratedStream[💬 Stream Curated Answer<br/>Zero API Cost / Instant]
+    ActionType -->|5 Core Tabs| TabView[Render Rich Tab View]
+    ActionType -->|15 Curated Answers| CuratedStream[Stream Curated Answer]
 
-    %% Gemini AI Branch
-    Matcher -->|Score < 75%| AIProxy[⚡ Cloudflare Worker Proxy<br/>https://portfolio-gemini.workers.dev]
-    AIProxy --> SecretKey[(🔐 Encrypted GEMINI_API_KEY<br/>in Cloudflare Secrets)]
-    SecretKey --> GeminiAPI[🤖 Google Gemini API<br/>gemini-3.5-flash-lite]
+    Matcher -->|Score < 75%| AIProxy[Cloudflare Worker Proxy]
+    AIProxy --> SecretKey[(Encrypted GEMINI_API_KEY)]
+    SecretKey --> GeminiAPI[Google Gemini API]
     GeminiAPI --> Resilience{Status?}
-    Resilience -->|200 OK| Sanitizer[🛡️ Privacy Sanitizer<br/>Redact Phone & Inject Email]
-    Resilience -->|503/404 Spike| ModelFallback[🔄 Fallback: gemini-3.5-flash / gemini-3.8-flash]
+    Resilience -->|200 OK| Sanitizer[Privacy Sanitizer]
+    Resilience -->|503/404 Spike| ModelFallback[Model Fallback Cascade]
     ModelFallback --> Sanitizer
-    Sanitizer --> StreamResponse[✨ Typewriter Markdown Stream to User]
+    Sanitizer --> StreamResponse[Typewriter Markdown Stream]
 ```
 
 ### 1. Hybrid 75% Similarity Matching Engine
@@ -110,12 +114,12 @@ Kunal's personal contact number is guarded by a two-stage security firewall:
 
 | Domain | Technologies Used |
 | :--- | :--- |
-| **Frontend Core** | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
-| **Generative AI** | ![Google Gemini](https://img.shields.io/badge/Google_Gemini-886CE4?style=flat-square&logo=google&logoColor=white) ![Interactions API](https://img.shields.io/badge/Gemini_3.5_Flash_Lite-4285F4?style=flat-square&logo=googlecloud&logoColor=white) |
-| **Edge Compute** | ![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white) ![Serverless](https://img.shields.io/badge/Serverless-000000?style=flat-square&logo=serverless&logoColor=white) |
-| **Graphics & Shaders** | ![WebGL](https://img.shields.io/badge/WebGL-990000?style=flat-square&logo=webgl&logoColor=white) ![GLSL Shaders](https://img.shields.io/badge/GLSL-555555?style=flat-square) |
+| **Frontend Core** | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
+| **Generative AI** | ![Google Gemini](https://img.shields.io/badge/Google_Gemini-886CE4?style=flat-square&logo=googlegemini&logoColor=white) ![Gemini 3.5 Flash](https://img.shields.io/badge/Gemini_3.5_Flash-4285F4?style=flat-square&logo=googlegemini&logoColor=white) |
+| **Edge Compute** | ![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white) ![Edge Network](https://img.shields.io/badge/Edge_Network-F38020?style=flat-square&logo=cloudflare&logoColor=white) |
+| **Graphics & Shaders** | ![WebGL](https://img.shields.io/badge/WebGL-990000?style=flat-square&logo=webgl&logoColor=white) ![GLSL Shaders](https://img.shields.io/badge/GLSL_Shaders-555555?style=flat-square&logo=opengl&logoColor=white) |
 | **Hosting & CI/CD** | ![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222222?style=flat-square&logo=githubpages&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white) |
-| **Kunal's Tech Stack** | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![TensorFlow](https://img.shields.io/badge/TensorFlow.js-FF6F00?style=flat-square&logo=tensorflow&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white) ![ESP32](https://img.shields.io/badge/ESP32-E7352C?style=flat-square&logo=espressif&logoColor=white) ![Astro](https://img.shields.io/badge/Astro-BC52EE?style=flat-square&logo=astro&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white) |
+| **Engineering Stack** | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white) ![ESP32](https://img.shields.io/badge/ESP32-E7352C?style=flat-square&logo=espressif&logoColor=white) ![Astro](https://img.shields.io/badge/Astro-BC52EE?style=flat-square&logo=astro&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white) |
 
 </div>
 
@@ -156,50 +160,6 @@ Kunal's personal contact number is guarded by a two-stage security firewall:
 
 ---
 
-## 🏃 Running Locally
-
-To run and experiment with Lotus Outlook locally on your machine:
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/lotus-outlook-6/Portfolio-KunalRabidas-lotusoutlook.git
-   cd Portfolio-KunalRabidas-lotusoutlook
-   ```
-
-2. **Start a local development server**:
-   ```bash
-   # Using Python 3:
-   python3 -m http.server 3000
-   ```
-
-3. **Open in your browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-4. **(Optional) Local API Configuration**:
-   The portfolio connects to the Cloudflare Worker by default. If you wish to test direct client-side Gemini calls locally, you can create a `config.js` file (which is git-ignored):
-   ```javascript
-   window.PORTFOLIO_CONFIG = {
-     GEMINI_API_KEY: "YOUR_GEMINI_API_KEY_HERE",
-     GEMINI_MODEL: "gemini-3.5-flash-lite"
-   };
-   ```
-
----
-
-## 👤 Author & Contact
-
-**Kunal Rabidas**  
-*Undergraduate Student in Electronics & Communication Engineering*  
-**Assam University, Silchar**
-
-- 📧 **Email**: [kunal.rabidas@aus.ac.in](mailto:kunal.rabidas@aus.ac.in)
-- 🐙 **GitHub**: [@lotus-outlook-6](https://github.com/lotus-outlook-6)
-- 💼 **LinkedIn**: [kunalrabidas6](https://linkedin.com/in/kunalrabidas6)
-- 📸 **Instagram**: [@lotus_proton_6](https://www.instagram.com/lotus_proton_6/)
-- 🐦 **X (Twitter)**: [@lotus_proton_6](https://x.com/lotus_proton_6)
-
----
-
 <div align="center">
-  <sub>Built with ❤️ by Kunal Rabidas • Powered by Google Gemini AI & Cloudflare Workers</sub>
+  <sub>Powered by <b>Google Gemini AI</b> • Secured by <b>Cloudflare Workers</b> • Hosted on <b>GitHub Pages</b></sub>
 </div>
